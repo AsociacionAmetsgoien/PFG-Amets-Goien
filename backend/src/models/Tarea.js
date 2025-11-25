@@ -1,0 +1,37 @@
+import pool from "../config/db.js";
+
+const Tarea = {
+  getAll: async () => {
+    const result = await pool.query("SELECT * FROM tareas ORDER BY id DESC");
+    return result.rows;
+  },
+
+  create: async (tareaData) => {
+    const query = `
+      INSERT INTO tareas(titulo, descripcion, estado, asignado_a, creado_por)
+      VALUES ($1,$2,$3,$4,$5)
+      RETURNING *;
+    `;
+    const values = [
+      tareaData.titulo, tareaData.descripcion, tareaData.estado,
+      tareaData.asignado_a, tareaData.creado_por
+    ];
+
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  },
+
+  updateStatus: async (id, estado) => {
+    const result = await pool.query(
+      "UPDATE tareas SET estado=$1 WHERE id=$2 RETURNING *",
+      [estado, id]
+    );
+    return result.rows[0];
+  },
+
+  delete: async (id) => {
+    await pool.query("DELETE FROM tareas WHERE id=$1", [id]);
+  }
+};
+
+export default Tarea;
