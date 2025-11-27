@@ -1,0 +1,65 @@
+import Tarea from "../models/Tarea.js";
+
+
+// Get all tareas
+export const getAllTareas = async (req, res) => {
+  try {
+    const tareas = await Tarea.getAll();
+    res.json(tareas);
+  } catch (error) {
+    console.error("Error fetching tareas:", error);
+    res.status(500).json({ message: "Error fetching tareas" });
+  }
+};
+// Get tarea by ID
+export const getTareaById = async (req, res) => {
+  try {
+    const tarea = await Tarea.getById(req.params.id);   
+    if (!tarea) {
+      return res.status(404).json({ message: "Tarea not found" });
+    }
+    res.json(tarea);
+  } catch (error) {
+    console.error("Error fetching tarea by ID:", error);
+    res.status(500).json({ message: "Error fetching tarea by ID" });
+  }
+};
+// Create new tarea
+export const createTarea = async (req, res) => {
+  try {
+    const newTarea = await Tarea.create(req.body);
+    res.status(201).json(newTarea);
+  } catch (error) {
+    console.error("Error creating tarea:", error);
+    res.status(500).json({ message: "Error creating tarea" });
+  }
+};
+
+// Update existing tarea
+export const updateTarea = async (req, res) => {
+  try {
+    const updatedTarea = await Tarea.update(req.params.id, req.body);
+    if (!updatedTarea) {
+      return res.status(404).json({ message: "Tarea not found" });
+    }
+    res.json(updatedTarea);
+  } catch (error) {
+    console.error("Error updating tarea:", error);
+    res.status(500).json({ message: "Error updating tarea" });
+  }
+};
+
+// Delete existing tarea
+export const deleteTarea = async (req, res) => {
+  try {
+    const tarea = await Tarea.getById(req.params.id);   
+    if (!tarea) {
+      return res.status(404).json({ message: "Tarea not found" });
+    }
+    await Tarea.delete(req.params.id);
+    res.json({ message: "Tarea deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting tarea:", error);
+    res.status(500).json({ message: "Error deleting tarea" });
+  }
+};

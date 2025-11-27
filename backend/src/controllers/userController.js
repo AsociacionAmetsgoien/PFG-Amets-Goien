@@ -50,3 +50,63 @@ export const loginUser = async (req, res) => {
         res.status(500).json({message: 'Server error'});
     }
 };
+
+// Get all users
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.getAll(pool);
+    res.json(users);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ message: 'Error fetching users' });
+  }
+};
+
+// Get user by ID
+export const getUserById = async (req, res) => {
+  try {
+    const user = await User.getById(req.params.id, pool);
+    if(!user){
+        return res.status(404).json({message: 'User not found'});      
+    }else{
+        res.json(user);
+    };
+    } catch (error) {
+    console.error('Error fetching user by ID:', error);
+    res.status(500).json({ message: 'Error fetching user by ID' });
+  }
+};
+
+// Update existing user
+export const updateUser = async (req, res) => {
+  try {
+    const { username, password, role } = req.body;
+    const updatedData = { username, role };
+    if (password) {
+      updatedData.password = await bcrypt.hash(password, 10);
+    }
+    const updatedUser = await User.update(req.params.id, updatedData, pool);
+    if(!updatedUser){
+        return res.status(404).json({message: 'User not found'});      
+    }
+    res.json(updatedUser);
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ message: 'Error updating user' });
+  }
+};
+
+// Delete existing user
+export const deleteUser = async (req, res) => {
+  try { 
+    const user = await User.getById(req.params.id, pool);   
+    if(!user){
+        return res.status(404).json({message: 'User not found'});      
+    }
+    await User.delete(req.params.id, pool);
+    res.json({message: 'User deleted'});
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ message: 'Error deleting user' });
+  }
+};
