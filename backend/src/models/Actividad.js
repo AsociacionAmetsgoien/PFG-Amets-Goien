@@ -6,6 +6,11 @@ const Actividad = {
     return result.rows;
   },
 
+  getById: async (id) => {
+    const result = await pool.query("SELECT * FROM actividades WHERE id = $1", [id]);
+    return result.rows[0];
+  },
+
   create: async (actividadData) => {
     const query = `
       INSERT INTO actividades(titulo, descripcion, creador_id)
@@ -14,6 +19,16 @@ const Actividad = {
     `;
     const values = [actividadData.titulo, actividadData.descripcion, actividadData.creador_id];
 
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  },
+
+  update: async (id, actividadData) => {
+    const query = `
+      UPDATE actividades SET titulo=$1, descripcion=$2, creador_id=$3
+      WHERE id=$4 RETURNING *;
+    `;
+    const values = [actividadData.titulo, actividadData.descripcion, actividadData.creador_id, id];
     const result = await pool.query(query, values);
     return result.rows[0];
   },
