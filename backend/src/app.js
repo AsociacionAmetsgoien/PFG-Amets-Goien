@@ -11,13 +11,33 @@ import tareaRoutes from './routes/tareaRoutes.js';
 import residenteRoutes from './routes/residenteRoutes.js';
 const app = express();
 
-// Middlewares
-app.use(cors());
-app.use(express.json());
-app.use(helmet());
-app.use(rateLimit({windowMs: 15 * 60 * 1000, max: 100}));
+// Middlewares for security and performance
+app.use(helmet({ // helmet configuration
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'"]
+        }
+    }
+}));
 
-// Rutas
+app.use(cors({ // CORS configuration
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    credentials: true
+}));
+
+// Rate limiting: maximum 100 requests per IP every 15 minutes
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: 'Too many requests from this IP, please try again later.'
+});
+app.use(limiter);
+
+// Parse JSON
+app.use(express.json({ limit: '10mb' }));
+
+// Routes
 app.use('/api/users', userRoutes);
 app.use('/api/colaboradores', colaboradorRoutes);
 app.use('/api/empleados', empleadoRoutes);
