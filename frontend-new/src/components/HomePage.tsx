@@ -1,7 +1,6 @@
 const HomePage = () => {
   return (
     <div className="bg-white">
-      
       {/* HERO - Nombre grande de Amets Goien */}
       <section className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#D8BFB3' }}>
         <div className="w-full px-16">
@@ -30,7 +29,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
       {/* SECCIÓN SOBRE AMETS GOIEN */}
       <section className="min-h-screen flex items-center py-20" style={{ backgroundColor: '#D8BFB3' }}>
         <div className="w-full px-16">
@@ -48,14 +46,12 @@ const HomePage = () => {
                 Creemos en la importancia de construir un refugio seguro, cálido y humano, donde cada mujer pueda reencontrar su fuerza, recuperar esperanza y avanzar hacia una vida estable.
               </p>
             </div>
-            
             {/* Columna derecha - Imagen placeholder */}
             <div className="w-full h-[400px] lg:h-[500px] rounded-2xl shadow-xl" style={{ backgroundColor: '#B89E93' }}></div>
           </div>
           </div>
         </div>
       </section>
-
       {/* BLOQUE DE LLAMADA A LA ACCIÓN */}
       <section className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#D8BFB3' }}>
         <div className="w-full px-16">
@@ -81,7 +77,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
       {/* SECCIÓN DE ÚLTIMAS NOTICIAS */}
       <section className="h-screen flex flex-col py-20" style={{ backgroundColor: '#F5F0EB' }}>
         <div className="w-full px-16">
@@ -89,7 +84,6 @@ const HomePage = () => {
           <h2 className="text-5xl md:text-6xl font-bold mb-24" style={{ color: '#8A4D76' }}>
             Noticias de actualidad
           </h2>
-          
           <div className="flex justify-between">
             {/* Noticia 1 */}
             <article className="border-2 rounded-3xl overflow-hidden hover:shadow-2xl transition-all" style={{ borderColor: '#D8BFB3', backgroundColor: 'white', height: '60vh', width: '30%' }}>
@@ -106,7 +100,6 @@ const HomePage = () => {
                 </a>
               </div>
             </article>
-            
             {/* Noticia 2 */}
             <article className="border-2 rounded-3xl overflow-hidden hover:shadow-2xl transition-all" style={{ borderColor: '#D8BFB3', backgroundColor: 'white', height: '60vh', width: '30%' }}>
               <div className="w-full h-64 bg-cover bg-center" style={{ backgroundColor: '#E8D4C8' }}></div>
@@ -122,7 +115,6 @@ const HomePage = () => {
                 </a>
               </div>
             </article>
-            
             {/* Noticia 3 */}
             <article className="border-2 rounded-3xl overflow-hidden hover:shadow-2xl transition-all" style={{ borderColor: '#D8BFB3', backgroundColor: 'white', height: '60vh', width: '30%' }}>
               <div className="w-full h-64 bg-cover bg-center" style={{ backgroundColor: '#E8D4C8' }}></div>
@@ -142,7 +134,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
       {/* SECCIÓN DE TESTIMONIOS */}
       <section className="h-screen flex flex-col py-20" style={{ backgroundColor: '#FAF6F2' }}>
         <div className="w-full px-16">
@@ -150,7 +141,6 @@ const HomePage = () => {
             <h2 className="text-5xl md:text-6xl font-bold mb-24" style={{ color: '#8A4D76' }}>
               Testimonios
             </h2>
-            
             <div className="flex justify-between">
               {/* Testimonio 1 */}
               <div className="bg-white rounded-3xl shadow-xl overflow-hidden border-2" style={{ borderColor: '#D8BFB3', height: '60vh', width: '47%' }}>
@@ -161,7 +151,6 @@ const HomePage = () => {
                   </p>
                 </div>
               </div>
-              
               {/* Testimonio 2 */}
               <div className="bg-white rounded-3xl shadow-xl overflow-hidden border-2" style={{ borderColor: '#D8BFB3', height: '60vh', width: '47%' }}>
                 <div className="w-full h-80 flex-shrink-0 bg-cover bg-center" style={{ backgroundColor: '#E8D4C8' }}></div>
@@ -175,23 +164,18 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
       {/* SECCIÓN DE ACTIVIDADES */}
 <section className="min-h-screen flex flex-col justify-center bg-[#F5F0EB]">
   <div className="w-full px-16">
     <div className="max-w-7xl mx-auto w-full">
-
       <h2 className="text-6xl font-bold text-[#8A4D76] mb-16 text-left">
         Actividades y Talleres
       </h2>
-
       <p className="text-2xl text-[#4A3A3C] mb-20 text-left max-w-4xl">
         Cada semana ofrecemos actividades formativas y comunitarias abiertas a mujeres del programa y voluntariado. Este tablón se actualiza según la programación semanal.
       </p>
-
       {/* GRID DE ACTIVIDADES */}
       <div className="grid grid-cols-3 grid-rows-2 gap-x-32 gap-y-32 px-8 py-8">
-
         {/* Card 1 */}
         <div className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all 
           px-12 py-10 text-left border-2 border-[#D8BFB3] mx-8 my-8"
@@ -206,7 +190,6 @@ const HomePage = () => {
             Formación profesional enfocada en habilidades digitales y empleabilidad para mujeres migrantes.
           </p>
         </div>
-
         {/* Card 2 */}
         <div className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all
           px-12 py-10 text-left border-2 border-[#D8BFB3] mx-8 my-8"
@@ -221,7 +204,6 @@ const HomePage = () => {
             Encuentro intercultural con actividades, música y gastronomía de diferentes países.
           </p>
         </div>
-
         {/* Card 3 */}
         <div className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all
             px-12 py-10 text-left border-2 border-[#D8BFB3] mx-2 my-2"
@@ -236,7 +218,6 @@ const HomePage = () => {
             Espacio seguro de acompañamiento emocional y terapia grupal para el bienestar integral.
           </p>
         </div>
-
         {/* Card 4 */}
         <div className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all
             px-12 py-10 text-left border-2 border-[#D8BFB3] mx-2 my-2"
@@ -251,7 +232,6 @@ const HomePage = () => {
             Cursos de español para facilitar la integración lingüística y mejorar oportunidades laborales.
           </p>
         </div>
-
         {/* Card 5 */}
         <div className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all
             px-12 py-10 text-left border-2 border-[#D8BFB3] mx-2 my-2"
@@ -266,7 +246,6 @@ const HomePage = () => {
             Orientación jurídica gratuita sobre derechos, documentación y procesos de regularización.
           </p>
         </div>
-
         {/* Card 6 */}
         <div className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all
             px-12 py-10 text-left border-2 border-[#D8BFB3] mx-2 my-2"
@@ -281,13 +260,10 @@ const HomePage = () => {
             Actividades de bienestar, mindfulness y cuidado personal para fortalecer la salud mental.
           </p>
         </div>
-
       </div>
     </div>
   </div>
 </section>
-
-
       {/* SECCIÓN DE CONTACTO */}
       <section className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F5ECE6' }}>
         <div className="w-full px-16">
@@ -314,7 +290,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
     </div>
   );
 };

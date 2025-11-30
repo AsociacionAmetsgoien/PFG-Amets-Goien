@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from 'react';
 
 const Navbar = () => {
@@ -19,14 +20,12 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto py-5">
         <div className="flex items-center justify-between">
-          
           {/* Logo a la izquierda */}
           <div className="flex items-center">
             <h1 className="text-white text-xl font-bold tracking-wide">
               AMETS GOIEN
             </h1>
           </div>
-
           {/* Navegación a la derecha */}
           <div className="flex items-center" style={{ gap: '2.5rem' }}>
             <a 
@@ -42,7 +41,6 @@ const Navbar = () => {
             >
               Inicio
             </a>
-            
             <a 
               href="#ong" 
               className="text-white no-underline hover:scale-110 transition-all duration-200"
@@ -56,7 +54,6 @@ const Navbar = () => {
             >
               La ONG
             </a>
-            
             <a 
               href="#noticias" 
               className="text-white no-underline hover:scale-110 transition-all duration-200"
@@ -70,7 +67,6 @@ const Navbar = () => {
             >
               Noticias
             </a>
-            
             <a 
               href="#testimonios" 
               className="text-white no-underline hover:scale-110 transition-all duration-200"
@@ -84,7 +80,6 @@ const Navbar = () => {
             >
               Testimonios
             </a>
-            
             <button 
               className="rounded-full font-medium hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer px-12 py-4 md:px-16 md:py-5"
               style={{ 
@@ -97,7 +92,6 @@ const Navbar = () => {
             >
               Colabora
             </button>
-            
             <a 
               href="#acceso" 
               className="text-white no-underline hover:scale-110 transition-all duration-200"
@@ -112,7 +106,6 @@ const Navbar = () => {
               Acceso interno
             </a>
           </div>
-
         </div>
       </div>
     </nav>
