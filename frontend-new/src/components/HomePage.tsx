@@ -9,9 +9,11 @@ const HomePage = () => {
   return (
     <div className="bg-[#D8B8C4]">
       {/* HERO - Slider de imágenes con Amets Goien */}
-      <ImagesSliderDemo />
+      <section id="inicio">
+        <ImagesSliderDemo />
+      </section>
       {/* SECCIÓN SOBRE AMETS GOIEN */}
-      <section className="min-h-screen flex items-center py-12 md:py-16 lg:py-20" style={{ backgroundColor: '#D8B8C4' }}>
+      <section id="ong" className="min-h-screen flex items-center py-12 md:py-16 lg:py-20" style={{ backgroundColor: '#D8B8C4' }}>
         <div className="w-full px-4 md:px-8 lg:px-16">
           <div className="max-w-7xl mx-auto w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
@@ -35,7 +37,7 @@ const HomePage = () => {
         </div>
       </section>
       {/* BLOQUE DE LLAMADA A LA ACCIÓN */}
-      <section className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#D8B8C4' }}>
+      <section id="colabora" className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#D8B8C4' }}>
         <div className="w-full px-4 md:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             {/* Título unificado para sección COLABORA */}
@@ -61,7 +63,7 @@ const HomePage = () => {
         </div>
       </section>
       {/* SECCIÓN DE ÚLTIMAS NOTICIAS */}
-        <section className="py-24 bg-[#D8B8C4]">
+        <section id="noticias" className="py-24 bg-[#D8B8C4]">
           <div className="w-full px-4 md:px-16">
             <div className="max-w-7xl mx-auto w-full">
 
@@ -70,7 +72,7 @@ const HomePage = () => {
           </div>
         </section>
       {/* SECCIÓN DE TESTIMONIOS */}
-      <section className="h-screen flex flex-col py-20" style={{ backgroundColor: '#D8B8C4' }}>
+      <section id="testimonios" className="h-screen flex flex-col py-20" style={{ backgroundColor: '#D8B8C4' }}>
         <div className="w-full px-16">
           <div className="max-w-7xl mx-auto w-full">
             {/* Título unificado para sección TESTIMONIOS */}

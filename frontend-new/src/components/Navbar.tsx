@@ -6,6 +6,15 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setMobileMenuOpen(false);
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -41,7 +50,8 @@ const Navbar = () => {
           {/* Navegación desktop */}
           <div className="hidden md:flex items-center gap-3 lg:gap-4 xl:gap-5">
             <a 
-              href="#inicio" 
+              href="#inicio"
+              onClick={(e) => handleNavClick(e, 'inicio')}
               className="text-white no-underline hover:scale-110 transition-all duration-200"
               style={{ 
                 textDecoration: 'none', 
@@ -54,7 +64,8 @@ const Navbar = () => {
               Inicio
             </a>
             <a 
-              href="#ong" 
+              href="#ong"
+              onClick={(e) => handleNavClick(e, 'ong')}
               className="text-white no-underline hover:scale-110 transition-all duration-200"
               style={{ 
                 textDecoration: 'none', 
@@ -67,7 +78,8 @@ const Navbar = () => {
               La ONG
             </a>
             <a 
-              href="#noticias" 
+              href="#noticias"
+              onClick={(e) => handleNavClick(e, 'noticias')}
               className="text-white no-underline hover:scale-110 transition-all duration-200"
               style={{ 
                 textDecoration: 'none', 
@@ -80,7 +92,8 @@ const Navbar = () => {
               Noticias
             </a>
             <a 
-              href="#testimonios" 
+              href="#testimonios"
+              onClick={(e) => handleNavClick(e, 'testimonios')}
               className="text-white no-underline hover:scale-110 transition-all duration-200"
               style={{ 
                 textDecoration: 'none', 
@@ -92,8 +105,12 @@ const Navbar = () => {
             >
               Testimonios
             </a>
-            <button 
-              className="rounded-full font-medium hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer px-6 py-2 md:px-8 md:py-2"
+            <a
+              href="#colabora"
+              onClick={(e) => handleNavClick(e, 'colabora')}
+            >
+              <button 
+                className="rounded-full font-medium hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer px-6 py-2 md:px-8 md:py-2"
               style={{ 
                 backgroundColor: 'white', 
                 color: '#8A4D76',
@@ -104,6 +121,7 @@ const Navbar = () => {
             >
               Colabora
             </button>
+            </a>
             <a 
               href="/acceso-interno" 
               className="text-white no-underline hover:scale-110 transition-all duration-200"
@@ -125,39 +143,43 @@ const Navbar = () => {
           <div className="md:hidden absolute top-full left-0 w-full bg-[#8A4D76] shadow-lg py-4 px-4">
             <div className="flex flex-col space-y-4">
               <a 
-                href="#inicio" 
+                href="#inicio"
+                onClick={(e) => handleNavClick(e, 'inicio')}
                 className="text-white text-sm font-medium py-2 hover:bg-white/10 rounded-lg px-3 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
               >
                 Inicio
               </a>
               <a 
-                href="#ong" 
+                href="#ong"
+                onClick={(e) => handleNavClick(e, 'ong')}
                 className="text-white text-sm font-medium py-2 hover:bg-white/10 rounded-lg px-3 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
               >
                 La ONG
               </a>
               <a 
-                href="#noticias" 
+                href="#noticias"
+                onClick={(e) => handleNavClick(e, 'noticias')}
                 className="text-white text-sm font-medium py-2 hover:bg-white/10 rounded-lg px-3 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
               >
                 Noticias
               </a>
               <a 
-                href="#testimonios" 
+                href="#testimonios"
+                onClick={(e) => handleNavClick(e, 'testimonios')}
                 className="text-white text-sm font-medium py-2 hover:bg-white/10 rounded-lg px-3 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
               >
                 Testimonios
               </a>
-              <button 
-                className="rounded-full font-medium px-6 py-2 bg-white text-[#8A4D76] border-2 border-[#8A4D76] w-full"
-                onClick={() => setMobileMenuOpen(false)}
+              <a
+                href="#colabora"
+                onClick={(e) => handleNavClick(e, 'colabora')}
               >
-                Colabora
-              </button>
+                <button 
+                  className="rounded-full font-medium px-6 py-2 bg-white text-[#8A4D76] border-2 border-[#8A4D76] w-full"
+                >
+                  Colabora
+                </button>
+              </a>
               <a 
                 href="/acceso-interno" 
                 className="text-white text-sm font-medium py-2 hover:bg-white/10 rounded-lg px-3 transition-colors"
