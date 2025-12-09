@@ -1,13 +1,25 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
+    
+    // Si estamos en otra página, navegar primero a home
+    if (pathname !== '/') {
+      router.push(`/#${targetId}`);
+      setMobileMenuOpen(false);
+      return;
+    }
+    
+    // Si ya estamos en home, hacer scroll
     const element = document.getElementById(targetId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });

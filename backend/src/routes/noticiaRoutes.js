@@ -7,9 +7,11 @@ import { checkRole } from '../middleware/checkRole.js';
 
 const router = express.Router();
 
-// Noticia routes - todas requieren autenticación
-router.get('/', auth, getNoticias);
-router.get('/:id', auth, getNoticiaById);
+// Rutas públicas para la web principal
+router.get('/', getNoticias);
+router.get('/:id', getNoticiaById);
+
+// Rutas protegidas para el panel de administración
 router.post('/', auth, checkRole('admin', 'empleado'), validate(noticiaSchema), createNoticia);
 router.put('/:id', auth, checkRole('admin', 'empleado'), validate(noticiaSchema), updateNoticia);
 router.delete('/:id', auth, checkRole('admin'), deleteNoticia);

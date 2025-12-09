@@ -18,7 +18,10 @@ const Noticia = {
       RETURNING *;
     `;
     const values = [
-      noticiaData.titulo, noticiaData.contenido, noticiaData.url_imagen, noticiaData.creado_por
+      noticiaData.titulo, 
+      noticiaData.contenido, 
+      noticiaData.url_imagen, 
+      noticiaData.creado_por || null
     ];
 
     const result = await pool.query(query, values);

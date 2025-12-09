@@ -1,9 +1,32 @@
+"use client";
+import { useEffect, useState } from "react";
 import { AnimatedTestimonialsDemo } from "./ui/demo-testimonials";
 import Gallery4Demo from "@/components/blocks/gallery4-demo";
 import { ImagesSliderDemo } from "./ui/demo-images-slider";
 
 const HomePage = () => {
-  
+  const [actividades, setActividades] = useState<any[]>([]);
+  const [loadingActividades, setLoadingActividades] = useState(true);
+
+  useEffect(() => {
+    fetchActividades();
+  }, []);
+
+  const fetchActividades = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/api/actividades");
+      
+      if (response.ok) {
+        const data = await response.json();
+        // Mostrar solo las 6 primeras actividades (las más recientes por ORDER BY id DESC)
+        setActividades(data.slice(0, 6));
+      }
+    } catch (error) {
+      console.error("Error fetching actividades:", error);
+    } finally {
+      setLoadingActividades(false);
+    }
+  };
 
 
   return (
@@ -96,45 +119,31 @@ const HomePage = () => {
             <p className="text-2xl text-[#4A3A3C] mb-12 text-left max-w-4xl">
               Cada semana ofrecemos actividades formativas y comunitarias abiertas a mujeres del programa y voluntariado. Este tablón se actualiza según la programación semanal.
             </p>
-            {/* GRID DE ACTIVIDADES */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 px-2 md:px-8 py-8">
-              {/* Card 1 */}
-              <div className="bg-white rounded-3xl shadow-lg transition-all px-8 py-8 text-left border border-[#D8BFB3] flex flex-col justify-between min-h-[220px]">
-                <h3 className="text-3xl font-bold text-[#8A4D76] mb-2">Taller de Capacitación Laboral</h3>
-                <p className="text-lg font-semibold text-[#8A4D76] mb-2">15 de Diciembre, 2025</p>
-                <p className="text-lg text-[#4A3A3C]">Formación profesional enfocada en habilidades digitales y empleabilidad para mujeres migrantes.</p>
+            
+            {loadingActividades ? (
+              <div className="text-center py-8">
+                <p className="text-xl text-[#8A4D76]">Cargando actividades...</p>
               </div>
-              {/* Card 2 */}
-              <div className="bg-white rounded-3xl shadow-lg transition-all px-8 py-8 text-left border border-[#D8BFB3] flex flex-col justify-between min-h-[220px]">
-                <h3 className="text-3xl font-bold text-[#8A4D76] mb-2">Jornada de Integración Cultural</h3>
-                <p className="text-lg font-semibold text-[#8A4D76] mb-2">20 de Diciembre, 2025</p>
-                <p className="text-lg text-[#4A3A3C]">Encuentro intercultural con actividades, música y gastronomía de diferentes países.</p>
+            ) : actividades.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-xl text-gray-600">No hay actividades programadas actualmente.</p>
               </div>
-              {/* Card 3 */}
-              <div className="bg-white rounded-3xl shadow-lg transition-all px-8 py-8 text-left border border-[#D8BFB3] flex flex-col justify-between min-h-[220px]">
-                <h3 className="text-3xl font-bold text-[#8A4D76] mb-2">Sesión de Apoyo Psicológico</h3>
-                <p className="text-lg font-semibold text-[#8A4D76] mb-2">Todos los Lunes</p>
-                <p className="text-lg text-[#4A3A3C]">Espacio seguro de acompañamiento emocional y terapia grupal para el bienestar integral.</p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 px-2 md:px-8 py-8">
+                {actividades.map((actividad) => (
+                  <div 
+                    key={actividad.id}
+                    className="bg-white rounded-3xl shadow-lg transition-all px-8 py-8 text-left border border-[#D8BFB3] flex flex-col justify-between min-h-[220px]"
+                  >
+                    <h3 className="text-3xl font-bold text-[#8A4D76] mb-2">{actividad.titulo}</h3>
+                    {actividad.fecha && (
+                      <p className="text-lg font-semibold text-[#8A4D76] mb-2">{actividad.fecha}</p>
+                    )}
+                    <p className="text-lg text-[#4A3A3C]">{actividad.descripcion}</p>
+                  </div>
+                ))}
               </div>
-              {/* Card 4 */}
-              <div className="bg-white rounded-3xl shadow-lg transition-all px-8 py-8 text-left border border-[#D8BFB3] flex flex-col justify-between min-h-[220px]">
-                <h3 className="text-3xl font-bold text-[#8A4D76] mb-2">Clases de Español</h3>
-                <p className="text-lg font-semibold text-[#8A4D76] mb-2">Martes y Jueves, 18:00h</p>
-                <p className="text-lg text-[#4A3A3C]">Cursos de español para facilitar la integración lingüística y mejorar oportunidades laborales.</p>
-              </div>
-              {/* Card 5 */}
-              <div className="bg-white rounded-3xl shadow-lg transition-all px-8 py-8 text-left border border-[#D8BFB3] flex flex-col justify-between min-h-[220px]">
-                <h3 className="text-3xl font-bold text-[#8A4D76] mb-2">Asesoramiento Legal</h3>
-                <p className="text-lg font-semibold text-[#8A4D76] mb-2">Miércoles, 10:00 - 14:00h</p>
-                <p className="text-lg text-[#4A3A3C]">Orientación jurídica gratuita sobre derechos, documentación y procesos de regularización.</p>
-              </div>
-              {/* Card 6 */}
-              <div className="bg-white rounded-3xl shadow-lg transition-all px-8 py-8 text-left border border-[#D8BFB3] flex flex-col justify-between min-h-[220px]">
-                <h3 className="text-3xl font-bold text-[#8A4D76] mb-2">Taller de Autocuidado</h3>
-                <p className="text-lg font-semibold text-[#8A4D76] mb-2">5 de Enero, 2026</p>
-                <p className="text-lg text-[#4A3A3C]">Actividades de bienestar, mindfulness y cuidado personal para fortalecer la salud mental.</p>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </section>
