@@ -13,8 +13,11 @@ const Tarea = {
       RETURNING *;
     `;
     const values = [
-      tareaData.titulo, tareaData.descripcion, tareaData.estado,
-      tareaData.asignado_a, tareaData.creado_por
+      tareaData.titulo, 
+      tareaData.descripcion, 
+      tareaData.estado,
+      tareaData.asignado_a || null, 
+      tareaData.creado_por || null
     ];
 
     const result = await pool.query(query, values);
