@@ -121,6 +121,10 @@ function PublicacionSection() {
   const [showNoticiaForm, setShowNoticiaForm] = useState(false);
   const [showActividadForm, setShowActividadForm] = useState(false);
   const [notification, setNotification] = useState<Notification | null>(null);
+  const [noticias, setNoticias] = useState<any[]>([]);
+  const [actividades, setActividades] = useState<any[]>([]);
+  const [showDeleteConfirmNoticia, setShowDeleteConfirmNoticia] = useState<number | null>(null);
+  const [showDeleteConfirmActividad, setShowDeleteConfirmActividad] = useState<number | null>(null);
   const [noticiaData, setNoticiaData] = useState({
     titulo: "",
     contenido: "",
@@ -134,9 +138,38 @@ function PublicacionSection() {
     creador_id: 1
   });
 
+  useEffect(() => {
+    fetchNoticias();
+    fetchActividades();
+  }, []);
+
   const showNotification = (message: string, type: 'success' | 'error' | 'info') => {
     setNotification({ message, type });
     setTimeout(() => setNotification(null), 3000);
+  };
+
+  const fetchNoticias = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/api/noticias");
+      if (response.ok) {
+        const data = await response.json();
+        setNoticias(data);
+      }
+    } catch (error) {
+      console.error("Error fetching noticias:", error);
+    }
+  };
+
+  const fetchActividades = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/api/actividades");
+      if (response.ok) {
+        const data = await response.json();
+        setActividades(data);
+      }
+    } catch (error) {
+      console.error("Error fetching actividades:", error);
+    }
   };
 
   const handleCreateNoticia = async (e: React.FormEvent) => {
@@ -161,11 +194,35 @@ function PublicacionSection() {
         showNotification("Noticia creada exitosamente", "success");
         setShowNoticiaForm(false);
         setNoticiaData({ titulo: "", contenido: "", url_imagen: "", creado_por: "" });
+        fetchNoticias(); // Refrescar lista
       } else {
         showNotification("Error al crear noticia", "error");
       }
     } catch (error) {
       console.error("Error creating noticia:", error);
+      showNotification("Error de conexión", "error");
+    }
+  };
+
+  const handleDeleteNoticia = async (id: number) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:4000/api/noticias/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        showNotification("Noticia eliminada exitosamente", "success");
+        setShowDeleteConfirmNoticia(null);
+        fetchNoticias(); // Refrescar lista
+      } else {
+        showNotification("Error al eliminar noticia", "error");
+      }
+    } catch (error) {
+      console.error("Error deleting noticia:", error);
       showNotification("Error de conexión", "error");
     }
   };
@@ -192,11 +249,35 @@ function PublicacionSection() {
         showNotification("Actividad creada exitosamente", "success");
         setShowActividadForm(false);
         setActividadData({ titulo: "", descripcion: "", fecha: "", creador_id: 1 });
+        fetchActividades(); // Refrescar lista
       } else {
         showNotification("Error al crear actividad", "error");
       }
     } catch (error) {
       console.error("Error creating actividad:", error);
+      showNotification("Error de conexión", "error");
+    }
+  };
+
+  const handleDeleteActividad = async (id: number) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:4000/api/actividades/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        showNotification("Actividad eliminada exitosamente", "success");
+        setShowDeleteConfirmActividad(null);
+        fetchActividades(); // Refrescar lista
+      } else {
+        showNotification("Error al eliminar actividad", "error");
+      }
+    } catch (error) {
+      console.error("Error deleting actividad:", error);
       showNotification("Error de conexión", "error");
     }
   };
@@ -211,6 +292,62 @@ function PublicacionSection() {
             notification.type === 'error' ? 'bg-red-500' : 'bg-blue-500'
           }`}>
             <p className="text-white font-semibold">{notification.message}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de confirmación de eliminación de noticia */}
+      {showDeleteConfirmNoticia && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md mx-4">
+            <h3 className="text-2xl font-bold mb-4" style={{ color: '#8A4D76' }}>
+              Confirmar eliminación
+            </h3>
+            <p className="text-gray-700 mb-6">
+              ¿Estás seguro de eliminar esta noticia? Esta acción no se puede deshacer.
+            </p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => handleDeleteNoticia(showDeleteConfirmNoticia)}
+                className="flex-1 py-3 rounded-full bg-red-500 text-white font-semibold hover:bg-red-600 transition-all"
+              >
+                Eliminar
+              </button>
+              <button
+                onClick={() => setShowDeleteConfirmNoticia(null)}
+                className="flex-1 py-3 rounded-full bg-gray-500 text-white font-semibold hover:bg-gray-600 transition-all"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de confirmación de eliminación de actividad */}
+      {showDeleteConfirmActividad && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md mx-4">
+            <h3 className="text-2xl font-bold mb-4" style={{ color: '#8A4D76' }}>
+              Confirmar eliminación
+            </h3>
+            <p className="text-gray-700 mb-6">
+              ¿Estás seguro de eliminar esta actividad? Esta acción no se puede deshacer.
+            </p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => handleDeleteActividad(showDeleteConfirmActividad)}
+                className="flex-1 py-3 rounded-full bg-red-500 text-white font-semibold hover:bg-red-600 transition-all"
+              >
+                Eliminar
+              </button>
+              <button
+                onClick={() => setShowDeleteConfirmActividad(null)}
+                className="flex-1 py-3 rounded-full bg-gray-500 text-white font-semibold hover:bg-gray-600 transition-all"
+              >
+                Cancelar
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -272,6 +409,29 @@ function PublicacionSection() {
               </button>
             </form>
           )}
+
+          {/* Lista de noticias existentes */}
+          <div className="mt-6">
+            <h4 className="font-bold text-lg mb-3" style={{ color: '#8A4D76' }}>Noticias Publicadas</h4>
+            {noticias.length === 0 ? (
+              <p className="text-gray-500 text-sm">No hay noticias publicadas</p>
+            ) : (
+              <div className="space-y-2 max-h-96 overflow-y-auto">
+                {noticias.map((noticia) => (
+                  <div key={noticia.id} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <h5 className="font-semibold text-gray-900">{noticia.titulo}</h5>
+                    <p className="text-sm text-gray-600 mt-1 line-clamp-2">{noticia.contenido}</p>
+                    <button
+                      onClick={() => setShowDeleteConfirmNoticia(noticia.id)}
+                      className="mt-2 px-4 py-1 rounded-full bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition-all"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Card Publicar Actividades */}
@@ -322,6 +482,32 @@ function PublicacionSection() {
               </button>
             </form>
           )}
+
+          {/* Lista de actividades existentes */}
+          <div className="mt-6">
+            <h4 className="font-bold text-lg mb-3" style={{ color: '#8A4D76' }}>Actividades Publicadas</h4>
+            {actividades.length === 0 ? (
+              <p className="text-gray-500 text-sm">No hay actividades publicadas</p>
+            ) : (
+              <div className="space-y-2 max-h-96 overflow-y-auto">
+                {actividades.map((actividad) => (
+                  <div key={actividad.id} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <h5 className="font-semibold text-gray-900">{actividad.titulo}</h5>
+                    <p className="text-sm text-gray-600 mt-1 line-clamp-2">{actividad.descripcion}</p>
+                    {actividad.fecha && (
+                      <p className="text-xs text-gray-500 mt-1">📅 {actividad.fecha}</p>
+                    )}
+                    <button
+                      onClick={() => setShowDeleteConfirmActividad(actividad.id)}
+                      className="mt-2 px-4 py-1 rounded-full bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition-all"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -423,10 +609,14 @@ function ForoSection() {
       });
 
       if (response.ok) {
+        showNotification(`Estado actualizado a: ${nuevoEstado}`, "success");
         fetchTareas(); // Refrescar lista
+      } else {
+        showNotification("Error al actualizar estado", "error");
       }
     } catch (error) {
       console.error("Error updating tarea:", error);
+      showNotification("Error de conexión", "error");
     }
   };
 
@@ -565,16 +755,15 @@ function ForoSection() {
                 <h3 className="text-2xl font-bold" style={{ color: '#8A4D76' }}>
                   {tarea.titulo}
                 </h3>
-                <select
-                  value={tarea.estado}
-                  onChange={(e) => handleUpdateEstado(tarea.id, e.target.value)}
-                  className="px-4 py-2 rounded-full border-2 border-gray-300 font-semibold"
-                  style={{ color: '#8A4D76' }}
+                <span 
+                  className={`px-4 py-2 rounded-full font-semibold text-sm ${
+                    tarea.estado === 'Finalizada' ? 'bg-green-100 text-green-800' :
+                    tarea.estado === 'Asignada' ? 'bg-blue-100 text-blue-800' :
+                    'bg-yellow-100 text-yellow-800'
+                  }`}
                 >
-                  <option>Pendiente</option>
-                  <option>Asignada</option>
-                  <option>Finalizada</option>
-                </select>
+                  {tarea.estado}
+                </span>
               </div>
               {tarea.descripcion && (
                 <p className="text-gray-600 mb-2">{tarea.descripcion}</p>

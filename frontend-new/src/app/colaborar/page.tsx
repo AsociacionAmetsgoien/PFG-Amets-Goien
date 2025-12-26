@@ -44,6 +44,7 @@ export default function ColaborarPage() {
   const [loading, setLoading] = useState(false);
   const [mensaje, setMensaje] = useState<{ texto: string; tipo: 'success' | 'error' } | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -133,6 +134,7 @@ export default function ColaborarPage() {
         if (response.ok) {
           const data = await response.json();
           setClientSecret(data.clientSecret);
+          setPaymentIntentId(data.paymentIntentId);
           setShowPaymentForm(true);
         } else {
           const error = await response.json();
@@ -446,7 +448,7 @@ export default function ColaborarPage() {
             </form>
 
             {/* Formulario de pago con tarjeta (Stripe) */}
-            {showPaymentForm && clientSecret && (
+            {showPaymentForm && clientSecret && paymentIntentId && (
               <div className="mt-6">
                 <h3 className="text-xl font-bold mb-4" style={{ color: '#8A4D76' }}>
                   Completar Pago
@@ -454,6 +456,7 @@ export default function ColaborarPage() {
                 <Elements stripe={stripePromise} options={{ clientSecret }}>
                   <CheckoutForm 
                     amount={parseFloat(formData.cantidad)} 
+                    paymentIntentId={paymentIntentId}
                     onSuccess={handlePaymentSuccess}
                     onError={handlePaymentError}
                   />
