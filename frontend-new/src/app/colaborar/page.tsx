@@ -181,151 +181,152 @@ export default function ColaborarPage() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen pt-20 px-4 md:px-8 lg:px-16" style={{ backgroundColor: '#F5ECE6' }}>
-        <div className="max-w-4xl mx-auto py-8 md:py-12">
-          {/* Encabezado */}
-          <div className="text-center mb-8 md:mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#8A4D76' }}>
-              Colaborar con Amets Goien
+      <div className="min-h-screen pt-20" style={{ backgroundColor: '#F5ECE6' }}>
+        {/* Hero Section */}
+        <section className="py-12 px-4 md:px-8 lg:px-16" style={{ backgroundColor: '#8A4D76' }}>
+          <div className="max-w-6xl mx-auto text-center text-white">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Tu ayuda transforma vidas
             </h1>
-            <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
-              Tu donación ayuda a construir un refugio seguro para mujeres migrantes y sus hijos. 
-              Cada aporte cuenta y transforma vidas.
+            <p className="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto">
+              Cada donación contribuye a ofrecer un refugio seguro, apoyo integral y oportunidades de futuro para mujeres migrantes y sus hijos.
             </p>
           </div>
+        </section>
 
-          {/* Formulario de Donación */}
-          <div className="bg-white rounded-3xl shadow-xl p-6 md:p-10 border border-gray-200">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Datos Personales */}
-              <div>
-                <h2 className="text-2xl font-bold mb-6" style={{ color: '#8A4D76' }}>
-                  Tus Datos
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-gray-800 font-semibold mb-2">
-                      Nombre *
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.nombre}
-                      onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none"
-                      required
-                    />
-                  </div>
+        {/* Formulario de Donación y Sección de Impacto en paralelo */}
+        <section className="py-12 px-4 md:px-8 lg:px-16">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              
+              {/* Columna Izquierda: Información de Impacto */}
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-3xl font-bold mb-4" style={{ color: '#8A4D76' }}>
+                    ¿Cómo ayuda tu donación?
+                  </h2>
+                  <p className="text-gray-600 mb-6">
+                    Cada aportación contribuye directamente a mejorar la vida de las mujeres migrantes y sus familias.
+                  </p>
+                </div>
 
-                  <div>
-                    <label className="block text-gray-800 font-semibold mb-2">
-                      Apellidos *
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.apellidos}
-                      onChange={(e) => setFormData({ ...formData, apellidos: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-gray-800 font-semibold mb-2">
-                      Email *
-                    </label>
-                    <input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none"
-                      placeholder="tu@email.com"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-gray-800 font-semibold mb-2">
-                      Teléfono
-                    </label>
-                    <div className="flex gap-2">
-                      <select
-                        value={formData.prefijoTelefono}
-                        onChange={(e) => setFormData({ ...formData, prefijoTelefono: e.target.value })}
-                        className="px-3 py-3 rounded-xl border-2 border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none"
-                      >
-                        <option value="+34">🇪🇸 +34</option>
-                        <option value="+33">🇫🇷 +33</option>
-                        <option value="+44">🇬🇧 +44</option>
-                        <option value="+49">🇩🇪 +49</option>
-                        <option value="+39">🇮🇹 +39</option>
-                        <option value="+351">🇵🇹 +351</option>
-                        <option value="+1">🇺🇸 +1</option>
-                        <option value="+52">🇲🇽 +52</option>
-                        <option value="+54">🇦🇷 +54</option>
-                        <option value="+56">🇨🇱 +56</option>
-                        <option value="+57">🇨🇴 +57</option>
-                        <option value="+58">🇻🇪 +58</option>
-                        <option value="+51">🇵🇪 +51</option>
-                        <option value="+593">🇪🇨 +593</option>
-                        <option value="+591">🇧🇴 +591</option>
-                        <option value="+598">🇺🇾 +598</option>
-                        <option value="+212">🇲🇦 +212</option>
-                        <option value="+213">🇩🇿 +213</option>
-                        <option value="+216">🇹🇳 +216</option>
-                      </select>
-                      <input
-                        type="tel"
-                        value={formData.telefono}
-                        onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
-                        className="flex-1 px-4 py-3 rounded-xl border-2 border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none"
-                        placeholder="600 000 000"
-                      />
+                <div className="space-y-4">
+                  <div className="flex gap-4 p-4 rounded-xl bg-gray-50 border border-gray-200">
+                    <div className="text-3xl">🏠</div>
+                    <div>
+                      <h3 className="text-lg font-bold mb-1" style={{ color: '#8A4D76' }}>Alojamiento Seguro</h3>
+                      <p className="text-gray-700 text-sm">Proporcionamos un espacio digno y seguro donde las mujeres y sus hijos pueden reconstruir sus vidas.</p>
                     </div>
                   </div>
 
-                  <div className="md:col-span-2">
-                    <label className="block text-gray-800 font-semibold mb-2">
-                      Dirección
-                    </label>
+                  <div className="flex gap-4 p-4 rounded-xl bg-gray-50 border border-gray-200">
+                    <div className="text-3xl">📚</div>
+                    <div>
+                      <h3 className="text-lg font-bold mb-1" style={{ color: '#8A4D76' }}>Formación y Apoyo</h3>
+                      <p className="text-gray-700 text-sm">Ofrecemos talleres, formación laboral y acompañamiento psicológico para su desarrollo personal.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 p-4 rounded-xl bg-gray-50 border border-gray-200">
+                    <div className="text-3xl">🤝</div>
+                    <div>
+                      <h3 className="text-lg font-bold mb-1" style={{ color: '#8A4D76' }}>Autonomía</h3>
+                      <p className="text-gray-700 text-sm">Ayudamos a conseguir autonomía económica y social para un futuro independiente y estable.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-purple-50 rounded-xl p-5 border-l-4 border-[#8A4D76]">
+                  <h3 className="text-xl font-bold mb-3" style={{ color: '#8A4D76' }}>El impacto de tu aportación</h3>
+                  <div className="space-y-2 text-gray-700 text-sm">
+                    <p><strong>20€</strong> - Material escolar para un niño durante un mes</p>
+                    <p><strong>50€</strong> - Taller formativo para 5 mujeres</p>
+                    <p><strong>100€</strong> - Alojamiento de una familia durante una semana</p>
+                    <p><strong>200€</strong> - Apoyo psicológico mensual para 3 personas</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Columna Derecha: Formulario de Donación */}
+              <div>
+            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 border border-gray-200 sticky top-24">
+              <h2 className="text-3xl font-bold mb-2 text-center" style={{ color: '#8A4D76' }}>
+                Haz tu donación
+              </h2>
+              <p className="text-center text-gray-600 mb-6">Completa el formulario para realizar tu aportación</p>
+              
+              <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Datos Personales en Grid Compacto */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-800 font-semibold mb-1 text-sm">Nombre *</label>
+                  <input
+                    type="text"
+                    value={formData.nombre}
+                    onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg border border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none text-sm"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-800 font-semibold mb-1 text-sm">Apellidos *</label>
+                  <input
+                    type="text"
+                    value={formData.apellidos}
+                    onChange={(e) => setFormData({ ...formData, apellidos: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg border border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none text-sm"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-800 font-semibold mb-1 text-sm">Email *</label>
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg border border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none text-sm"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-800 font-semibold mb-1 text-sm">Teléfono</label>
+                  <div className="flex gap-2">
+                    <select
+                      value={formData.prefijoTelefono}
+                      onChange={(e) => setFormData({ ...formData, prefijoTelefono: e.target.value })}
+                      className="px-2 py-2 rounded-lg border border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none text-sm"
+                    >
+                      <option value="+34">+34</option>
+                      <option value="+33">+33</option>
+                      <option value="+1">+1</option>
+                    </select>
                     <input
-                      type="text"
-                      value={formData.direccion}
-                      onChange={(e) => setFormData({ ...formData, direccion: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none"
-                      placeholder="Calle, número, piso, ciudad, código postal"
+                      type="tel"
+                      value={formData.telefono}
+                      onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
+                      className="flex-1 px-3 py-2 rounded-lg border border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none text-sm"
+                      placeholder="600000000"
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Mensaje Opcional */}
-              <div>
-                <label className="block text-gray-800 font-semibold mb-2">
-                  Mensaje de Apoyo (opcional)
-                </label>
-                <textarea
-                  value={formData.anotacion}
-                  onChange={(e) => setFormData({ ...formData, anotacion: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none h-32"
-                  placeholder="Comparte unas palabras de apoyo o tu motivación para colaborar..."
-                />
-              </div>
-
               {/* Cantidad a Donar */}
               <div>
-                <h2 className="text-2xl font-bold mb-6" style={{ color: '#8A4D76' }}>
-                  Cantidad a Donar
-                </h2>
-                <div className="grid grid-cols-3 gap-3 mb-4">
-                  {[5, 10, 20].map((cantidad) => (
+                <label className="block text-gray-800 font-semibold mb-2 text-sm">Cantidad a Donar *</label>
+                <div className="grid grid-cols-4 gap-2 mb-3">
+                  {[10, 20, 50, 100].map((cantidad) => (
                     <button
                       key={cantidad}
                       type="button"
                       onClick={() => setFormData({ ...formData, cantidad: cantidad.toString() })}
-                      className={`py-3 px-4 rounded-xl font-semibold transition-all ${
+                      className={`py-2 px-3 rounded-lg font-semibold text-sm transition-all ${
                         formData.cantidad === cantidad.toString()
-                          ? 'text-white shadow-lg scale-105'
-                          : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-[#8A4D76]'
+                          ? 'text-white shadow-md'
+                          : 'bg-gray-100 text-gray-700 border border-gray-300 hover:border-[#8A4D76]'
                       }`}
                       style={formData.cantidad === cantidad.toString() ? { backgroundColor: '#8A4D76' } : {}}
                     >
@@ -333,43 +334,36 @@ export default function ColaborarPage() {
                     </button>
                   ))}
                 </div>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="number"
-                    min="1"
-                    step="1"
-                    value={formData.cantidad}
-                    onChange={(e) => setFormData({ ...formData, cantidad: e.target.value })}
-                    className="flex-1 px-4 py-3 rounded-xl border-2 border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none"
-                    placeholder="Otra cantidad personalizada"
-                    required
-                  />
-                  <span className="text-gray-700 font-semibold text-lg">€</span>
-                </div>
+                <input
+                  type="number"
+                  min="1"
+                  step="1"
+                  value={formData.cantidad}
+                  onChange={(e) => setFormData({ ...formData, cantidad: e.target.value })}
+                  className="w-full px-3 py-2 rounded-lg border border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none text-sm"
+                  placeholder="Otra cantidad"
+                  required
+                />
               </div>
 
-              {/* Método de Pago */}
+              {/* Método de Pago Compacto */}
               <div>
-                <h2 className="text-2xl font-bold mb-6" style={{ color: '#8A4D76' }}>
-                  Método de Pago
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <label className="block text-gray-800 font-semibold mb-2 text-sm">Método de Pago *</label>
+                <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, metodoPago: 'bizum' })}
-                    className={`p-6 rounded-2xl border-3 transition-all text-left ${
+                    className={`p-4 rounded-lg border-2 transition-all text-left ${
                       formData.metodoPago === 'bizum'
-                        ? 'border-[#8A4D76] bg-purple-50 shadow-lg scale-105'
+                        ? 'border-[#8A4D76] bg-purple-50'
                         : 'border-gray-300 bg-white hover:border-[#8A4D76]'
                     }`}
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: '#8A4D76' }}>
-                        <span className="text-white text-2xl font-bold">B</span>
-                      </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center text-white text-lg font-bold" style={{ backgroundColor: '#8A4D76' }}>B</div>
                       <div>
-                        <h3 className="text-xl font-bold text-gray-900">Bizum</h3>
-                        <p className="text-gray-600 text-sm">Pago rápido y seguro</p>
+                        <h3 className="font-bold text-gray-900">Bizum</h3>
+                        <p className="text-xs text-gray-600">Rápido y seguro</p>
                       </div>
                     </div>
                   </button>
@@ -377,21 +371,21 @@ export default function ColaborarPage() {
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, metodoPago: 'tarjeta' })}
-                    className={`p-6 rounded-2xl border-3 transition-all text-left ${
+                    className={`p-4 rounded-lg border-2 transition-all text-left ${
                       formData.metodoPago === 'tarjeta'
-                        ? 'border-[#8A4D76] bg-purple-50 shadow-lg scale-105'
+                        ? 'border-[#8A4D76] bg-purple-50'
                         : 'border-gray-300 bg-white hover:border-[#8A4D76]'
                     }`}
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: '#8A4D76' }}>
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center text-white" style={{ backgroundColor: '#8A4D76' }}>
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                         </svg>
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-gray-900">Tarjeta</h3>
-                        <p className="text-gray-600 text-sm">Débito o crédito</p>
+                        <h3 className="font-bold text-gray-900">Tarjeta</h3>
+                        <p className="text-xs text-gray-600">Débito o crédito</p>
                       </div>
                     </div>
                   </button>
@@ -399,38 +393,31 @@ export default function ColaborarPage() {
               </div>
 
               {/* Política de Privacidad */}
-              <div className="bg-gray-50 p-6 rounded-2xl">
-                <label className="flex items-start gap-3 cursor-pointer">
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <label className="flex items-start gap-2 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={formData.aceptaPolitica}
                     onChange={(e) => setFormData({ ...formData, aceptaPolitica: e.target.checked })}
-                    className="mt-1 w-5 h-5 rounded border-gray-300 text-[#8A4D76] focus:ring-[#8A4D76]"
+                    className="mt-1 w-4 h-4 rounded border-gray-300 text-[#8A4D76] focus:ring-[#8A4D76]"
                     required
                   />
-                  <span className="text-gray-700">
+                  <span className="text-gray-700 text-xs">
                     Acepto la{" "}
-                    <a 
-                      href="/privacidad" 
-                      target="_blank"
-                      className="font-semibold hover:underline"
-                      style={{ color: '#8A4D76' }}
-                    >
+                    <a href="/privacidad" className="font-semibold hover:underline" style={{ color: '#8A4D76' }}>
                       política de privacidad
                     </a>
-                    {" "}y autorizo el tratamiento de mis datos para procesar esta donación *
+                    {" "}y autorizo el tratamiento de mis datos *
                   </span>
                 </label>
               </div>
 
               {/* Mensaje de respuesta */}
               {mensaje && (
-                <div className={`p-4 rounded-xl ${
-                  mensaje.tipo === 'success' ? 'bg-green-50 border-2 border-green-500' : 'bg-red-50 border-2 border-red-500'
+                <div className={`p-3 rounded-lg text-sm ${
+                  mensaje.tipo === 'success' ? 'bg-green-50 border border-green-500 text-green-800' : 'bg-red-50 border border-red-500 text-red-800'
                 }`}>
-                  <p className={mensaje.tipo === 'success' ? 'text-green-800' : 'text-red-800'}>
-                    {mensaje.texto}
-                  </p>
+                  {mensaje.texto}
                 </div>
               )}
 
@@ -439,45 +426,48 @@ export default function ColaborarPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-4 rounded-full text-white font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 rounded-full text-white font-bold hover:shadow-lg transition-all disabled:opacity-50"
                   style={{ backgroundColor: '#8A4D76' }}
                 >
                   {loading ? "Procesando..." : `Donar ${formData.cantidad ? formData.cantidad + '€' : ''}`}
                 </button>
               )}
-            </form>
+              </form>
 
-            {/* Formulario de pago con tarjeta (Stripe) */}
-            {showPaymentForm && clientSecret && paymentIntentId && (
-              <div className="mt-6">
-                <h3 className="text-xl font-bold mb-4" style={{ color: '#8A4D76' }}>
-                  Completar Pago
-                </h3>
-                <Elements stripe={stripePromise} options={{ clientSecret }}>
-                  <CheckoutForm 
-                    amount={parseFloat(formData.cantidad)} 
-                    paymentIntentId={paymentIntentId}
-                    onSuccess={handlePaymentSuccess}
-                    onError={handlePaymentError}
-                  />
-                </Elements>
+              {/* Formulario de pago con tarjeta (Stripe) */}
+              {showPaymentForm && clientSecret && paymentIntentId && (
+                <div className="mt-6">
+                  <h3 className="text-xl font-bold mb-4" style={{ color: '#8A4D76' }}>
+                    Completar Pago
+                  </h3>
+                  <Elements stripe={stripePromise} options={{ clientSecret }}>
+                    <CheckoutForm 
+                      amount={parseFloat(formData.cantidad)} 
+                      paymentIntentId={paymentIntentId}
+                      onSuccess={handlePaymentSuccess}
+                      onError={handlePaymentError}
+                    />
+                  </Elements>
+                </div>
+              )}
+            </div>
+
+            {/* Información adicional */}
+            <div className="mt-6 text-center text-gray-600">
+              <p className="text-sm">
+                🔒 Todas las transacciones son seguras y encriptadas
+              </p>
+              <p className="text-sm mt-2">
+                ¿Necesitas ayuda? Contacta con nosotros en{" "}
+                <a href="mailto:info@ametsgoien.org" className="font-semibold hover:underline" style={{ color: '#8A4D76' }}>
+                  info@ametsgoien.org
+                </a>
+              </p>
+            </div>
               </div>
-            )}
+            </div>
           </div>
-
-          {/* Información adicional */}
-          <div className="mt-8 text-center text-gray-600">
-            <p className="text-sm">
-              🔒 Todas las transacciones son seguras y encriptadas
-            </p>
-            <p className="text-sm mt-2">
-              ¿Necesitas ayuda? Contacta con nosotros en{" "}
-              <a href="mailto:info@ametsgoien.org" className="font-semibold hover:underline" style={{ color: '#8A4D76' }}>
-                info@ametsgoien.org
-              </a>
-            </p>
-          </div>
-        </div>
+        </section>
       </div>
       <Footer />
     </>
