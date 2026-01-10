@@ -32,7 +32,7 @@ const Gallery4Demo = () => {
   };
 
   const demoData = {
-    title: "Noticias",
+    title: "",
     description:
       "Descubre las últimas noticias y logros de AMETS GOIEN. Aquí compartimos historias de superación, eventos y proyectos que transforman vidas.",
     items: noticias.map((noticia) => ({
@@ -70,8 +70,11 @@ const Gallery4Demo = () => {
   }
 
   return (
-    <section className="w-full py-10 md:py-16">
-      <div className="max-w-5xl mx-auto px-4">
+    <section className="w-full py-6 md:py-10">
+      <div className="max-w-6xl mx-auto px-4">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-[#8A4D76] text-left mb-12 tracking-tight">
+          Noticias
+        </h2>
         <Gallery4 {...demoData} />
       </div>
     </section>

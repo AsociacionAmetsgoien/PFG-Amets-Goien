@@ -177,8 +177,8 @@ const Gallery4 = ({
                   key={item.id}
                   className={`pr-12 flex-shrink-0 transition-all duration-500 ${
                     isExpanded 
-                      ? 'basis-full md:basis-[90%] lg:basis-[75%]' 
-                      : 'basis-[90%] md:basis-[48%] lg:basis-[32%]'
+                      ? 'basis-full md:basis-[95%] lg:basis-[85%]' 
+                      : 'basis-[95%] md:basis-[60%] lg:basis-[45%]'
                   }`}
                 >
                   <div 
