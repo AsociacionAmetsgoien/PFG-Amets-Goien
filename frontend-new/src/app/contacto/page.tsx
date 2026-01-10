@@ -67,7 +67,7 @@ export default function ContactoPage() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen pt-20 px-4 md:px-8 lg:px-16" style={{ backgroundColor: '#F5ECE6' }}>
+      <div id="main-content" className="min-h-screen pt-20 px-4 md:px-8 lg:px-16" style={{ backgroundColor: '#F5ECE6' }} role="main">
         <div className="max-w-3xl mx-auto py-8">
           <button
             onClick={() => router.push("/")}

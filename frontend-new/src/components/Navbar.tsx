@@ -32,14 +32,27 @@ const Navbar = () => {
       setScrolled(window.scrollY > 50);
     };
 
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener('keydown', handleEscape);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [mobileMenuOpen]);
 
   return (
     <nav 
       className="fixed top-0 w-full z-50 transition-all duration-300 shadow-md px-4 md:px-8 lg:px-12"
       style={{ backgroundColor: '#8A4D76' }}
+      role="navigation"
+      aria-label="Navegación principal"
     >
       <div className="max-w-7xl mx-auto py-2 md:py-2">
         <div className="flex items-center justify-between">
@@ -54,13 +67,15 @@ const Navbar = () => {
           <button 
             className="md:hidden text-white p-2"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label={mobileMenuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
           </button>
 
           {/* Navegación desktop */}
-          <div className="hidden md:flex items-center gap-3 lg:gap-4 xl:gap-5">
+          <div className="hidden md:flex items-center gap-3 lg:gap-4 xl:gap-5" role="menubar">
             <a 
               href="#inicio"
               onClick={(e) => handleNavClick(e, 'inicio')}
@@ -72,6 +87,8 @@ const Navbar = () => {
                 letterSpacing: '0.3px',
                 fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
               }}
+              aria-label="Ir a la sección de inicio"
+              role="menuitem"
             >
               Inicio
             </a>
@@ -85,6 +102,8 @@ const Navbar = () => {
                 letterSpacing: '0.3px',
                 fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
               }}
+              aria-label="Conocer más sobre la organización"
+              role="menuitem"
             >
               La ONG
             </a>
@@ -99,6 +118,8 @@ const Navbar = () => {
                 letterSpacing: '0.3px',
                 fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
               }}
+              aria-label="Ir a la sección de noticias"
+              role="menuitem"
             >
               Noticias
             </a>
@@ -112,22 +133,27 @@ const Navbar = () => {
                 letterSpacing: '0.3px',
                 fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
               }}
+              aria-label="Ver actividades y talleres"
+              role="menuitem"
             >
               Actividades
             </a>
             <a
               href="/colaborar"
+              aria-label="Hacer una donación"
+              role="menuitem"
             >
               <button 
                 className="rounded-full font-medium hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer px-6 py-2 md:px-8 md:py-2"
-              style={{ 
-                backgroundColor: 'white', 
-                color: '#8A4D76',
-                border: '2.5px solid #8A4D76',
-                letterSpacing: '0.3px',
-                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
-              }}
-            >
+                style={{ 
+                  backgroundColor: 'white', 
+                  color: '#8A4D76',
+                  border: '2.5px solid #8A4D76',
+                  letterSpacing: '0.3px',
+                  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+                }}
+                tabIndex={-1}
+              >
               Colabora
             </button>
             </a>
@@ -141,6 +167,8 @@ const Navbar = () => {
                 letterSpacing: '0.3px',
                 fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
               }}
+              aria-label="Acceso para personal interno"
+              role="menuitem"
             >
               Acceso interno
             </a>
@@ -149,7 +177,7 @@ const Navbar = () => {
 
         {/* Menú móvil */}
         {mobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-[#8A4D76] shadow-lg py-4 px-4">
+          <div id="mobile-menu" className="md:hidden absolute top-full left-0 w-full bg-[#8A4D76] shadow-lg py-4 px-4" role="menu" aria-label="Menú de navegación móvil">
             <div className="flex flex-col space-y-4">
               <a 
                 href="#inicio"

@@ -181,7 +181,7 @@ export default function ColaborarPage() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen pt-20" style={{ backgroundColor: '#F5ECE6' }}>
+      <div id="main-content" className="min-h-screen pt-20" style={{ backgroundColor: '#F5ECE6' }} role="main">
         {/* Hero Section */}
         <section className="py-12 px-4 md:px-8 lg:px-16" style={{ backgroundColor: '#8A4D76' }}>
           <div className="max-w-6xl mx-auto text-center text-white">
@@ -259,45 +259,53 @@ export default function ColaborarPage() {
               {/* Datos Personales en Grid Compacto */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-800 font-semibold mb-1 text-sm">Nombre *</label>
+                  <label htmlFor="donacion-nombre" className="block text-gray-800 font-semibold mb-1 text-sm">Nombre *</label>
                   <input
                     type="text"
+                    id="donacion-nombre"
                     value={formData.nombre}
                     onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
                     className="w-full px-3 py-2 rounded-lg border border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none text-sm"
                     required
+                    aria-required="true"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-800 font-semibold mb-1 text-sm">Apellidos *</label>
+                  <label htmlFor="donacion-apellidos" className="block text-gray-800 font-semibold mb-1 text-sm">Apellidos *</label>
                   <input
                     type="text"
+                    id="donacion-apellidos"
                     value={formData.apellidos}
                     onChange={(e) => setFormData({ ...formData, apellidos: e.target.value })}
                     className="w-full px-3 py-2 rounded-lg border border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none text-sm"
                     required
+                    aria-required="true"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-800 font-semibold mb-1 text-sm">Email *</label>
+                  <label htmlFor="donacion-email" className="block text-gray-800 font-semibold mb-1 text-sm">Email *</label>
                   <input
                     type="email"
+                    id="donacion-email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-3 py-2 rounded-lg border border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none text-sm"
                     required
+                    aria-required="true"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-800 font-semibold mb-1 text-sm">Teléfono</label>
+                  <label htmlFor="donacion-telefono" className="block text-gray-800 font-semibold mb-1 text-sm">Teléfono</label>
                   <div className="flex gap-2">
                     <select
+                      id="donacion-prefijo"
                       value={formData.prefijoTelefono}
                       onChange={(e) => setFormData({ ...formData, prefijoTelefono: e.target.value })}
                       className="px-2 py-2 rounded-lg border border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none text-sm"
+                      aria-label="Prefijo telefónico"
                     >
                       <option value="+34">+34</option>
                       <option value="+33">+33</option>
@@ -305,19 +313,21 @@ export default function ColaborarPage() {
                     </select>
                     <input
                       type="tel"
+                      id="donacion-telefono"
                       value={formData.telefono}
                       onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
                       className="flex-1 px-3 py-2 rounded-lg border border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none text-sm"
                       placeholder="600000000"
+                      aria-label="Número de teléfono"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Cantidad a Donar */}
-              <div>
-                <label className="block text-gray-800 font-semibold mb-2 text-sm">Cantidad a Donar *</label>
-                <div className="grid grid-cols-4 gap-2 mb-3">
+              <fieldset>
+                <legend className="block text-gray-800 font-semibold mb-2 text-sm">Cantidad a Donar *</legend>
+                <div className="grid grid-cols-4 gap-2 mb-3" role="group" aria-label="Cantidades predefinidas">
                   {[10, 20, 50, 100].map((cantidad) => (
                     <button
                       key={cantidad}
@@ -329,6 +339,8 @@ export default function ColaborarPage() {
                           : 'bg-gray-100 text-gray-700 border border-gray-300 hover:border-[#8A4D76]'
                       }`}
                       style={formData.cantidad === cantidad.toString() ? { backgroundColor: '#8A4D76' } : {}}
+                      aria-pressed={formData.cantidad === cantidad.toString()}
+                      aria-label={`Donar ${cantidad} euros`}
                     >
                       {cantidad}€
                     </button>
@@ -336,6 +348,7 @@ export default function ColaborarPage() {
                 </div>
                 <input
                   type="number"
+                  id="donacion-cantidad"
                   min="1"
                   step="1"
                   value={formData.cantidad}
@@ -343,13 +356,15 @@ export default function ColaborarPage() {
                   className="w-full px-3 py-2 rounded-lg border border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none text-sm"
                   placeholder="Otra cantidad"
                   required
+                  aria-required="true"
+                  aria-label="Cantidad personalizada a donar"
                 />
-              </div>
+              </fieldset>
 
               {/* Método de Pago Compacto */}
-              <div>
-                <label className="block text-gray-800 font-semibold mb-2 text-sm">Método de Pago *</label>
-                <div className="grid grid-cols-2 gap-3">
+              <fieldset>
+                <legend className="block text-gray-800 font-semibold mb-2 text-sm">Método de Pago *</legend>
+                <div className="grid grid-cols-2 gap-3" role="group" aria-label="Seleccionar método de pago">
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, metodoPago: 'bizum' })}
@@ -358,9 +373,11 @@ export default function ColaborarPage() {
                         ? 'border-[#8A4D76] bg-purple-50'
                         : 'border-gray-300 bg-white hover:border-[#8A4D76]'
                     }`}
+                    aria-pressed={formData.metodoPago === 'bizum'}
+                    aria-label="Pagar con Bizum"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center text-white text-lg font-bold" style={{ backgroundColor: '#8A4D76' }}>B</div>
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center text-white text-lg font-bold" style={{ backgroundColor: '#8A4D76' }} aria-hidden="true">B</div>
                       <div>
                         <h3 className="font-bold text-gray-900">Bizum</h3>
                         <p className="text-xs text-gray-600">Rápido y seguro</p>
@@ -376,9 +393,11 @@ export default function ColaborarPage() {
                         ? 'border-[#8A4D76] bg-purple-50'
                         : 'border-gray-300 bg-white hover:border-[#8A4D76]'
                     }`}
+                    aria-pressed={formData.metodoPago === 'tarjeta'}
+                    aria-label="Pagar con tarjeta de crédito o débito"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center text-white" style={{ backgroundColor: '#8A4D76' }}>
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center text-white" style={{ backgroundColor: '#8A4D76' }} aria-hidden="true">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                         </svg>
@@ -390,17 +409,19 @@ export default function ColaborarPage() {
                     </div>
                   </button>
                 </div>
-              </div>
+              </fieldset>
 
               {/* Política de Privacidad */}
               <div className="bg-gray-50 p-4 rounded-lg">
-                <label className="flex items-start gap-2 cursor-pointer">
+                <label htmlFor="donacion-politica" className="flex items-start gap-2 cursor-pointer">
                   <input
                     type="checkbox"
+                    id="donacion-politica"
                     checked={formData.aceptaPolitica}
                     onChange={(e) => setFormData({ ...formData, aceptaPolitica: e.target.checked })}
                     className="mt-1 w-4 h-4 rounded border-gray-300 text-[#8A4D76] focus:ring-[#8A4D76]"
                     required
+                    aria-required="true"
                   />
                   <span className="text-gray-700 text-xs">
                     Acepto la{" "}
@@ -414,9 +435,14 @@ export default function ColaborarPage() {
 
               {/* Mensaje de respuesta */}
               {mensaje && (
-                <div className={`p-3 rounded-lg text-sm ${
-                  mensaje.tipo === 'success' ? 'bg-green-50 border border-green-500 text-green-800' : 'bg-red-50 border border-red-500 text-red-800'
-                }`}>
+                <div 
+                  className={`p-3 rounded-lg text-sm ${
+                    mensaje.tipo === 'success' ? 'bg-green-50 border border-green-500 text-green-800' : 'bg-red-50 border border-red-500 text-red-800'
+                  }`}
+                  role="alert"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
                   {mensaje.texto}
                 </div>
               )}
