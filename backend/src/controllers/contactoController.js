@@ -50,20 +50,20 @@ export const enviarContacto = async (req, res) => {
 
     // Configurar el email para el administrador
     const mailOptionsAdmin = {
-      from: `"Formulario Amets Goien" <${process.env.SMTP_USER}>`,
+      from: `"Formulario Ametsgoien" <${process.env.SMTP_USER}>`,
       to: process.env.CONTACT_EMAIL || process.env.SMTP_USER,
       subject: `Nuevo mensaje de contacto: ${nombre} ${apellidos}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #8A4D76;">Nuevo mensaje de contacto</h2>
-          <div style="background-color: #F5ECE6; padding: 20px; border-radius: 10px;">
+          <div style="background-color: #E8D5F2; padding: 20px; border-radius: 10px;">
             <p><strong>Nombre:</strong> ${nombre} ${apellidos}</p>
             <p><strong>Email:</strong> ${email}</p>
             <p><strong>Mensaje:</strong></p>
             <p style="background-color: white; padding: 15px; border-radius: 5px; white-space: pre-wrap;">${mensaje}</p>
           </div>
           <p style="color: #666; font-size: 12px; margin-top: 20px;">
-            Este mensaje fue enviado desde el formulario de contacto de Amets Goien.
+            Este mensaje fue enviado desde el formulario de contacto de Ametsgoien.
           </p>
         </div>
       `
@@ -71,13 +71,13 @@ export const enviarContacto = async (req, res) => {
 
     // Configurar el email de confirmación para el usuario
     const mailOptionsUsuario = {
-      from: `"Amets Goien" <${process.env.SMTP_USER}>`,
+      from: `"Ametsgoien" <${process.env.SMTP_USER}>`,
       to: email,
-      subject: "Hemos recibido tu mensaje - Amets Goien",
+      subject: "Hemos recibido tu mensaje - Ametsgoien",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #8A4D76;">¡Gracias por contactarnos!</h2>
-          <div style="background-color: #F5ECE6; padding: 20px; border-radius: 10px;">
+          <div style="background-color: #E8D5F2; padding: 20px; border-radius: 10px;">
             <p>Hola ${nombre},</p>
             <p>Hemos recibido tu mensaje y nos pondremos en contacto contigo lo antes posible.</p>
             <p><strong>Tu mensaje:</strong></p>

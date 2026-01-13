@@ -8,7 +8,7 @@ export const getEmpleados = async (req, res) => {
     res.json(empleados);    
     } catch (error) {
     console.error('Error fetching empleados:', error);
-    res.status(500).json({ message: 'Error fetching empleados' });
+    res.status(500).json({ message: 'Error al obtener empleados' });
   }
 };
 
@@ -17,13 +17,13 @@ export const getEmpleadoById = async (req, res) => {
   try {
     const empleado = await Empleado.getById(req.params.id);
     if(!empleado){
-        return res.status(404).json({message: 'Empleado not found'});      
+        return res.status(404).json({message: 'Empleado no encontrado'});      
     }else{
         res.json(empleado);
     };
     } catch (error) {
     console.error('Error fetching empleado by ID:', error);
-    res.status(500).json({ message: 'Error fetching empleado by ID' });
+    res.status(500).json({ message: 'Error al obtener empleado por ID' });
   }
 };
 
@@ -34,7 +34,7 @@ export const createEmpleado = async (req, res) => {
     res.status(201).json(newEmpleado);
     } catch (error) {
     console.error('Error creating empleado:', error);
-    res.status(500).json({ message: 'Error creating empleado' });
+    res.status(500).json({ message: 'Error al crear empleado' });
   }
 };
 
@@ -43,12 +43,12 @@ export const updateEmpleado = async (req, res) => {
   try {
     const updatedEmpleado = await Empleado.update(req.params.id, req.body);
     if(!updatedEmpleado){
-        return res.status(404).json({message: 'Empleado not found'});      
+        return res.status(404).json({message: 'Empleado no encontrado'});      
     }
     res.json(updatedEmpleado);
   } catch (error) {
     console.error('Error updating empleado:', error);
-    res.status(500).json({ message: 'Error updating empleado' });
+    res.status(500).json({ message: 'Error al actualizar empleado' });
   }
 };
 
@@ -57,13 +57,13 @@ export const deleteEmpleado = async (req, res) => {
   try {
     const empleado = await Empleado.getById(req.params.id);   
     if(!empleado){
-        return res.status(404).json({message: 'Empleado not found'});      
+        return res.status(404).json({message: 'Empleado no encontrado'});      
     }
     await Empleado.delete(req.params.id);
-    res.json({ message: 'Empleado deleted successfully' });
+    res.json({ message: 'Empleado eliminado exitosamente' });
   } catch (error) {
     console.error('Error deleting empleado:', error);
-    res.status(500).json({ message: 'Error deleting empleado' });
+    res.status(500).json({ message: 'Error al eliminar empleado' });
   }
 };
 

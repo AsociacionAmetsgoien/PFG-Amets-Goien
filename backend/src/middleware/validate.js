@@ -3,7 +3,7 @@ export const validate = (schema) => (req, res, next) => {
 
   if (error) {
     return res.status(400).json({
-      msg: "Validation error",
+      msg: "Error de validación",
       details: error.details.map(d => d.message)
     });
   }

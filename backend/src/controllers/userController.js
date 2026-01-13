@@ -22,7 +22,7 @@ export const registerUser = async (req, res) => {
     res.status(201).json({ msg: "User created", user });
   } catch (err) {
     console.error('Error in registerUser:', err.message);
-    res.status(500).json({ msg: "Server error" });
+    res.status(500).json({ msg: "Error del servidor" });
   }
 };
 
@@ -32,29 +32,29 @@ export const loginUser = async (req, res) => {
         const {username, password} = req.body;
         
         if (!username || !password) {
-            return res.status(400).json({message: 'Missing fields'});
+            return res.status(400).json({message: 'Faltan campos requeridos'});
         }
         
         const user = await User.findByUsername(username, pool);
         if(!user){
-            return res.status(400).json({message: 'Invalid credentials'});
+            return res.status(400).json({message: 'Credenciales inválidas'});
         }
         
         // Validar que el usuario tenga contraseña antes de comparar
         if(!user.password){
-            return res.status(400).json({message: 'Invalid credentials'});
+            return res.status(400).json({message: 'Credenciales inválidas'});
         }
         
         const match = await bcrypt.compare(password, user.password);
         if(!match){
-            return res.status(400).json({message: 'Invalid credentials'});
+            return res.status(400).json({message: 'Credenciales inválidas'});
         }
         
         const token = jwt.sign({id: user.id, role: user.role, username: user.username}, process.env.JWT_SECRET, {expiresIn: '1d'});
         res.json({message: 'Login successful', token});
     }catch (error) {
         console.error(error);
-        res.status(500).json({message: 'Server error'});
+        res.status(500).json({message: 'Error del servidor'});
     }
 };
 
@@ -65,7 +65,7 @@ export const getUsers = async (req, res) => {
     res.json(users);
   } catch (error) {
     console.error('Error fetching users:', error);
-    res.status(500).json({ message: 'Error fetching users' });
+    res.status(500).json({ message: 'Error al obtener usuarios' });
   }
 };
 
@@ -80,7 +80,7 @@ export const getUserById = async (req, res) => {
     };
     } catch (error) {
     console.error('Error fetching user by ID:', error);
-    res.status(500).json({ message: 'Error fetching user by ID' });
+    res.status(500).json({ message: 'Error al obtener usuario por ID' });
   }
 };
 
@@ -94,12 +94,12 @@ export const updateUser = async (req, res) => {
     }
     const updatedUser = await User.update(req.params.id, updatedData, pool);
     if(!updatedUser){
-        return res.status(404).json({message: 'User not found'});      
+        return res.status(404).json({message: 'Usuario no encontrado'});      
     }
     res.json(updatedUser);
   } catch (error) {
     console.error('Error updating user:', error);
-    res.status(500).json({ message: 'Error updating user' });
+    res.status(500).json({ message: 'Error al actualizar usuario' });
   }
 };
 
@@ -108,12 +108,12 @@ export const deleteUser = async (req, res) => {
   try { 
     const user = await User.getById(req.params.id, pool);   
     if(!user){
-        return res.status(404).json({message: 'User not found'});      
+        return res.status(404).json({message: 'Usuario no encontrado'});      
     }
     await User.delete(req.params.id, pool);
-    res.json({message: 'User deleted'});
+    res.json({message: 'Usuario eliminado'});
   } catch (error) {
     console.error('Error deleting user:', error);
-    res.status(500).json({ message: 'Error deleting user' });
+    res.status(500).json({ message: 'Error al eliminar usuario' });
   }
 };
