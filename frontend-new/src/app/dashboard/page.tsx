@@ -709,7 +709,7 @@ function ForoSection() {
         showNotification("Tarea actualizada exitosamente", "success");
         setShowTareaForm(false);
         setEditingTarea(null);
-        setTareaData({ titulo: "", descripcion: "", estado: "Pendiente", asignado_a: "", creado_por: "" });
+        setTareaData({ titulo: "", descripcion: "", estado: "sin asignar", asignado_a: "", creado_por: "" });
         fetchTareas();
       } else {
         showNotification("Error al actualizar tarea", "error");
@@ -723,7 +723,7 @@ function ForoSection() {
   const handleCancelEdit = () => {
     setEditingTarea(null);
     setShowTareaForm(false);
-    setTareaData({ titulo: "", descripcion: "", estado: "Pendiente", asignado_a: "", creado_por: "" });
+    setTareaData({ titulo: "", descripcion: "", estado: "sin asignar", asignado_a: "", creado_por: "" });
   };
 
   if (loading) {

@@ -56,7 +56,12 @@ export default function ContactoPage() {
         });
       } else {
         const data = await response.json();
-        setError(data.message || "Error al enviar el mensaje");
+        console.error("Error del servidor:", data);
+        if (data.errors && Array.isArray(data.errors)) {
+          setError(data.errors.map((e: any) => `${e.field}: ${e.message}`).join(', '));
+        } else {
+          setError(data.message || "Error al enviar el mensaje");
+        }
       }
     } catch (error) {
       console.error("Error:", error);
