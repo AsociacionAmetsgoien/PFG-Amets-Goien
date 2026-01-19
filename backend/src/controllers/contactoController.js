@@ -37,13 +37,19 @@ transporter.verify()
 
 export const enviarContacto = async (req, res) => {
   try {
+    console.log("📨 Datos recibidos del formulario de contacto:", req.body);
+    
     // Validar los datos del formulario
     const { error, value } = contactoSchema.validate(req.body);
     
     if (error) {
+      console.error("❌ Validación fallida:", error.details.map(d => d.message));
       return res.status(400).json({
         message: "Datos inválidos",
-        errors: error.details.map(detail => detail.message)
+        errors: error.details.map(detail => ({
+          field: detail.path.join('.'),
+          message: detail.message
+        }))
       });
     }
 

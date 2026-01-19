@@ -47,13 +47,22 @@ export const createTarea = async (req, res) => {
 // Update existing tarea
 export const updateTarea = async (req, res) => {
   try {
+    console.log("✏️ Actualizando tarea ID:", req.params.id);
+    console.log("📝 Datos recibidos para actualizar:", req.body);
+    
     const updatedTarea = await Tarea.update(req.params.id, req.body);
     if (!updatedTarea) {
       return res.status(404).json({ message: "Tarea no encontrada" });
     }
     res.json(updatedTarea);
   } catch (error) {
-    console.error("Error updating tarea:", error);
+    console.error("❌ Error updating tarea:", error);
+    if (error.code === '23514') {
+      return res.status(400).json({ 
+        message: "Estado inválido. Debe ser: sin asignar, asignado o realizado",
+        detail: error.detail 
+      });
+    }
     res.status(500).json({ message: "Error al actualizar tarea" });
   }
 };
