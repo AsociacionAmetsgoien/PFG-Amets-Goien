@@ -7,7 +7,7 @@ export const getActividades = async (req, res) => {
     res.json(actividades);    
     } catch (error) {
     console.error('Error fetching actividades:', error);
-    res.status(500).json({ message: 'Error fetching actividades' });
+    res.status(500).json({ message: 'Error al obtener actividades' });
   }
 };
 
@@ -16,13 +16,13 @@ export const getActividadById = async (req, res) => {
   try {
     const actividad = await Actividad.getById(req.params.id);
     if(!actividad){
-        return res.status(404).json({message: 'Actividad not found'});      
+        return res.status(404).json({message: 'Actividad no encontrada'});      
     }else{
         res.json(actividad);
     };
     } catch (error) {
     console.error('Error fetching actividad by ID:', error);
-    res.status(500).json({ message: 'Error fetching actividad by ID' });
+    res.status(500).json({ message: 'Error al obtener actividad por ID' });
   }
 };
 
@@ -33,7 +33,7 @@ export const createActividad = async (req, res) => {
     res.status(201).json(newActividad);
     } catch (error) {
     console.error('Error creating actividad:', error);
-    res.status(500).json({ message: 'Error creating actividad' });
+    res.status(500).json({ message: 'Error al crear actividad' });
   }
 };
 
@@ -42,12 +42,12 @@ export const updateActividad = async (req, res) => {
   try {
     const updatedActividad = await Actividad.update(req.params.id, req.body);   
     if(!updatedActividad){
-        return res.status(404).json({message: 'Actividad not found'});      
+        return res.status(404).json({message: 'Actividad no encontrada'});      
     }
     res.json(updatedActividad);
   } catch (error) {
     console.error('Error updating actividad:', error);
-    res.status(500).json({ message: 'Error updating actividad' });
+    res.status(500).json({ message: 'Error al actualizar actividad' });
   }
 };
 
@@ -56,12 +56,12 @@ export const deleteActividad = async (req, res) => {
   try {
     const actividad = await Actividad.getById(req.params.id);   
     if(!actividad){
-        return res.status(404).json({message: 'Actividad not found'});      
+        return res.status(404).json({message: 'Actividad no encontrada'});      
     }
     await Actividad.delete(req.params.id);
-    res.json({ message: 'Actividad deleted successfully' });
+    res.json({ message: 'Actividad eliminada exitosamente' });
   } catch (error) {
     console.error('Error deleting actividad:', error);
-    res.status(500).json({ message: 'Error deleting actividad' });
+    res.status(500).json({ message: 'Error al eliminar actividad' });
   }
 };

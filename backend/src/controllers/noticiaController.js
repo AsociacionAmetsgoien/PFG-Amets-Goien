@@ -7,7 +7,7 @@ export const getNoticias = async (req, res) => {
     res.json(noticias);
   } catch (error) {
     console.error('Error fetching noticias:', error);
-    res.status(500).json({ message: 'Error fetching noticias' });
+    res.status(500).json({ message: 'Error al obtener noticias' });
   }
 };
 
@@ -16,13 +16,13 @@ export const getNoticiaById = async (req, res) => {
   try { 
     const noticia = await Noticia.getById(req.params.id);
     if(!noticia){
-        return res.status(404).json({message: 'Noticia not found'});      
+        return res.status(404).json({message: 'Noticia no encontrada'});      
     }else{
         res.json(noticia);
     };
     } catch (error) {
     console.error('Error fetching noticia by ID:', error);
-    res.status(500).json({ message: 'Error fetching noticia by ID' });
+    res.status(500).json({ message: 'Error al obtener noticia por ID' });
   }
 };
 
@@ -33,7 +33,7 @@ export const createNoticia = async (req, res) => {
     res.status(201).json(newNoticia);
     } catch (error) {
     console.error('Error creating noticia:', error);
-    res.status(500).json({ message: 'Error creating noticia' });
+    res.status(500).json({ message: 'Error al crear noticia' });
   }
 };
 
@@ -42,12 +42,12 @@ export const updateNoticia = async (req, res) => {
   try {
     const updatedNoticia = await Noticia.update(req.params.id, req.body);
     if(!updatedNoticia){
-        return res.status(404).json({message: 'Noticia not found'});      
+        return res.status(404).json({message: 'Noticia no encontrada'});      
     }
     res.json(updatedNoticia);
   } catch (error) {
     console.error('Error updating noticia:', error);
-    res.status(500).json({ message: 'Error updating noticia' });
+    res.status(500).json({ message: 'Error al actualizar noticia' });
   }
 };
 
@@ -56,12 +56,12 @@ export const deleteNoticia = async (req, res) => {
   try { 
     const noticia = await Noticia.getById(req.params.id);   
     if(!noticia){
-        return res.status(404).json({message: 'Noticia not found'});      
+        return res.status(404).json({message: 'Noticia no encontrada'});      
     }
     await Noticia.delete(req.params.id);
-    res.json({ message: 'Noticia deleted successfully' });
+    res.json({ message: 'Noticia eliminada exitosamente' });
   } catch (error) {
     console.error('Error deleting noticia:', error);
-    res.status(500).json({ message: 'Error deleting noticia' });
+    res.status(500).json({ message: 'Error al eliminar noticia' });
   }
 };

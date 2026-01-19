@@ -125,6 +125,9 @@ export const ImagesSlider = ({
       style={{
         perspective: "1000px",
       }}
+      role="region"
+      aria-label="Presentación de Ametsgoien"
+      aria-live="polite"
     >
       {areImagesLoaded && children}
       {areImagesLoaded && overlay && (
@@ -138,11 +141,14 @@ export const ImagesSlider = ({
           <motion.img
             key={currentIndex}
             src={loadedImages[currentIndex]}
+            alt="Mujeres acogidas en Ametsgoien compartiendo momentos de apoyo y comunidad"
             initial="initial"
             animate="visible"
             exit={direction === "up" ? "upExit" : "downExit"}
             variants={slideVariants}
             className="image h-full w-full absolute inset-0 object-cover object-center"
+            role="img"
+            aria-label={`Imagen ${currentIndex + 1} de ${images.length}: Comunidad Ametsgoien`}
           />
         </AnimatePresence>
       )}

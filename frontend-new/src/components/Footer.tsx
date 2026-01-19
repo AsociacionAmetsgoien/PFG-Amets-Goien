@@ -5,12 +5,16 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 lg:gap-12">
           {/* Columna 1: Logo + Derechos */}
           <div>
-            <h3 className="text-white text-xl md:text-2xl font-bold mb-3 md:mb-4">Amets Goien</h3>
+            <img 
+              src="/logo.png" 
+              alt="Ametsgoien" 
+              className="h-12 md:h-16 w-auto mb-3 md:mb-4"
+            />
             <p className="text-white/80 mb-4 md:mb-6 leading-relaxed text-sm md:text-base">
               Construyendo un refugio seguro junto a mujeres migrantes.
             </p>
             <p className="text-white/60 text-xs md:text-sm">
-              © 2025 Amets Goien.<br />
+              © 2025 Ametsgoien.<br />
               Todos los derechos reservados.
             </p>
           </div>
@@ -44,8 +48,8 @@ const Footer = () => {
                 <svg className="w-4 h-4 mr-3 flex-shrink-0 max-w-[1.5rem] max-h-[1.5rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <a href="mailto:info@ametsgoien.org" className="hover:text-white transition-colors">
-                  info@ametsgoien.org
+                <a href="mailto:ametsgoien@gmail.com" className="hover:text-white transition-colors">
+                  ametsgoien@gmail.com
                 </a>
               </li>
               <li className="flex items-center text-white/80">
@@ -63,15 +67,32 @@ const Footer = () => {
       </div>
       {/* Barra inferior */}
       <div className="border-t border-white/20 px-12">
-        <div className="max-w-7xl mx-auto py-6 text-center">
-          <p className="text-white/60 text-sm mb-2">
-            Desarrollado con ❤️ para crear un mundo más inclusivo
-          </p>
-          <div className="text-white/60 text-xs">
-            <a href="/privacidad" className="hover:text-white transition-colors underline">
-              Política de Privacidad
-            </a>
+        <div className="max-w-7xl mx-auto py-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-white/60 text-sm">
+              Desarrollado con ❤️ para crear un mundo más inclusivo
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 text-white/60 text-xs">
+              <a href="/privacidad" className="hover:text-white transition-colors underline">
+                Política de Privacidad
+              </a>
+              <span className="text-white/40">•</span>
+              <a href="/privacidad#reembolsos" className="hover:text-white transition-colors underline">
+                Política de Reembolsos
+              </a>
+              <span className="text-white/40">•</span>
+              <a href="/sobre-nosotros" className="hover:text-white transition-colors underline">
+                Sobre Nosotros
+              </a>
+              <span className="text-white/40">•</span>
+              <a href="/contacto" className="hover:text-white transition-colors underline">
+                Contacto
+              </a>
+            </div>
           </div>
+          <p className="text-white/50 text-xs text-center mt-3">
+            © 2026 Asociación Ametsgoien • CIF: [Pendiente] • Orduña, Bizkaia
+          </p>
         </div>
       </div>
     </footer>

@@ -16,7 +16,7 @@ export const tareasAPI = {
     const response = await fetch(`${API_BASE_URL}/tareas`, {
       headers: getAuthHeaders()
     });
-    if (!response.ok) throw new Error("Error fetching tareas");
+    if (!response.ok) throw new Error("Error al obtener tareas");
     return response.json();
   },
 
@@ -24,7 +24,7 @@ export const tareasAPI = {
     const response = await fetch(`${API_BASE_URL}/tareas/${id}`, {
       headers: getAuthHeaders()
     });
-    if (!response.ok) throw new Error("Error fetching tarea");
+    if (!response.ok) throw new Error("Error al obtener tarea");
     return response.json();
   },
 
@@ -34,7 +34,7 @@ export const tareasAPI = {
       headers: getAuthHeaders(),
       body: JSON.stringify(tareaData)
     });
-    if (!response.ok) throw new Error("Error creating tarea");
+    if (!response.ok) throw new Error("Error al crear tarea");
     return response.json();
   },
 
@@ -44,7 +44,7 @@ export const tareasAPI = {
       headers: getAuthHeaders(),
       body: JSON.stringify(tareaData)
     });
-    if (!response.ok) throw new Error("Error updating tarea");
+    if (!response.ok) throw new Error("Error al actualizar tarea");
     return response.json();
   },
 
@@ -53,7 +53,7 @@ export const tareasAPI = {
       method: "DELETE",
       headers: getAuthHeaders()
     });
-    if (!response.ok) throw new Error("Error deleting tarea");
+    if (!response.ok) throw new Error("Error al eliminar tarea");
     return response.json();
   }
 };
@@ -64,7 +64,7 @@ export const noticiasAPI = {
     const response = await fetch(`${API_BASE_URL}/noticias`, {
       headers: getAuthHeaders()
     });
-    if (!response.ok) throw new Error("Error fetching noticias");
+    if (!response.ok) throw new Error("Error al obtener noticias");
     return response.json();
   },
 
@@ -74,7 +74,7 @@ export const noticiasAPI = {
       headers: getAuthHeaders(),
       body: JSON.stringify(noticiaData)
     });
-    if (!response.ok) throw new Error("Error creating noticia");
+    if (!response.ok) throw new Error("Error al crear noticia");
     return response.json();
   },
 
@@ -84,7 +84,7 @@ export const noticiasAPI = {
       headers: getAuthHeaders(),
       body: JSON.stringify(noticiaData)
     });
-    if (!response.ok) throw new Error("Error updating noticia");
+    if (!response.ok) throw new Error("Error al actualizar noticia");
     return response.json();
   },
 
@@ -93,7 +93,7 @@ export const noticiasAPI = {
       method: "DELETE",
       headers: getAuthHeaders()
     });
-    if (!response.ok) throw new Error("Error deleting noticia");
+    if (!response.ok) throw new Error("Error al eliminar noticia");
     return response.json();
   }
 };
@@ -104,7 +104,7 @@ export const actividadesAPI = {
     const response = await fetch(`${API_BASE_URL}/actividades`, {
       headers: getAuthHeaders()
     });
-    if (!response.ok) throw new Error("Error fetching actividades");
+    if (!response.ok) throw new Error("Error al obtener actividades");
     return response.json();
   },
 
@@ -114,7 +114,7 @@ export const actividadesAPI = {
       headers: getAuthHeaders(),
       body: JSON.stringify(actividadData)
     });
-    if (!response.ok) throw new Error("Error creating actividad");
+    if (!response.ok) throw new Error("Error al crear actividad");
     return response.json();
   },
 
@@ -124,7 +124,7 @@ export const actividadesAPI = {
       headers: getAuthHeaders(),
       body: JSON.stringify(actividadData)
     });
-    if (!response.ok) throw new Error("Error updating actividad");
+    if (!response.ok) throw new Error("Error al actualizar actividad");
     return response.json();
   },
 
@@ -133,7 +133,7 @@ export const actividadesAPI = {
       method: "DELETE",
       headers: getAuthHeaders()
     });
-    if (!response.ok) throw new Error("Error deleting actividad");
+    if (!response.ok) throw new Error("Error al eliminar actividad");
     return response.json();
   }
 };
@@ -144,7 +144,7 @@ export const residentesAPI = {
     const response = await fetch(`${API_BASE_URL}/residentes`, {
       headers: getAuthHeaders()
     });
-    if (!response.ok) throw new Error("Error fetching residentes");
+    if (!response.ok) throw new Error("Error al obtener residentes");
     return response.json();
   },
 
@@ -152,7 +152,7 @@ export const residentesAPI = {
     const response = await fetch(`${API_BASE_URL}/residentes/${id}`, {
       headers: getAuthHeaders()
     });
-    if (!response.ok) throw new Error("Error fetching residente");
+    if (!response.ok) throw new Error("Error al obtener residente");
     return response.json();
   },
 
@@ -162,7 +162,7 @@ export const residentesAPI = {
       headers: getAuthHeaders(),
       body: JSON.stringify(residenteData)
     });
-    if (!response.ok) throw new Error("Error creating residente");
+    if (!response.ok) throw new Error("Error al crear residente");
     return response.json();
   },
 
@@ -172,7 +172,7 @@ export const residentesAPI = {
       headers: getAuthHeaders(),
       body: JSON.stringify(residenteData)
     });
-    if (!response.ok) throw new Error("Error updating residente");
+    if (!response.ok) throw new Error("Error al actualizar residente");
     return response.json();
   },
 
@@ -181,7 +181,7 @@ export const residentesAPI = {
       method: "DELETE",
       headers: getAuthHeaders()
     });
-    if (!response.ok) throw new Error("Error deleting residente");
+    if (!response.ok) throw new Error("Error al eliminar residente");
     return response.json();
   }
 };
@@ -196,7 +196,7 @@ export const authAPI = {
       },
       body: JSON.stringify({ username, password })
     });
-    if (!response.ok) throw new Error("Login failed");
+    if (!response.ok) throw new Error("Inicio de sesión fallido");
     return response.json();
   },
 

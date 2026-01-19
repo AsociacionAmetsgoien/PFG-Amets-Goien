@@ -8,7 +8,7 @@ export const getColaboradores = async (req, res) => {
     res.json(colaboradores);    
     } catch (error) {
     console.error('Error fetching colaboradores:', error);
-    res.status(500).json({ message: 'Error fetching colaboradores' });
+    res.status(500).json({ message: 'Error al obtener colaboradores' });
   }
 };
 
@@ -17,13 +17,13 @@ export const getColaboradorById = async (req, res) => {
   try { 
     const colaborador = await Colaborador.getById(req.params.id);
     if(!colaborador){
-        return res.status(404).json({message: 'Colaborador not found'});      
+        return res.status(404).json({message: 'Colaborador no encontrado'});      
     }else{
         res.json(colaborador);
     };
     } catch (error) {
     console.error('Error fetching colaborador by ID:', error);
-    res.status(500).json({ message: 'Error fetching colaborador by ID' });
+    res.status(500).json({ message: 'Error al obtener colaborador por ID' });
   }
 };
 
@@ -34,7 +34,7 @@ export const createColaborador = async (req, res) => {
     res.status(201).json(newColaborador);
     } catch (error) {
     console.error('Error creating colaborador:', error);
-    res.status(500).json({ message: 'Error creating colaborador' });
+    res.status(500).json({ message: 'Error al crear colaborador' });
   }
 };
 
@@ -43,12 +43,12 @@ export const updateColaborador = async (req, res) => {
   try {
     const updatedColaborador = await Colaborador.update(req.params.id, req.body);   
     if(!updatedColaborador){
-        return res.status(404).json({message: 'Colaborador not found'});      
+        return res.status(404).json({message: 'Colaborador no encontrado'});      
     }
     res.json(updatedColaborador);
   } catch (error) {
     console.error('Error updating colaborador:', error);
-    res.status(500).json({ message: 'Error updating colaborador' });
+    res.status(500).json({ message: 'Error al actualizar colaborador' });
   }
 };
 
@@ -57,12 +57,12 @@ export const deleteColaborador = async (req, res) => {
   try {
     const colaborador = await Colaborador.getById(req.params.id);   
     if(!colaborador){
-        return res.status(404).json({message: 'Colaborador not found'});      
+        return res.status(404).json({message: 'Colaborador no encontrado'});      
     }
     await Colaborador.delete(req.params.id);
-    res.json({ message: 'Colaborador deleted successfully' });
+    res.json({ message: 'Colaborador eliminado exitosamente' });
   } catch (error) {
     console.error('Error deleting colaborador:', error);
-    res.status(500).json({ message: 'Error deleting colaborador' });
+    res.status(500).json({ message: 'Error al eliminar colaborador' });
   }
 };

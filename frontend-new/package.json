@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
+    "@stripe/react-stripe-js": "^5.4.1",
+    "@stripe/stripe-js": "^8.6.0",
     "@tabler/icons-react": "^3.35.0",
     "class-variance-authority": "^0.7.1",
     "embla-carousel-react": "^8.6.0",
-    "framer-motion": "^12.23.24",
+    "framer-motion": "^12.26.2",
     "lucide-react": "^0.555.0",
     "next": "^16.0.10",
     "react": "19.2.0",
