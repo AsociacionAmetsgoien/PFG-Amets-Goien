@@ -39,7 +39,7 @@ export const createPaymentIntent = async (req, res) => {
     console.log('🔄 Periodicidad detectada:', periodicidad);
     console.log('⚙️ Stripe interval:', stripeInterval);
 
-    // Si es donación recurrente, crear suscripción de Stripe
+    // Si es donación recurrente, crear suscripción
     if (stripeInterval) {
       // Buscar o crear cliente de Stripe
       const customers = await stripe.customers.list({
@@ -61,18 +61,11 @@ export const createPaymentIntent = async (req, res) => {
         });
       }
 
-      // Crear producto y precio para la suscripción
-      const product = await stripe.products.create({
-        name: `Donación ${periodicidad} - Ametsgoien`,
-        metadata: {
-          colaborador_nombre: colaboradorData.nombre,
-          colaborador_apellidos: colaboradorData.apellidos,
-          colaborador_anotacion: colaboradorData.anotacion || ''
-        }
-      });
-
+      // Crear precio para la suscripción
       const price = await stripe.prices.create({
-        product: product.id,
+        product_data: {
+          name: `Donación ${periodicidad} - Ametsgoien`
+        },
         unit_amount: Math.round(amount * 100),
         currency: 'eur',
         recurring: {
@@ -81,17 +74,13 @@ export const createPaymentIntent = async (req, res) => {
         }
       });
 
-      // Crear sesión de checkout para suscripción
-      const session = await stripe.checkout.sessions.create({
+      // Crear la suscripción con payment_behavior='default_incomplete'
+      const subscription = await stripe.subscriptions.create({
         customer: customer.id,
-        payment_method_types: ['card'],
-        line_items: [{
-          price: price.id,
-          quantity: 1
-        }],
-        mode: 'subscription',
-        success_url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/colaborar?success=true&session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/colaborar?canceled=true`,
+        items: [{ price: price.id }],
+        payment_behavior: 'default_incomplete',
+        payment_settings: { save_default_payment_method: 'on_subscription' },
+        expand: ['latest_invoice.payment_intent'],
         metadata: {
           colaborador_nombre: colaboradorData.nombre,
           colaborador_apellidos: colaboradorData.apellidos,
@@ -106,8 +95,9 @@ export const createPaymentIntent = async (req, res) => {
 
       res.json({
         subscriptionMode: true,
-        sessionId: session.id,
-        sessionUrl: session.url
+        subscriptionId: subscription.id,
+        clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+        paymentIntentId: subscription.latest_invoice.payment_intent.id
       });
     } else {
       // Donación puntual - crear Payment Intent normal

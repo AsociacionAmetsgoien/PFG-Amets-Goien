@@ -4,8 +4,8 @@
  * @description Página para realizar donaciones mediante Bizum o tarjeta, guardando datos del colaborador
  */
 "use client";
-import { useState, useEffect, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import Navbar from "@/components/Navbar";
@@ -29,9 +29,8 @@ interface DonacionForm {
   aceptaPolitica: boolean;
 }
 
-function ColaborarPageContent() {
+export default function ColaborarPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [formData, setFormData] = useState<DonacionForm>({
     nombre: "",
     apellidos: "",
@@ -61,55 +60,6 @@ function ColaborarPageContent() {
       return () => clearTimeout(timer);
     }
   }, [mensaje]);
-
-  // Detectar retorno de Stripe Checkout
-  useEffect(() => {
-    const success = searchParams.get('success');
-    const canceled = searchParams.get('canceled');
-    const sessionId = searchParams.get('session_id');
-
-    if (success === 'true' && sessionId) {
-      // Confirmar la suscripción con el backend (en segundo plano)
-      fetch(`${API_URL}/api/payment/confirm`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ sessionId })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          setMensaje({ 
-            texto: "¡Suscripción activada! Gracias por tu donación recurrente. Recibirás un email de confirmación.", 
-            tipo: "success" 
-          });
-        } else {
-          setMensaje({ 
-            texto: "Donación procesada. Recibirás un email de confirmación en breve.", 
-            tipo: "success" 
-          });
-        }
-      })
-      .catch(error => {
-        console.error("Error confirmando suscripción:", error);
-        setMensaje({ 
-          texto: "Donación procesada. Recibirás un email de confirmación en breve.", 
-          tipo: "success" 
-        });
-      });
-
-      // Limpiar URL inmediatamente
-      router.replace('/colaborar', { scroll: false });
-    } else if (canceled === 'true') {
-      setMensaje({ 
-        texto: "Donación cancelada. Puedes intentarlo de nuevo cuando quieras.", 
-        tipo: "error" 
-      });
-      // Limpiar URL
-      router.replace('/colaborar', { scroll: false });
-    }
-  }, [searchParams, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -161,15 +111,13 @@ function ColaborarPageContent() {
       if (response.ok) {
         const data = await response.json();
         
-        // Si es suscripción, redirigir a Stripe Checkout
-        if (data.subscriptionMode) {
-          // Redirigir a la URL de Stripe Checkout
-          window.location.href = data.sessionUrl;
-        } else {
-          // Donación puntual - mostrar formulario de pago
+        // Tanto para puntual como para suscripción, mostrar formulario de pago
+        if (data.clientSecret) {
           setClientSecret(data.clientSecret);
           setPaymentIntentId(data.paymentIntentId);
           setShowPaymentForm(true);
+        } else {
+          setMensaje({ texto: "Error al inicializar el pago", tipo: "error" });
         }
       } else {
         const error = await response.json();
@@ -223,8 +171,8 @@ function ColaborarPageContent() {
       <Navbar />
       <div id="main-content" className="min-h-screen pt-20" style={{ backgroundColor: '#E8D5F2' }} role="main">
         
-        {/* Notificación de confirmación de suscripción */}
-        {mensaje && !searchParams.get('success') && !searchParams.get('canceled') && (
+        {/* Notificación de confirmación */}
+        {mensaje && (
           <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in">
             <div className={`px-6 py-4 rounded-xl shadow-2xl ${
               mensaje.tipo === 'success' ? 'bg-green-500' : mensaje.tipo === 'error' ? 'bg-red-500' : 'bg-blue-500'
@@ -623,23 +571,5 @@ function ColaborarPageContent() {
       </div>
       <Footer />
     </>
-  );
-}
-
-export default function ColaborarPage() {
-  return (
-    <Suspense fallback={
-      <>
-        <Navbar />
-        <div className="min-h-screen pt-20 flex items-center justify-center" style={{ backgroundColor: '#E8D5F2' }}>
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8A4D76] mx-auto"></div>
-            <p className="mt-4 text-gray-600">Cargando...</p>
-          </div>
-        </div>
-      </>
-    }>
-      <ColaborarPageContent />
-    </Suspense>
   );
 }
