@@ -41,6 +41,8 @@ export const createPaymentIntent = async (req, res) => {
 
     // Si es donación recurrente, crear suscripción
     if (stripeInterval) {
+      console.log('🔄 Creando suscripción con Payment Intent embebido...');
+      
       // Buscar o crear cliente de Stripe
       const customers = await stripe.customers.list({
         email: colaboradorData.email,
@@ -50,6 +52,7 @@ export const createPaymentIntent = async (req, res) => {
       let customer;
       if (customers.data.length > 0) {
         customer = customers.data[0];
+        console.log('✅ Cliente existente:', customer.id);
       } else {
         customer = await stripe.customers.create({
           email: colaboradorData.email,
@@ -59,6 +62,7 @@ export const createPaymentIntent = async (req, res) => {
             direccion: colaboradorData.direccion || ''
           }
         });
+        console.log('✅ Nuevo cliente creado:', customer.id);
       }
 
       // Crear precio para la suscripción
@@ -73,14 +77,15 @@ export const createPaymentIntent = async (req, res) => {
           interval_count: stripeInterval.interval_count
         }
       });
+      
+      console.log('✅ Precio creado:', price.id);
 
-      // Crear la suscripción con payment_behavior='default_incomplete'
-      const subscription = await stripe.subscriptions.create({
+      // Crear un Payment Intent para el primer pago
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(amount * 100),
+        currency: 'eur',
         customer: customer.id,
-        items: [{ price: price.id }],
-        payment_behavior: 'default_incomplete',
-        payment_settings: { save_default_payment_method: 'on_subscription' },
-        expand: ['latest_invoice.payment_intent'],
+        setup_future_usage: 'off_session', // Guardar método de pago para futuros cargos
         metadata: {
           colaborador_nombre: colaboradorData.nombre,
           colaborador_apellidos: colaboradorData.apellidos,
@@ -89,37 +94,21 @@ export const createPaymentIntent = async (req, res) => {
           colaborador_direccion: colaboradorData.direccion || '',
           colaborador_anotacion: colaboradorData.anotacion || '',
           periodicidad: periodicidad,
-          cantidad: amount.toString()
-        }
+          cantidad: amount.toString(),
+          price_id: price.id, // Para crear la suscripción después del pago
+          subscription_mode: 'true'
+        },
+        automatic_payment_methods: {
+          enabled: true,
+        },
       });
+      
+      console.log('✅ Payment Intent creado:', paymentIntent.id);
 
-      console.log('📦 Suscripción creada:', subscription.id);
-      
-      // Obtener el invoice con el payment_intent
-      let invoice = subscription.latest_invoice;
-      
-      // Si latest_invoice es solo un ID, recuperarlo
-      if (typeof invoice === 'string') {
-        console.log('🔄 Recuperando invoice:', invoice);
-        invoice = await stripe.invoices.retrieve(invoice, {
-          expand: ['payment_intent']
-        });
-      }
-      
-      console.log('📄 Invoice recuperado:', invoice.id);
-      
-      // Verificar que el payment_intent esté disponible
-      if (!invoice || !invoice.payment_intent) {
-        console.error('❌ Payment Intent no disponible. Invoice:', invoice);
-        throw new Error('Payment Intent no disponible en la suscripción');
-      }
-
-      const paymentIntent = invoice.payment_intent;
-      console.log('✅ Payment Intent:', paymentIntent.id);
-      
       res.json({
         subscriptionMode: true,
-        subscriptionId: subscription.id,
+        priceId: price.id,
+        customerId: customer.id,
         clientSecret: paymentIntent.client_secret,
         paymentIntentId: paymentIntent.id
       });
@@ -333,6 +322,61 @@ export const stripeWebhook = async (req, res) => {
             stripe_subscription_id: null
           });
         }
+        
+        // Si es modo suscripción, crear la suscripción ahora
+        let subscriptionId = null;
+        if (metadata.subscription_mode === 'true' && metadata.price_id) {
+          console.log('🔄 Creando suscripción después del primer pago...');
+          
+          // Obtener el método de pago usado
+          const paymentMethodId = paymentIntent.payment_method;
+          
+          // Adjuntar el método de pago al cliente si no lo está
+          if (paymentMethodId) {
+            try {
+              await stripe.paymentMethods.attach(paymentMethodId, {
+                customer: paymentIntent.customer,
+              });
+              
+              // Establecer como método de pago por defecto
+              await stripe.customers.update(paymentIntent.customer, {
+                invoice_settings: {
+                  default_payment_method: paymentMethodId,
+                },
+              });
+              
+              console.log('✅ Método de pago adjuntado al cliente');
+            } catch (err) {
+              console.log('⚠️ Método de pago ya adjuntado:', err.message);
+            }
+          }
+          
+          // Crear la suscripción
+          const subscription = await stripe.subscriptions.create({
+            customer: paymentIntent.customer,
+            items: [{ price: metadata.price_id }],
+            default_payment_method: paymentMethodId,
+            metadata: {
+              colaborador_nombre: metadata.colaborador_nombre,
+              colaborador_apellidos: metadata.colaborador_apellidos,
+              colaborador_email: metadata.colaborador_email,
+              colaborador_telefono: metadata.colaborador_telefono || '',
+              colaborador_direccion: metadata.colaborador_direccion || '',
+              colaborador_anotacion: metadata.colaborador_anotacion || '',
+              periodicidad: metadata.periodicidad,
+              cantidad: metadata.cantidad
+            }
+          });
+          
+          subscriptionId = subscription.id;
+          console.log('✅ Suscripción creada:', subscriptionId);
+          
+          // Actualizar colaborador con subscription_id
+          await Colaborador.update(colaborador.id, {
+            stripe_subscription_id: subscriptionId,
+            periodicidad: metadata.periodicidad
+          });
+        }
 
         // Crear donación completada
         await Donacion.create({
@@ -340,10 +384,24 @@ export const stripeWebhook = async (req, res) => {
           cantidad: parseFloat(metadata.cantidad),
           metodo_pago: 'tarjeta',
           stripe_payment_intent_id: paymentIntent.id,
+          stripe_subscription_id: subscriptionId || null,
           periodicidad: metadata.periodicidad || 'puntual',
           estado: 'completada',
-          anotacion: `Donación ${metadata.periodicidad || 'puntual'}: ${metadata.cantidad}€ via tarjeta`
+          anotacion: subscriptionId 
+            ? `Primer pago de suscripción ${metadata.periodicidad}: ${metadata.cantidad}€ via tarjeta`
+            : `Donación puntual: ${metadata.cantidad}€ via tarjeta`
         });
+        
+        // Enviar email de confirmación
+        if (subscriptionId) {
+          await enviarEmailDonacion({
+            email: metadata.colaborador_email,
+            nombre: metadata.colaborador_nombre,
+            cantidad: metadata.cantidad,
+            periodicidad: metadata.periodicidad,
+            stripeSubscriptionId: subscriptionId
+          });
+        }
       }
       break;
 
