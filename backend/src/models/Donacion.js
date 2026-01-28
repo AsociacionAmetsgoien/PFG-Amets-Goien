@@ -22,7 +22,7 @@ class Donacion {
       `INSERT INTO donaciones (colaborador_id, cantidad, metodo_pago, stripe_payment_intent_id, stripe_subscription_id, periodicidad, estado, anotacion, created_at)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
        RETURNING *`,
-      [colaborador_id, cantidad, metodo_pago, stripe_payment_intent_id, stripe_subscription_id, periodicidad || 'puntual', estado || 'pendiente', anotacion]
+      [colaborador_id, cantidad, metodo_pago, stripe_payment_intent_id, stripe_subscription_id, periodicidad || 'puntual', estado || 'completada', anotacion]
     );
     return result.rows[0];
   }
