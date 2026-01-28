@@ -9,6 +9,7 @@ import tareaRoutes from './routes/tareaRoutes.js';
 import residenteRoutes from './routes/residenteRoutes.js';
 import contactoRoutes from './routes/contactoRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
+import donacionRoutes from './routes/donacionRoutes.js';
 
 const app = express();
 
@@ -65,5 +66,6 @@ app.use('/api/residentes', residenteRoutes);
 app.use('/api/actividades', actividadRoutes);
 app.use('/api/contacto', contactoRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use('/api/donaciones', donacionRoutes);
 
 export default app;
