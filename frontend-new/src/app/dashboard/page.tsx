@@ -211,7 +211,6 @@ function PublicacionSection() {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      const username = getUserFromToken();
       
       const response = await fetch(`${API_URL}/api/noticias`, {
         method: "POST",
@@ -219,10 +218,7 @@ function PublicacionSection() {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify({
-          ...noticiaData,
-          creado_por: username
-        })
+        body: JSON.stringify(noticiaData)
       });
 
       if (response.ok) {
@@ -266,7 +262,6 @@ function PublicacionSection() {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      const username = getUserFromToken();
       
       const response = await fetch(`${API_URL}/api/actividades`, {
         method: "POST",
@@ -274,10 +269,7 @@ function PublicacionSection() {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify({
-          ...actividadData,
-          creador_id: username
-        })
+        body: JSON.stringify(actividadData)
       });
 
       if (response.ok) {
@@ -456,6 +448,11 @@ function PublicacionSection() {
                   <div key={noticia.id} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
                     <h5 className="font-semibold text-gray-900">{noticia.titulo}</h5>
                     <p className="text-sm text-gray-600 mt-1 line-clamp-2">{noticia.contenido}</p>
+                    {noticia.creado_por_username && (
+                      <p className="text-xs text-gray-500 mt-2">
+                        📝 Publicado por: <span className="font-semibold">{noticia.creado_por_username}</span>
+                      </p>
+                    )}
                     <button
                       onClick={() => setShowDeleteConfirmNoticia(noticia.id)}
                       className="mt-2 px-4 py-1 rounded-full bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition-all"
@@ -935,6 +932,12 @@ function GestionSection() {
       ruta: "/dashboard/trabajadores"
     },
     {
+      titulo: "Donaciones",
+      descripcion: "Historial completo de donaciones registradas en el sistema (solo lectura).",
+      ruta: "/dashboard/donaciones",
+      soloAdmin: true
+    },
+    {
       titulo: "Usuarios Internos",
       descripcion: "Crear y gestionar cuentas autorizadas para acceder al panel interno.",
       ruta: "/dashboard/usuarios",
@@ -953,7 +956,7 @@ function GestionSection() {
         Gestión de Base de Datos
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className={`grid grid-cols-1 md:grid-cols-2 ${categoriasFiltradas.length > 4 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'} gap-6`}>
         {categoriasFiltradas.map((categoria, index) => (
           <div
             key={index}
