@@ -60,7 +60,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <a href="/" className="flex items-center" aria-label="Ir a inicio">
               <img 
-                src="/logo.png" 
+                src="/logo2.png" 
                 alt="Ametsgoien" 
                 className="h-10 md:h-12 w-auto"
               />
