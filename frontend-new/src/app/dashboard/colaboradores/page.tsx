@@ -199,6 +199,7 @@ export default function ColaboradoresPage() {
       anotacion: colaborador.anotacion || ""
     });
     setShowForm(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   if (loading) {

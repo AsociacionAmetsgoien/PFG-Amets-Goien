@@ -202,6 +202,7 @@ export default function TrabajadoresPage() {
       cargo: empleado.cargo || ""
     });
     setShowForm(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   if (loading) {
