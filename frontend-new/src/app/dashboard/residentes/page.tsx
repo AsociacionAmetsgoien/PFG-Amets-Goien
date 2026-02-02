@@ -186,6 +186,7 @@ export default function ResidentesPage() {
       direccion: residente.direccion || ""
     });
     setShowForm(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const filteredResidentes = residentes.filter((residente) => {

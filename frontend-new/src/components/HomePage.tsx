@@ -57,15 +57,15 @@ const HomePage = () => {
                 Nuestra Historia
               </h3>
               <div className="w-full max-w-2xl mx-auto">
-                <video 
-                  className="w-full rounded-2xl shadow-2xl"
-                  style={{ maxHeight: '400px' }}
-                  controls
-                  preload="metadata"
-                >
-                  <source src="/video-ametsgoien.mp4" type="video/mp4" />
-                  Tu navegador no soporta la reproducción de video.
-                </video>
+                <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                  <iframe 
+                    className="absolute top-0 left-0 w-full h-full rounded-2xl shadow-2xl"
+                    src="https://www.youtube.com/embed/iCzmfyUELgA"
+                    title="Presentación Amets Goien"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
               </div>
             </div>
           </div>

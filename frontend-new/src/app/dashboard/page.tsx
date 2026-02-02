@@ -685,6 +685,7 @@ function ForoSection() {
       creado_por: tarea.creado_por || ""
     });
     setShowTareaForm(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleUpdateTarea = async (e: React.FormEvent) => {
