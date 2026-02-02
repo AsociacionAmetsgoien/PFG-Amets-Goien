@@ -14,7 +14,7 @@ const Footer = () => {
               Construyendo un refugio seguro junto a mujeres migrantes.
             </p>
             <p className="text-white/60 text-xs md:text-sm">
-              © 2025 Ametsgoien.<br />
+              © 2026 Ametsgoien.<br />
               Todos los derechos reservados.
             </p>
           </div>
@@ -41,7 +41,7 @@ const Footer = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <span>Calle Principal 123<br />28001 Orduña, España</span>
+                <span>Calle Burgos 4-1<br />48460 Orduña, España</span>
               </li>
               <li className="flex items-center text-white/80">
                 {/* Email SVG */}
@@ -91,7 +91,7 @@ const Footer = () => {
             </div>
           </div>
           <p className="text-white/50 text-xs text-center mt-3">
-            © 2026 Asociación Ametsgoien • CIF: [Pendiente] • Orduña, Bizkaia
+            © 2026 Asociación Ametsgoien • CIF: [G23919251] • CL/ BURGOS, 4-1 48460, ORDUÑA, BIZKAIA
           </p>
         </div>
       </div>
