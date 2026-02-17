@@ -35,11 +35,14 @@ const Noticia = {
 
   update: async (id, noticiaData) => {
     const query = `
-      UPDATE noticias SET titulo=$1, contenido=$2, url_imagen=$3, creado_por=$4
-      WHERE id=$5 RETURNING *;
+      UPDATE noticias SET titulo=$1, contenido=$2, url_imagen=$3
+      WHERE id=$4 RETURNING *;
     `;
     const values = [
-      noticiaData.titulo, noticiaData.contenido, noticiaData.url_imagen, noticiaData.creado_por, id
+      noticiaData.titulo, 
+      noticiaData.contenido, 
+      noticiaData.url_imagen, 
+      id
     ];
     const result = await pool.query(query, values);
     return result.rows[0];
