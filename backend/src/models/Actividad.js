@@ -30,10 +30,15 @@ const Actividad = {
 
   update: async (id, actividadData) => {
     const query = `
-      UPDATE actividades SET titulo=$1, descripcion=$2, fecha=$3, creador_id=$4
-      WHERE id=$5 RETURNING *;
+      UPDATE actividades SET titulo=$1, descripcion=$2, fecha=$3
+      WHERE id=$4 RETURNING *;
     `;
-    const values = [actividadData.titulo, actividadData.descripcion, actividadData.fecha, actividadData.creador_id, id];
+    const values = [
+      actividadData.titulo, 
+      actividadData.descripcion, 
+      actividadData.fecha, 
+      id
+    ];
     const result = await pool.query(query, values);
     return result.rows[0];
   },

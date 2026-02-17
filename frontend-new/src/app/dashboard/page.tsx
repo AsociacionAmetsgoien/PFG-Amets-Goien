@@ -160,11 +160,12 @@ function PublicacionSection() {
   const [actividades, setActividades] = useState<any[]>([]);
   const [showDeleteConfirmNoticia, setShowDeleteConfirmNoticia] = useState<number | null>(null);
   const [showDeleteConfirmActividad, setShowDeleteConfirmActividad] = useState<number | null>(null);
+  const [editingNoticia, setEditingNoticia] = useState<any>(null);
+  const [editingActividad, setEditingActividad] = useState<any>(null);
   const [noticiaData, setNoticiaData] = useState({
     titulo: "",
     contenido: "",
-    url_imagen: "",
-    creado_por: ""
+    url_imagen: ""
   });
   const [actividadData, setActividadData] = useState({
     titulo: "",
@@ -306,7 +307,7 @@ function PublicacionSection() {
       if (response.ok) {
         showNotification("Noticia creada exitosamente", "success");
         setShowNoticiaForm(false);
-        setNoticiaData({ titulo: "", contenido: "", url_imagen: "", creado_por: "" });
+        setNoticiaData({ titulo: "", contenido: "", url_imagen: "" });
         fetchNoticias(); // Refrescar lista
       } else {
         showNotification("Error al crear noticia", "error");
@@ -338,6 +339,50 @@ function PublicacionSection() {
       console.error("Error deleting noticia:", error);
       showNotification("Error de conexión", "error");
     }
+  };
+
+  const handleEditNoticia = (noticia: any) => {
+    setEditingNoticia(noticia);
+    setNoticiaData({
+      titulo: noticia.titulo,
+      contenido: noticia.contenido,
+      url_imagen: noticia.url_imagen || ""
+    });
+    setShowNoticiaForm(true);
+  };
+
+  const handleUpdateNoticia = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${API_URL}/api/noticias/${editingNoticia.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(noticiaData)
+      });
+
+      if (response.ok) {
+        showNotification("Noticia actualizada exitosamente", "success");
+        setShowNoticiaForm(false);
+        setEditingNoticia(null);
+        setNoticiaData({ titulo: "", contenido: "", url_imagen: "" });
+        fetchNoticias();
+      } else {
+        showNotification("Error al actualizar noticia", "error");
+      }
+    } catch (error) {
+      console.error("Error updating noticia:", error);
+      showNotification("Error de conexión", "error");
+    }
+  };
+
+  const handleCancelEditNoticia = () => {
+    setEditingNoticia(null);
+    setNoticiaData({ titulo: "", contenido: "", url_imagen: "" });
+    setShowNoticiaForm(false);
   };
 
   const handleCreateActividad = async (e: React.FormEvent) => {
@@ -389,6 +434,50 @@ function PublicacionSection() {
       console.error("Error deleting actividad:", error);
       showNotification("Error de conexión", "error");
     }
+  };
+
+  const handleEditActividad = (actividad: any) => {
+    setEditingActividad(actividad);
+    setActividadData({
+      titulo: actividad.titulo,
+      descripcion: actividad.descripcion,
+      fecha: actividad.fecha || ""
+    });
+    setShowActividadForm(true);
+  };
+
+  const handleUpdateActividad = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${API_URL}/api/actividades/${editingActividad.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(actividadData)
+      });
+
+      if (response.ok) {
+        showNotification("Actividad actualizada exitosamente", "success");
+        setShowActividadForm(false);
+        setEditingActividad(null);
+        setActividadData({ titulo: "", descripcion: "", fecha: "" });
+        fetchActividades();
+      } else {
+        showNotification("Error al actualizar actividad", "error");
+      }
+    } catch (error) {
+      console.error("Error updating actividad:", error);
+      showNotification("Error de conexión", "error");
+    }
+  };
+
+  const handleCancelEditActividad = () => {
+    setEditingActividad(null);
+    setActividadData({ titulo: "", descripcion: "", fecha: "" });
+    setShowActividadForm(false);
   };
 
   return (
@@ -498,7 +587,17 @@ function PublicacionSection() {
             Crear nuevas noticias, editar las existentes y gestionar su aparición en la web pública.
           </p>
           <button
-            onClick={() => setShowNoticiaForm(!showNoticiaForm)}
+            onClick={() => {
+              if (showNoticiaForm && editingNoticia) {
+                handleCancelEditNoticia();
+              } else {
+                setShowNoticiaForm(!showNoticiaForm);
+                if (!showNoticiaForm) {
+                  setEditingNoticia(null);
+                  setNoticiaData({ titulo: "", contenido: "", url_imagen: "" });
+                }
+              }
+            }}
             className="w-full py-3 rounded-full text-white font-semibold hover:shadow-xl transition-all"
             style={{ backgroundColor: '#8A4D76' }}
           >
@@ -506,7 +605,12 @@ function PublicacionSection() {
           </button>
 
           {showNoticiaForm && (
-            <form onSubmit={handleCreateNoticia} className="mt-6 space-y-4">
+            <form onSubmit={editingNoticia ? handleUpdateNoticia : handleCreateNoticia} className="mt-6 space-y-4">
+              {editingNoticia && (
+                <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                  <p className="text-blue-700 font-semibold">Editando noticia</p>
+                </div>
+              )}
               <input
                 type="text"
                 placeholder="Título de la noticia"
@@ -533,7 +637,7 @@ function PublicacionSection() {
                 type="submit"
                 className="w-full py-3 rounded-full bg-green-600 text-white font-semibold hover:bg-green-700"
               >
-                Crear Noticia
+                {editingNoticia ? "Actualizar Noticia" : "Crear Noticia"}
               </button>
             </form>
           )}
@@ -554,12 +658,20 @@ function PublicacionSection() {
                         📝 Publicado por: <span className="font-semibold">{noticia.creado_por_username}</span>
                       </p>
                     )}
-                    <button
-                      onClick={() => setShowDeleteConfirmNoticia(noticia.id)}
-                      className="mt-2 px-4 py-1 rounded-full bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition-all"
-                    >
-                      Eliminar
-                    </button>
+                    <div className="flex gap-2 mt-2">
+                      <button
+                        onClick={() => handleEditNoticia(noticia)}
+                        className="px-4 py-1 rounded-full bg-blue-500 text-white text-sm font-semibold hover:bg-blue-600 transition-all"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        onClick={() => setShowDeleteConfirmNoticia(noticia.id)}
+                        className="px-4 py-1 rounded-full bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition-all"
+                      >
+                        Eliminar
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -595,7 +707,17 @@ function PublicacionSection() {
             Añadir, actualizar o eliminar actividades del tablón semanal visible en la web pública.
           </p>
           <button
-            onClick={() => setShowActividadForm(!showActividadForm)}
+            onClick={() => {
+              if (showActividadForm && editingActividad) {
+                handleCancelEditActividad();
+              } else {
+                setShowActividadForm(!showActividadForm);
+                if (!showActividadForm) {
+                  setEditingActividad(null);
+                  setActividadData({ titulo: "", descripcion: "", fecha: "" });
+                }
+              }
+            }}
             className="w-full py-3 rounded-full text-white font-semibold hover:shadow-xl transition-all"
             style={{ backgroundColor: '#8A4D76' }}
           >
@@ -603,7 +725,12 @@ function PublicacionSection() {
           </button>
 
           {showActividadForm && (
-            <form onSubmit={handleCreateActividad} className="mt-6 space-y-4">
+            <form onSubmit={editingActividad ? handleUpdateActividad : handleCreateActividad} className="mt-6 space-y-4">
+              {editingActividad && (
+                <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                  <p className="text-blue-700 font-semibold">Editando actividad</p>
+                </div>
+              )}
               <input
                 type="text"
                 placeholder="Título de la actividad"
@@ -630,7 +757,7 @@ function PublicacionSection() {
                 type="submit"
                 className="w-full py-3 rounded-full bg-green-600 text-white font-semibold hover:bg-green-700"
               >
-                Crear Actividad
+                {editingActividad ? "Actualizar Actividad" : "Crear Actividad"}
               </button>
             </form>
           )}
@@ -649,12 +776,20 @@ function PublicacionSection() {
                     {actividad.fecha && (
                       <p className="text-xs text-gray-500 mt-1">📅 {actividad.fecha}</p>
                     )}
-                    <button
-                      onClick={() => setShowDeleteConfirmActividad(actividad.id)}
-                      className="mt-2 px-4 py-1 rounded-full bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition-all"
-                    >
-                      Eliminar
-                    </button>
+                    <div className="flex gap-2 mt-2">
+                      <button
+                        onClick={() => handleEditActividad(actividad)}
+                        className="px-4 py-1 rounded-full bg-blue-500 text-white text-sm font-semibold hover:bg-blue-600 transition-all"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        onClick={() => setShowDeleteConfirmActividad(actividad.id)}
+                        className="px-4 py-1 rounded-full bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition-all"
+                      >
+                        Eliminar
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
