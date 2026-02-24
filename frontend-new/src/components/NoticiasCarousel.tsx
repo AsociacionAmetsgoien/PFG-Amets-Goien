@@ -15,6 +15,27 @@ interface Noticia {
   creado_en?: string;
 }
 
+// Helper para construir URL correcta de la imagen
+const getImageUrl = (url_imagen?: string): string => {
+  if (!url_imagen) {
+    return "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1080&q=80";
+  }
+  
+  // Limpiar espacios en blanco
+  const cleanUrl = url_imagen.trim();
+  
+  // Convertir Imgur links a formato directo (i.imgur.com)
+  if (cleanUrl.includes('imgur.com') && !cleanUrl.includes('i.imgur.com')) {
+    const imgurMatch = cleanUrl.match(/imgur\.com\/(?:a\/)?([a-zA-Z0-9]+)/);
+    if (imgurMatch && imgurMatch[1]) {
+      return `https://i.imgur.com/${imgurMatch[1]}.jpg`;
+    }
+  }
+  
+  // Retornar la URL tal cual (debe ser URL directa de imagen)
+  return cleanUrl;
+};
+
 export default function NoticiasCarousel() {
   const [noticias, setNoticias] = useState<Noticia[]>([]);
   const [loading, setLoading] = useState(true);
@@ -139,14 +160,11 @@ export default function NoticiasCarousel() {
               onClick={() => setSelectedNoticia(noticia)}
             >
               {/* Imagen */}
-              <div className="relative h-48 sm:h-56 overflow-hidden">
+              <div className="relative h-48 sm:h-56 overflow-hidden bg-gray-100">
                 <img
-                  src={
-                    noticia.url_imagen ||
-                    "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1080&q=80"
-                  }
+                  src={getImageUrl(noticia.url_imagen)}
                   alt={noticia.titulo}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               </div>
@@ -197,14 +215,11 @@ export default function NoticiasCarousel() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Imagen destacada */}
-            <div className="relative h-48 sm:h-64 md:h-96 overflow-hidden rounded-t-xl sm:rounded-t-2xl">
+            <div className="relative h-48 sm:h-64 md:h-96 overflow-hidden rounded-t-xl sm:rounded-t-2xl bg-gray-100">
               <img
-                src={
-                  selectedNoticia.url_imagen ||
-                  "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1080&q=80"
-                }
+                src={getImageUrl(selectedNoticia.url_imagen)}
                 alt={selectedNoticia.titulo}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               

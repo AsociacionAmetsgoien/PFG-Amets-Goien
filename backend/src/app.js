@@ -12,6 +12,7 @@ import residenteRoutes from './routes/residenteRoutes.js';
 import contactoRoutes from './routes/contactoRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import donacionRoutes from './routes/donacionRoutes.js';
+import newsletterRoutes from './routes/newsletterRoutes.js';
 
 const app = express();
 
@@ -27,7 +28,8 @@ app.set('trust proxy', 1); // 1 = confiar en el primer proxy (Railway)
 // ========================================
 app.use(helmet({
   contentSecurityPolicy: false, // Deshabilitado para permitir Stripe
-  crossOriginEmbedderPolicy: false // Compatibilidad con recursos externos
+  crossOriginEmbedderPolicy: false, // Compatibilidad con recursos externos
+  crossOriginResourcePolicy: false // Permitir que el frontend cargue imágenes del backend
 }));
 
 // ========================================
@@ -109,6 +111,7 @@ app.use('/api/users/register', authLimiter);
 // Rutas de formularios públicos (rate limiting moderado)
 app.use('/api/contacto', formLimiter);
 app.use('/api/payment/create-intent', formLimiter);
+app.use('/api/colaboradores/registro-voluntario', formLimiter); // Registro de voluntarios
 
 // Aplicar rate limiting general a todas las rutas de API
 app.use('/api/', generalLimiter);
@@ -124,5 +127,6 @@ app.use('/api/actividades', actividadRoutes);
 app.use('/api/contacto', contactoRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/donaciones', donacionRoutes);
+app.use('/api/newsletter', newsletterRoutes);
 
 export default app;

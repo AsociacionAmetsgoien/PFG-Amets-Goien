@@ -66,3 +66,49 @@ export const deleteColaborador = async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar colaborador' });
   }
 };
+
+// Registro público de voluntarios (sin autenticación)
+export const registerVoluntarioPublico = async (req, res) => {
+  try {
+    const { nombre, apellidos, email, telefono, direccion, mensaje } = req.body;
+
+    // Comprobar si el email ya existe
+    const colaboradores = await Colaborador.getAll();
+    const exists = colaboradores.find(c => c.email && c.email.toLowerCase() === email.toLowerCase());
+    
+    if (exists) {
+      return res.status(409).json({ 
+        message: 'Ya existe un registro con este email. Si ya te registraste anteriormente, nos pondremos en contacto contigo pronto. ¡Gracias!' 
+      });
+    }
+
+    // Crear voluntario con tipo_colaboracion='voluntario'
+    const nuevoVoluntario = await Colaborador.create({
+      nombre: nombre.trim(),
+      apellidos: apellidos.trim(),
+      email: email.trim().toLowerCase(),
+      telefono: telefono?.trim() || '',
+      direccion: direccion?.trim() || '',
+      anotacion: mensaje?.trim() || 'Registro voluntario desde formulario público web',
+      tipo_colaboracion: 'voluntario',
+      periodicidad: 'puntual'
+    });
+
+    console.log('✅ Nuevo voluntario registrado:', nuevoVoluntario.email);
+
+    res.status(201).json({ 
+      message: '¡Gracias por registrarte como voluntario! Nos pondremos en contacto contigo pronto.',
+      colaborador: {
+        id: nuevoVoluntario.id,
+        nombre: nuevoVoluntario.nombre,
+        apellidos: nuevoVoluntario.apellidos,
+        email: nuevoVoluntario.email
+      }
+    });
+  } catch (error) {
+    console.error('❌ Error al registrar voluntario:', error);
+    res.status(500).json({ 
+      message: 'Error al procesar el registro. Por favor, inténtalo de nuevo más tarde.' 
+    });
+  }
+};
