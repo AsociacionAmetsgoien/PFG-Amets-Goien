@@ -12,6 +12,7 @@ import residenteRoutes from './routes/residenteRoutes.js';
 import contactoRoutes from './routes/contactoRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import donacionRoutes from './routes/donacionRoutes.js';
+import newsletterRoutes from './routes/newsletterRoutes.js';
 
 const app = express();
 
@@ -110,6 +111,7 @@ app.use('/api/users/register', authLimiter);
 // Rutas de formularios públicos (rate limiting moderado)
 app.use('/api/contacto', formLimiter);
 app.use('/api/payment/create-intent', formLimiter);
+app.use('/api/colaboradores/registro-voluntario', formLimiter); // Registro de voluntarios
 
 // Aplicar rate limiting general a todas las rutas de API
 app.use('/api/', generalLimiter);
@@ -125,5 +127,6 @@ app.use('/api/actividades', actividadRoutes);
 app.use('/api/contacto', contactoRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/donaciones', donacionRoutes);
+app.use('/api/newsletter', newsletterRoutes);
 
 export default app;
