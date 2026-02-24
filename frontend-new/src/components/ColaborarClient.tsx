@@ -765,12 +765,12 @@ export default function ColaborarClient() {
                 </div>
                 <div className="space-y-3">
                   <div className="bg-white rounded-lg p-3 border border-blue-200">
-                    <p className="text-xs text-gray-500 mb-1">BBVA</p>
-                    <p className="font-mono text-sm font-semibold text-gray-900">ES52 0182 1290 35 0010853001</p>
+                    <p className="text-xs text-gray-500 mb-1">Kutxabank</p>
+                    <p className="font-mono text-sm font-semibold text-gray-900">ES66 2095 0010 4091 2611 9437</p>
                   </div>
                   <div className="bg-white rounded-lg p-3 border border-blue-200">
-                    <p className="text-xs text-gray-500 mb-1">Kutxabank</p>
-                    <p className="font-mono text-sm font-semibold text-gray-900">ES06 2095 0000 70 9101227989</p>
+                    <p className="text-xs text-gray-500 mb-1">Santander</p>
+                    <p className="font-mono text-sm font-semibold text-gray-900">ES38 2100 3771 2722 0022 2525</p>
                   </div>
                 </div>
                 <p className="text-sm text-gray-600 mt-4">
