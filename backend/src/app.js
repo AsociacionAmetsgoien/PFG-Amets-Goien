@@ -27,7 +27,8 @@ app.set('trust proxy', 1); // 1 = confiar en el primer proxy (Railway)
 // ========================================
 app.use(helmet({
   contentSecurityPolicy: false, // Deshabilitado para permitir Stripe
-  crossOriginEmbedderPolicy: false // Compatibilidad con recursos externos
+  crossOriginEmbedderPolicy: false, // Compatibilidad con recursos externos
+  crossOriginResourcePolicy: false // Permitir que el frontend cargue imágenes del backend
 }));
 
 // ========================================

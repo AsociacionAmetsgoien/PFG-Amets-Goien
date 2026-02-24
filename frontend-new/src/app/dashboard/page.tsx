@@ -334,7 +334,7 @@ function PublicacionSection() {
         showNotification("Noticia creada exitosamente", "success");
         setShowNoticiaForm(false);
         setNoticiaData({ titulo: "", contenido: "", url_imagen: "" });
-        fetchNoticias(); // Refrescar lista
+        fetchNoticias();
       } else {
         showNotification("Error al crear noticia", "error");
       }
@@ -381,6 +381,7 @@ function PublicacionSection() {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
+      
       const response = await fetch(`${API_URL}/api/noticias/${editingNoticia.id}`, {
         method: "PUT",
         headers: {
@@ -410,6 +411,7 @@ function PublicacionSection() {
     setNoticiaData({ titulo: "", contenido: "", url_imagen: "" });
     setShowNoticiaForm(false);
   };
+
 
   const handleCreateActividad = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -645,13 +647,38 @@ function PublicacionSection() {
                 className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 h-32 text-gray-900 bg-white"
                 required
               />
-              <input
-                type="text"
-                placeholder="URL de imagen"
-                value={noticiaData.url_imagen}
-                onChange={(e) => setNoticiaData({ ...noticiaData, url_imagen: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 text-gray-900 bg-white"
-              />
+              
+              {/* Campo de URL de imagen */}
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">
+                  URL de Imagen
+                </label>
+                <input
+                  type="text"
+                  placeholder="https://i.imgur.com/ABC123.jpg"
+                  value={noticiaData.url_imagen}
+                  onChange={(e) => setNoticiaData({ ...noticiaData, url_imagen: e.target.value })}
+                  className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 text-gray-900 bg-white"
+                />
+                <div className="bg-blue-50 border-l-4 border-blue-500 p-3 text-xs space-y-2">
+                  <p className="font-semibold text-blue-800">📸 Cómo subir imágenes:</p>
+                  <div className="space-y-2 text-blue-700">
+                    <div className="bg-white p-2 rounded border border-blue-200">
+                      <p className="font-bold mb-1">✅ Opción Recomendada - Imgur (Gratis, Fácil):</p>
+                      <ol className="list-decimal ml-4 space-y-1">
+                        <li>Ve a <a href="https://imgur.com" target="_blank" rel="noopener noreferrer" className="underline font-semibold">imgur.com</a></li>
+                        <li>Arrastra tu imagen (sin necesidad de cuenta)</li>
+                        <li>Click derecho en la imagen → "Copiar dirección de imagen"</li>
+                        <li>Pega aquí: <code className="bg-gray-100 px-1">https://i.imgur.com/ABC123.jpg</code></li>
+                      </ol>
+                    </div>
+                    <p className="text-xs text-blue-600 italic">
+                      ⚠️ La URL debe terminar en .jpg, .png, .gif o .webp
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
               <button
                 type="submit"
                 className="w-full py-3 rounded-full bg-green-600 text-white font-semibold hover:bg-green-700"

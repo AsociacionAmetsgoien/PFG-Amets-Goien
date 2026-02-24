@@ -25,3 +25,6 @@ Thumbs.db
 # Build
 dist/
 build/
+# Uploads (imágenes subidas por usuarios - no deben estar en Git)
+public/uploads/**
+!public/uploads/.gitkeep
