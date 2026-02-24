@@ -78,7 +78,7 @@ const Footer = () => {
               <img 
                 src="/deusto.png" 
                 alt="Universidad de Deusto"
-                className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                className="max-w-full max-h-full object-contain transition-all duration-300"
               />
             </div>
             
@@ -87,16 +87,16 @@ const Footer = () => {
               <img 
                 src="/lavanindu.png" 
                 alt="Colaborador pendiente"
-                className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                className="max-w-full max-h-full object-contain transition-all duration-300"
               />
             </div>
 
-            {/* Placeholder colaborador 3 */}
+            {/* Placeholder colaborador 3 - Logo más grande */}
             <div className="w-32 h-20 md:w-40 md:h-24 flex items-center justify-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
               <img 
                 src="/nhdeusto.png" 
                 alt="Colaborador pendiente"
-                className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                className="max-w-full max-h-full object-contain transition-all duration-300 scale-150"
               />
             </div>
 
@@ -105,7 +105,7 @@ const Footer = () => {
               <img 
                 src="/apostolicas.jpg" 
                 alt="Colaborador pendiente"
-                className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                className="max-w-full max-h-full object-contain transition-all duration-300"
               />
             </div>
 
@@ -114,7 +114,7 @@ const Footer = () => {
               <img 
                 src="/berziklatu.png" 
                 alt="Colaborador pendiente"
-                className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                className="max-w-full max-h-full object-contain transition-all duration-300"
               />
             </div>
 
@@ -123,7 +123,7 @@ const Footer = () => {
               <img 
                 src="/pending.jpeg" 
                 alt="Colaborador pendiente"
-                className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                className="max-w-full max-h-full object-contain transition-all duration-300"
               />
             </div>
 
@@ -132,7 +132,7 @@ const Footer = () => {
               <img 
                 src="/pending.jpeg" 
                 alt="Colaborador pendiente"
-                className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                className="max-w-full max-h-full object-contain transition-all duration-300"
               />
             </div>
 
@@ -141,7 +141,7 @@ const Footer = () => {
               <img 
                 src="/pending.jpeg" 
                 alt="Colaborador pendiente"
-                className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                className="max-w-full max-h-full object-contain transition-all duration-300"
               />
             </div>
           </div>

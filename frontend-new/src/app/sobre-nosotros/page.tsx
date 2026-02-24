@@ -184,25 +184,25 @@ export default function SobreNosotrosPage() {
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="bg-white rounded-xl p-6 shadow-md text-center border-b-4 border-[#8A4D76]">
-                <h3 className="text-xl font-bold mb-2" style={{ color: '#8A4D76' }}>Dignidad</h3>
+                <h3 className="text-xl font-bold mb-2" style={{ color: '#8A4D76' }}>Acoger</h3>
                 <p className="text-gray-700 text-sm">
                   "Para una madre con hijos, tener un baño propio es la diferencia entre la seguridad y el miedo."
                 </p>
               </div>
               <div className="bg-white rounded-xl p-6 shadow-md text-center border-b-4 border-[#8A4D76]">
-                <h3 className="text-xl font-bold mb-2" style={{ color: '#8A4D76' }}>Solidaridad</h3>
+                <h3 className="text-xl font-bold mb-2" style={{ color: '#8A4D76' }}>Proteger</h3>
                 <p className="text-gray-700 text-sm">
                   Un proyecto construido por la comunidad: voluntarios que llegan "en goteo", pero que llegan.
                 </p>
               </div>
               <div className="bg-white rounded-xl p-6 shadow-md text-center border-b-4 border-[#8A4D76]">
-                <h3 className="text-xl font-bold mb-2" style={{ color: '#8A4D76' }}>Amor</h3>
+                <h3 className="text-xl font-bold mb-2" style={{ color: '#8A4D76' }}>Promover</h3>
                 <p className="text-gray-700 text-sm">
                   "Decidimos endeudarnos de amor" - El motor que impulsa cada acción de Ametsgoien.
                 </p>
               </div>
               <div className="bg-white rounded-xl p-6 shadow-md text-center border-b-4 border-[#8A4D76]">
-                <h3 className="text-xl font-bold mb-2" style={{ color: '#8A4D76' }}>Comunidad</h3>
+                <h3 className="text-xl font-bold mb-2" style={{ color: '#8A4D76' }}>Integrar</h3>
                 <p className="text-gray-700 text-sm">
                   Esto lo construye la comunidad, unidos por el sentido y el propósito común.
                 </p>
