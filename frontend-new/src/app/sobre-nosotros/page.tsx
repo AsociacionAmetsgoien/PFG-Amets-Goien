@@ -6,6 +6,7 @@
 import { Metadata } from 'next';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import RemodelacionTimeline from "@/components/RemodelacionTimeline";
 
 export const metadata: Metadata = {
   title: 'Sobre Nosotros - Nuestra Misión y Valores',
@@ -174,6 +175,11 @@ export default function SobreNosotrosPage() {
               </div>
             </div>
           </div>
+        </section>
+
+        {/* Timeline de Remodelación */}
+        <section className="py-16" style={{ backgroundColor: '#F3E8F7' }}>
+          <RemodelacionTimeline />
         </section>
 
         {/* Valores */}
