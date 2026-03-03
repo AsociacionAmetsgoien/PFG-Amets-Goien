@@ -49,6 +49,9 @@ interface Donacion {
   metodo_pago: string;
   stripe_payment_intent_id: string;
   stripe_subscription_id: string;
+  redsys_order_id?: string;
+  redsys_auth_code?: string;
+  redsys_response_code?: string;
   periodicidad: string;
   estado: string;
   anotacion: string;
@@ -135,7 +138,7 @@ export default function DonacionesPage() {
       return;
     }
     
-    const headers = ['ID', 'Colaborador', 'Email', 'Cantidad', 'Método Pago', 'Periodicidad', 'Estado', 'Payment Intent ID', 'Subscription ID', 'Anotación', 'Fecha Creación'];
+    const headers = ['ID', 'Colaborador', 'Email', 'Cantidad', 'Método Pago', 'Periodicidad', 'Estado', 'Order ID / Payment ID', 'Código Autorización', 'Anotación', 'Fecha Creación'];
     const csvContent = [
       headers.join(','),
       ...donacionesFiltradas.map(d => [
@@ -146,8 +149,8 @@ export default function DonacionesPage() {
         `"${d.metodo_pago}"`,
         `"${d.periodicidad}"`,
         `"${d.estado}"`,
-        `"${d.stripe_payment_intent_id || ''}"`,
-        `"${d.stripe_subscription_id || ''}"`,
+        `"${d.redsys_order_id || d.stripe_payment_intent_id || ''}"`,
+        `"${d.redsys_auth_code || ''}"`,
         `"${d.anotacion?.replace(/"/g, '""') || ''}"`,
         d.created_at || ''
       ].join(','))

@@ -17,13 +17,80 @@ class Donacion {
   }
 
   static async create(data) {
-    const { colaborador_id, cantidad, metodo_pago, stripe_payment_intent_id, stripe_subscription_id, periodicidad, estado, anotacion } = data;
+    const { 
+      colaborador_id, 
+      cantidad, 
+      metodo_pago, 
+      redsys_order_id,
+      redsys_auth_code,
+      redsys_response_code,
+      periodicidad, 
+      estado, 
+      anotacion,
+      metadata
+    } = data;
+    
     const result = await pool.query(
-      `INSERT INTO donaciones (colaborador_id, cantidad, metodo_pago, stripe_payment_intent_id, stripe_subscription_id, periodicidad, estado, anotacion, created_at)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
+      `INSERT INTO donaciones (
+        colaborador_id, cantidad, metodo_pago, 
+        redsys_order_id, redsys_auth_code, redsys_response_code,
+        periodicidad, estado, anotacion, created_at
+      )
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())
        RETURNING *`,
-      [colaborador_id, cantidad, metodo_pago, stripe_payment_intent_id, stripe_subscription_id, periodicidad || 'puntual', estado || 'completada', anotacion]
+      [
+        colaborador_id, 
+        cantidad, 
+        metodo_pago, 
+        redsys_order_id || null,
+        redsys_auth_code || null,
+        redsys_response_code || null,
+        periodicidad || 'puntual', 
+        estado || 'completada', 
+        // Guardar metadata en la anotación temporalmente hasta que se complete el pago
+        metadata ? `${anotacion} [METADATA:${metadata}]` : anotacion
+      ]
     );
+    const row = result.rows[0];
+    
+    // Extraer metadata de la anotación si existe
+    if (row.anotacion && row.anotacion.includes('[METADATA:')) {
+      const metadataMatch = row.anotacion.match(/\[METADATA:(.+)\]$/);
+      if (metadataMatch) {
+        row.metadata = metadataMatch[1];
+        row.anotacion = row.anotacion.replace(/\s*\[METADATA:.+\]$/, '');
+      }
+    }
+    
+    return row;
+  }
+
+  static async update(id, data) {
+    const fields = [];
+    const values = [];
+    let paramCount = 1;
+
+    // Construir dinámicamente la query UPDATE
+    Object.keys(data).forEach(key => {
+      fields.push(`${key} = $${paramCount}`);
+      values.push(data[key]);
+      paramCount++;
+    });
+
+    // Añadir updated_at
+    fields.push(`updated_at = NOW()`);
+
+    // Añadir el ID al final
+    values.push(id);
+
+    const query = `
+      UPDATE donaciones 
+      SET ${fields.join(', ')}
+      WHERE id = $${paramCount}
+      RETURNING *
+    `;
+
+    const result = await pool.query(query, values);
     return result.rows[0];
   }
 
@@ -38,12 +105,23 @@ class Donacion {
     return result.rows[0];
   }
 
-  static async getByPaymentIntentId(paymentIntentId) {
+  static async findByRedsysOrderId(orderId) {
     const result = await pool.query(
-      'SELECT * FROM donaciones WHERE stripe_payment_intent_id = $1',
-      [paymentIntentId]
+      'SELECT * FROM donaciones WHERE redsys_order_id = $1',
+      [orderId]
     );
-    return result.rows[0];
+    const row = result.rows[0];
+    
+    // Extraer metadata de la anotación si existe
+    if (row && row.anotacion && row.anotacion.includes('[METADATA:')) {
+      const metadataMatch = row.anotacion.match(/\[METADATA:(.+)\]$/);
+      if (metadataMatch) {
+        row.metadata = metadataMatch[1];
+        // No eliminar el metadata de la anotación aquí, se hará en el webhook
+      }
+    }
+    
+    return row;
   }
 }
 

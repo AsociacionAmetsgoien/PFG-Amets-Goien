@@ -10,7 +10,7 @@ import noticiaRoutes from './routes/noticiaRoutes.js';
 import tareaRoutes from './routes/tareaRoutes.js';
 import residenteRoutes from './routes/residenteRoutes.js';
 import contactoRoutes from './routes/contactoRoutes.js';
-import paymentRoutes from './routes/paymentRoutes.js';
+import redsysRoutes from './routes/redsysRoutes.js';
 import donacionRoutes from './routes/donacionRoutes.js';
 import newsletterRoutes from './routes/newsletterRoutes.js';
 
@@ -27,7 +27,7 @@ app.set('trust proxy', 1); // 1 = confiar en el primer proxy (Railway)
 // SEGURIDAD: Helmet para headers HTTP seguros
 // ========================================
 app.use(helmet({
-  contentSecurityPolicy: false, // Deshabilitado para permitir Stripe
+  contentSecurityPolicy: false, // Deshabilitado para recursos externos
   crossOriginEmbedderPolicy: false, // Compatibilidad con recursos externos
   crossOriginResourcePolicy: false // Permitir que el frontend cargue imágenes del backend
 }));
@@ -87,7 +87,7 @@ app.use(cors({
   credentials: true
 }));
 
-// Parse JSON (excepto para webhook de Stripe)
+// Parse JSON (excepto para webhooks de pasarelas de pago)
 app.use((req, res, next) => {
   if (req.originalUrl === '/api/payment/webhook') {
     next();
@@ -110,7 +110,7 @@ app.use('/api/users/register', authLimiter);
 
 // Rutas de formularios públicos (rate limiting moderado)
 app.use('/api/contacto', formLimiter);
-app.use('/api/payment/create-intent', formLimiter);
+app.use('/api/payment/redsys/create', formLimiter); // Redsys payment creation
 app.use('/api/colaboradores/registro-voluntario', formLimiter); // Registro de voluntarios
 
 // Aplicar rate limiting general a todas las rutas de API
@@ -125,7 +125,7 @@ app.use('/api/tareas', tareaRoutes);
 app.use('/api/residentes', residenteRoutes);
 app.use('/api/actividades', actividadRoutes);
 app.use('/api/contacto', contactoRoutes);
-app.use('/api/payment', paymentRoutes);
+app.use('/api/payment/redsys', redsysRoutes); // Rutas de Redsys
 app.use('/api/donaciones', donacionRoutes);
 app.use('/api/newsletter', newsletterRoutes);
 

@@ -13,7 +13,8 @@ export const enviarEmailDonacion = async ({
   nombre, 
   cantidad, 
   periodicidad, 
-  stripeSubscriptionId 
+  metodoPago = 'Redsys',
+  orderId = null
 }) => {
   try {
     const esRecurrente = periodicidad !== 'puntual';
@@ -25,49 +26,23 @@ export const enviarEmailDonacion = async ({
       'anual': 'anual'
     }[periodicidad] || 'única';
 
-    // Crear enlace al portal de facturación de Stripe si es recurrente
-    let billingPortalUrl = '#';
-    if (esRecurrente && stripeSubscriptionId) {
-      try {
-        const stripe = (await import('stripe')).default;
-        const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
-        
-        // Obtener el customer de la suscripción
-        const subscription = await stripeInstance.subscriptions.retrieve(stripeSubscriptionId);
-        
-        // Crear sesión del portal de facturación
-        const portalSession = await stripeInstance.billingPortal.sessions.create({
-          customer: subscription.customer,
-          return_url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/colaborar`,
-        });
-        
-        billingPortalUrl = portalSession.url;
-      } catch (error) {
-        console.error('Error creando portal de facturación:', error);
-      }
-    }
-
+    // Mensaje para donaciones recurrentes
     const htmlRecurrente = esRecurrente ? `
       <div style="background-color: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="color: #8A4D76; margin: 0 0 10px 0;">📋 Detalles de tu suscripción</h3>
+        <h3 style="color: #8A4D76; margin: 0 0 10px 0;">📋 Detalles de tu donación</h3>
         <p style="margin: 5px 0;"><strong>Periodicidad:</strong> ${periodicidadTexto}</p>
         <p style="margin: 5px 0;"><strong>Importe:</strong> ${cantidad}€ cada periodo</p>
-        <p style="margin: 5px 0; color: #666; font-size: 14px;">
-          Los cargos se realizarán automáticamente según la periodicidad seleccionada.
-        </p>
+        ${orderId ? `<p style="margin: 5px 0;"><strong>ID de orden:</strong> ${orderId}</p>` : ''}
       </div>
       
       <div style="background-color: #fef3c7; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #f59e0b;">
-        <h3 style="color: #92400e; margin: 0 0 10px 0;">🔄 Gestión de tu suscripción</h3>
+        <h3 style="color: #92400e; margin: 0 0 10px 0;">🔄 Donaciones recurrentes</h3>
         <p style="margin: 5px 0; color: #78350f;">
-          Puedes cancelar tu suscripción en cualquier momento sin penalización. 
-          Gestiona tu suscripción desde el portal de Stripe o contáctanos directamente.
+          Has configurado una donación ${periodicidadTexto}. Nos pondremos en contacto contigo 
+          para coordinar los siguientes pagos. Si tienes alguna pregunta o deseas modificar 
+          tu donación, no dudes en contactarnos.
         </p>
         <p style="margin: 10px 0 5px 0;">
-          <a href="${billingPortalUrl}" 
-             style="background-color: #635BFF; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-right: 10px;">
-            Gestionar Suscripción
-          </a>
           <a href="mailto:${process.env.CONTACT_EMAIL || 'info@ametsgoien.org'}" 
              style="background-color: #8A4D76; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
             Contactar
@@ -78,6 +53,8 @@ export const enviarEmailDonacion = async ({
       <div style="background-color: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
         <p style="margin: 5px 0;"><strong>Tipo de donación:</strong> Donación única</p>
         <p style="margin: 5px 0;"><strong>Importe:</strong> ${cantidad}€</p>
+        <p style="margin: 5px 0;"><strong>Método de pago:</strong> ${metodoPago}</p>
+        ${orderId ? `<p style="margin: 5px 0;"><strong>ID de orden:</strong> ${orderId}</p>` : ''}
       </div>
     `;
 

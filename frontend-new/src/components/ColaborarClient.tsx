@@ -1,18 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import CheckoutForm from "@/components/CheckoutForm";
+import RedsysPaymentForm from "@/components/RedsysPaymentForm";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "");
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
-// Control temporal para deshabilitar donaciones mientras se configura Stripe
-const DONATIONS_DISABLED = true;
+// Control para habilitar/deshabilitar donaciones
+const DONATIONS_DISABLED = false; // Cambiado a false para habilitar Redsys
 
 interface DonacionForm {
   nombre: string;
@@ -23,13 +20,13 @@ interface DonacionForm {
   direccion: string;
   anotacion: string;
   cantidad: string;
-  periodicidad: 'puntual' | 'mensual' | 'trimestral' | 'semestral' | 'anual';
-  metodoPago: 'tarjeta' | '';
+  periodicidad: 'puntual'; // Solo donaciones puntuales
+  metodoPago: 'tarjeta' | 'bizum' | ''; // Dos métodos separados
   aceptaPolitica: boolean;
 }
 
 export default function ColaborarClient() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const router = useRouter();
   const [formData, setFormData] = useState<DonacionForm>({
     nombre: "",
@@ -46,8 +43,8 @@ export default function ColaborarClient() {
   });
   const [loading, setLoading] = useState(false);
   const [mensaje, setMensaje] = useState<{ texto: string; tipo: 'success' | 'error' | 'info' } | null>(null);
-  const [clientSecret, setClientSecret] = useState<string | null>(null);
-  const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
+  const [redsysParams, setRedsysParams] = useState<any>(null);
+  const [orderId, setOrderId] = useState<string | null>(null);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [bizumCopiado, setBizumCopiado] = useState(false);
 
@@ -92,18 +89,19 @@ export default function ColaborarClient() {
         direccion: formData.direccion || null,
         periodicidad: formData.periodicidad,
         anotacion: formData.anotacion ? 
-          `Donación ${formData.periodicidad}: ${formData.cantidad}€ - ${formData.anotacion}` : 
-          `Donación ${formData.periodicidad}: ${formData.cantidad}€ via tarjeta`
+          `Donación puntual: ${formData.cantidad}€ - ${formData.anotacion}` : 
+          `Donación puntual: ${formData.cantidad}€ via Redsys`
       };
 
-      // Para tarjeta, crear Payment Intent o Suscripción con Stripe
-      const response = await fetch(`${API_URL}/api/payment/create-intent`, {
+      // Crear transacción con Redsys
+      const response = await fetch(`${API_URL}/api/payment/redsys/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
           amount: parseFloat(formData.cantidad),
+          metodoPago: formData.metodoPago, // 'tarjeta' o 'bizum'
           colaboradorData
         })
       });
@@ -111,10 +109,12 @@ export default function ColaborarClient() {
       if (response.ok) {
         const data = await response.json();
         
-        // Tanto para puntual como para suscripción, mostrar formulario de pago
-        if (data.clientSecret) {
-          setClientSecret(data.clientSecret);
-          setPaymentIntentId(data.paymentIntentId);
+        console.log('✅ Transacción Redsys creada:', data);
+        
+        // Guardar parámetros de Redsys y mostrar formulario de pago
+        if (data.redsysParams) {
+          setRedsysParams(data.redsysParams);
+          setOrderId(data.orderId);
           setShowPaymentForm(true);
         } else {
           setMensaje({ texto: t('collaborate.donation.errors.initError'), tipo: "error" });
@@ -129,41 +129,6 @@ export default function ColaborarClient() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handlePaymentSuccess = () => {
-    const esRecurrente = formData.periodicidad !== 'puntual';
-    const textoRecurrente = esRecurrente 
-      ? ` ${t('collaborate.donation.successRecurring')}` 
-      : ` ${t('collaborate.donation.successOneTime')}`;
-    
-    setMensaje({ 
-      texto: `${t('collaborate.donation.successMessage')} ${formData.cantidad}€.${textoRecurrente}`, 
-      tipo: "success" 
-    });
-    
-    // Resetear formulario
-    setTimeout(() => {
-      setFormData({
-        nombre: "",
-        apellidos: "",
-        email: "",
-        prefijoTelefono: "+34",
-        telefono: "",
-        direccion: "",
-        anotacion: "",
-        cantidad: "",
-        periodicidad: "puntual",
-        metodoPago: "",
-        aceptaPolitica: false
-      });
-      setShowPaymentForm(false);
-      setClientSecret(null);
-    }, 3000);
-  };
-
-  const handlePaymentError = (errorMessage: string) => {
-    setMensaje({ texto: errorMessage, tipo: "error" });
   };
 
   return (
@@ -415,6 +380,21 @@ export default function ColaborarClient() {
               </h2>
               <p className="text-center text-gray-600 mb-6">{t('collaborate.donation.subtitle')}</p>
               
+              {/* Aviso temporal de modo prueba */}
+              <div className="mb-6 bg-yellow-50 border-2 border-yellow-400 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <svg className="w-6 h-6 text-yellow-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  <div>
+                    <p className="font-bold text-yellow-800 text-sm mb-1">⚠️ {t('collaborate.donation.testModeWarning')}</p>
+                    <p className="text-yellow-700 text-xs">
+                      {t('collaborate.donation.testModeMessage')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
               {/* Mensaje de donaciones deshabilitadas */}
               {DONATIONS_DISABLED && (
                 <div className="mb-6 p-5 rounded-lg border-2 border-yellow-400 bg-yellow-50">
@@ -568,57 +548,17 @@ export default function ColaborarClient() {
                 />
               </fieldset>
 
-              {/* Periodicidad */}
-              <fieldset>
-                <legend className="block text-gray-800 font-semibold mb-2 text-sm">{t('collaborate.donation.frequency')} *</legend>
-                <div className="grid grid-cols-3 gap-2" role="group" aria-label="Seleccionar periodicidad de la donación">
-                  {[
-                    { value: 'puntual', label: t('collaborate.donation.oneTime') },
-                    { value: 'mensual', label: t('collaborate.donation.monthly') },
-                    { value: 'trimestral', label: t('collaborate.donation.quarterly') },
-                    { value: 'semestral', label: t('collaborate.donation.semiannual') },
-                    { value: 'anual', label: t('collaborate.donation.annual') }
-                  ].map((opcion) => (
-                    <button
-                      key={opcion.value}
-                      type="button"
-                      onClick={() => setFormData({ ...formData, periodicidad: opcion.value as any })}
-                      className={`py-2 px-3 rounded-lg font-semibold text-xs transition-all ${
-                        formData.periodicidad === opcion.value
-                          ? 'text-white shadow-md'
-                          : 'bg-gray-100 text-gray-700 border border-gray-300 hover:border-[#8A4D76]'
-                      }`}
-                      style={formData.periodicidad === opcion.value ? { backgroundColor: '#8A4D76' } : {}}
-                      aria-pressed={formData.periodicidad === opcion.value}
-                      aria-label={`Donación ${opcion.label.toLowerCase()}`}
-                    >
-                      {opcion.label}
-                    </button>
-                  ))}
-                </div>
-                {formData.periodicidad !== 'puntual' && (
-                  <div className="mt-3 p-3 rounded-lg bg-blue-50 border border-blue-200">
-                    <p className="text-xs text-blue-800 font-semibold mb-1">
-                      💳 Donación Recurrente
-                    </p>
-                    <p className="text-xs text-blue-700">
-                      {formData.metodoPago === 'tarjeta' 
-                        ? `Se creará una suscripción automática ${formData.periodicidad}. Podrás cancelarla en cualquier momento desde tu panel de gestión.`
-                        : `Se creará una suscripción automática con tu tarjeta. Elige "Tarjeta Bancaria" como método de pago.`
-                      }
-                    </p>
-                  </div>
-                )}
-              </fieldset>
+              {/* Nota: Periodicidad siempre es 'puntual' - donaciones únicas */}
 
-              {/* Método de Pago Compacto */}
+              {/* Método de Pago - Dos botones separados: Tarjeta y Bizum */}
               <fieldset>
                 <legend className="block text-gray-800 font-semibold mb-2 text-sm">{t('collaborate.donation.paymentMethod')} *</legend>
-                <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-3 mb-3">
+                  {/* Botón Tarjeta */}
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, metodoPago: 'tarjeta' })}
-                    className={`w-full p-4 rounded-lg border-2 transition-all text-left ${
+                    className={`p-4 rounded-lg border-2 transition-all ${
                       formData.metodoPago === 'tarjeta'
                         ? 'border-[#8A4D76] bg-purple-50'
                         : 'border-gray-300 bg-white hover:border-[#8A4D76]'
@@ -626,43 +566,70 @@ export default function ColaborarClient() {
                     aria-pressed={formData.metodoPago === 'tarjeta'}
                     aria-label="Pagar con tarjeta de crédito o débito"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center text-white" style={{ backgroundColor: '#8A4D76' }} aria-hidden="true">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex flex-col items-center text-center gap-2">
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center text-white" style={{ backgroundColor: '#8A4D76' }} aria-hidden="true">
+                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                         </svg>
                       </div>
                       <div>
-                        <h3 className="font-bold text-gray-900">{t('collaborate.donation.card')}</h3>
-                        <p className="text-xs text-gray-600">Pago seguro con Stripe • Soporta suscripciones automáticas</p>
+                        <h3 className="font-bold text-gray-900 text-sm">Tarjeta</h3>
+                        <p className="text-xs text-gray-600">Visa, Mastercard, Maestro</p>
                       </div>
                     </div>
                   </button>
 
-                  {/* Enlace a otras formas de pago */}
-                  <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
-                    <p className="text-sm text-blue-800 mb-2">
-                       <strong>¿Prefieres Bizum o transferencia bancaria?</strong>
-                    </p>
-                    <p className="text-xs text-blue-700 mb-3">
-                      Consulta la sección "Otras formas de donar" al final de la página para ver todas las opciones disponibles.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const seccion = document.getElementById('otras-formas-donar');
-                        if (seccion) {
-                          const yOffset = -80;
-                          const y = seccion.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                          window.scrollTo({ top: y, behavior: 'smooth' });
-                        }
-                      }}
-                      className="text-sm font-semibold text-blue-600 hover:text-blue-800 underline"
-                    >
-                      Ver opciones de pago alternativas 
-                    </button>
-                  </div>
+                  {/* Botón Bizum */}
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, metodoPago: 'bizum' })}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                      formData.metodoPago === 'bizum'
+                        ? 'border-[#8A4D76] bg-purple-50'
+                        : 'border-gray-300 bg-white hover:border-[#8A4D76]'
+                    }`}
+                    aria-pressed={formData.metodoPago === 'bizum'}
+                    aria-label="Pagar con Bizum"
+                  >
+                    <div className="flex flex-col items-center text-center gap-2">
+                      {/* Imagen de Bizum según idioma */}
+                      <img 
+                        src={language === 'eu' ? '/bizumEU.png' : '/bizumES.png'} 
+                        alt="Bizum" 
+                        className="h-12 w-auto object-contain"
+                      />
+                      <div>
+                        <h3 className="font-bold text-gray-900 text-sm">Bizum</h3>
+                        <p className="text-xs text-gray-600">Pago instantáneo</p>
+                      </div>
+                    </div>
+                  </button>
                 </div>
+
+                <p className="text-xs text-gray-600 text-center mb-3">
+                  🔒 {t('collaborate.redsys.secureProcessed')}
+                </p>
+
+                  {/* Enlace a otras formas de pago */}
+                  <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                    <p className="text-xs text-gray-700">
+                      💼 <strong>{t('collaborate.redsys.otherFormsTitle')}</strong> {t('collaborate.redsys.otherFormsText')} <span className="font-mono font-semibold">12892</span>.{" "}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const seccion = document.getElementById('otras-formas-donar');
+                          if (seccion) {
+                            const yOffset = -80;
+                            const y = seccion.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                            window.scrollTo({ top: y, behavior: 'smooth' });
+                          }
+                        }}
+                        className="text-purple-600 hover:text-purple-800 underline font-semibold"
+                      >
+                        {t('collaborate.redsys.seeDetails')}
+                      </button>
+                    </p>
+                  </div>
               </fieldset>
 
               {/* Política de Privacidad */}
@@ -682,7 +649,7 @@ export default function ColaborarClient() {
                     <a href="/privacidad" className="font-semibold hover:underline" style={{ color: '#8A4D76' }}>
                       {t('collaborate.donation.privacyLink')}
                     </a>
-                    {" "}y autorizo el tratamiento de mis datos *
+                    {" "}{t('collaborate.donation.authorizeData')} *
                   </span>
                 </label>
               </div>
@@ -712,25 +679,19 @@ export default function ColaborarClient() {
                   {loading ? t('collaborate.donation.submitting') : `${t('collaborate.donation.donateAmount')} ${formData.cantidad ? formData.cantidad + '€' : ''}`}
                 </button>
               )}
-              </fieldset>
-              </form>
 
-              {/* Formulario de pago con tarjeta (Stripe) */}
-              {showPaymentForm && clientSecret && paymentIntentId && (
+              {/* Formulario de pago con Redsys (La Caixa) */}
+              {showPaymentForm && redsysParams && orderId && (
                 <div className="mt-6">
-                  <h3 className="text-xl font-bold mb-4" style={{ color: '#8A4D76' }}>
-                    Completar Pago
-                  </h3>
-                  <Elements stripe={stripePromise} options={{ clientSecret }}>
-                    <CheckoutForm 
-                      amount={parseFloat(formData.cantidad)} 
-                      paymentIntentId={paymentIntentId}
-                      onSuccess={handlePaymentSuccess}
-                      onError={handlePaymentError}
-                    />
-                  </Elements>
+                  <RedsysPaymentForm 
+                    amount={parseFloat(formData.cantidad)} 
+                    redsysParams={redsysParams}
+                    orderId={orderId}
+                  />
                 </div>
               )}
+              </fieldset>
+              </form>
             </div>
 
             {/* Información adicional */}
