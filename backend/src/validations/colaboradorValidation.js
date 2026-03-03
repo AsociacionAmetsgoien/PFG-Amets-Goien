@@ -9,7 +9,7 @@ export const colaboradorSchema = Joi.object({
   anotacion: Joi.string().trim().optional().allow('', null),
   tipo_colaboracion: Joi.string().valid('monetario', 'voluntario', 'ambos').optional().default('monetario'),
   periodicidad: Joi.string().valid('puntual', 'mensual', 'trimestral', 'semestral', 'anual').optional().default('puntual'),
-  stripe_subscription_id: Joi.string().trim().optional().allow('', null)
+  // stripe_subscription_id eliminado - ahora usamos Redsys
 }).unknown(false);
 
 // Validación específica para registro público de voluntarios (email obligatorio)

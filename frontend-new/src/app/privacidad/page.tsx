@@ -135,7 +135,7 @@ export default function PrivacidadPage() {
                   {t('privacy.section7.intro')}
                 </p>
                 <ul className="list-disc list-inside ml-4 space-y-2 text-gray-700">
-                  <li><strong>Stripe</strong> {t('privacy.section7.stripe')} <a href="https://stripe.com/es/privacy" target="_blank" rel="noopener noreferrer" className="text-[#8A4D76] hover:underline">stripe.com/privacy</a></li>
+                  <li><strong>Redsys (La Caixa)</strong> Procesamiento seguro de pagos con tarjeta y Bizum. <a href="https://www.redsys.es/politica-de-privacidad.html" target="_blank" rel="noopener noreferrer" className="text-[#8A4D76] hover:underline">redsys.es/privacidad</a></li>
                   <li><strong>Vercel Inc.</strong> {t('privacy.section7.vercel')} <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#8A4D76] hover:underline">vercel.com/privacy</a></li>
                   <li><strong>Railway Corp.</strong> {t('privacy.section7.railway')} <a href="https://railway.app/legal/privacy" target="_blank" rel="noopener noreferrer" className="text-[#8A4D76] hover:underline">railway.app/privacy</a></li>
                   <li><strong>SendGrid (Twilio Inc.)</strong> {t('privacy.section7.sendgrid')} <a href="https://www.twilio.com/legal/privacy" target="_blank" rel="noopener noreferrer" className="text-[#8A4D76] hover:underline">twilio.com/privacy</a></li>
