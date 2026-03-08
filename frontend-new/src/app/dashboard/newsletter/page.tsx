@@ -16,6 +16,7 @@ interface Colaborador {
 export default function NewsletterPage() {
   const router = useRouter();
   const [colaboradores, setColaboradores] = useState<Colaborador[]>([]);
+  const [excludedIds, setExcludedIds] = useState<Set<number>>(new Set());
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   
@@ -96,7 +97,26 @@ export default function NewsletterPage() {
 
   const handleTipoChange = (tipo: string) => {
     setFormData({ ...formData, destinatarios_tipo: tipo });
+    setExcludedIds(new Set()); // Limpiar exclusiones al cambiar filtro
     fetchColaboradores(tipo);
+  };
+
+  const toggleExclude = (id: number) => {
+    const newExcluded = new Set(excludedIds);
+    if (newExcluded.has(id)) {
+      newExcluded.delete(id);
+    } else {
+      newExcluded.add(id);
+    }
+    setExcludedIds(newExcluded);
+  };
+
+  const selectAll = () => {
+    setExcludedIds(new Set());
+  };
+
+  const deselectAll = () => {
+    setExcludedIds(new Set(colaboradores.map(c => c.id)));
   };
 
   const handleSendTest = async () => {
@@ -187,7 +207,8 @@ export default function NewsletterPage() {
         body: JSON.stringify({
           asunto: formData.asunto,
           mensaje: formData.mensaje,
-          destinatarios_tipo: formData.destinatarios_tipo
+          destinatarios_tipo: formData.destinatarios_tipo,
+          exclude_ids: Array.from(excludedIds)
         })
       });
 
@@ -344,11 +365,11 @@ export default function NewsletterPage() {
                 </button>
                 <button
                   onClick={handleSendNewsletter}
-                  disabled={sending || !formData.asunto || !formData.mensaje || colaboradores.length === 0}
+                  disabled={sending || !formData.asunto || !formData.mensaje || (colaboradores.length - excludedIds.size) === 0}
                   className="flex-1 py-3 px-4 rounded-lg font-semibold text-white hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   style={{ backgroundColor: '#8A4D76' }}
                 >
-                  {sending ? 'Enviando...' : `Enviar a ${colaboradores.length}`}
+                  {sending ? 'Enviando...' : `Enviar a ${colaboradores.length - excludedIds.size}`}
                 </button>
               </div>
 
@@ -357,9 +378,27 @@ export default function NewsletterPage() {
 
           {/* Lista de destinatarios */}
           <div className="bg-white rounded-xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold mb-6" style={{ color: '#8A4D76' }}>
-              Destinatarios ({colaboradores.length})
-            </h2>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold" style={{ color: '#8A4D76' }}>
+                Destinatarios ({colaboradores.length - excludedIds.size} de {colaboradores.length})
+              </h2>
+              {colaboradores.length > 0 && (
+                <div className="flex gap-2">
+                  <button
+                    onClick={selectAll}
+                    className="px-3 py-1.5 text-xs bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all font-medium"
+                  >
+                    ✅ Todos
+                  </button>
+                  <button
+                    onClick={deselectAll}
+                    className="px-3 py-1.5 text-xs bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-all font-medium"
+                  >
+                    ❌ Ninguno
+                  </button>
+                </div>
+              )}
+            </div>
 
             {loading ? (
               <p className="text-gray-500">Cargando...</p>
@@ -368,18 +407,41 @@ export default function NewsletterPage() {
             ) : (
               <div className="max-h-[600px] overflow-y-auto space-y-3">
                 {colaboradores.map(colaborador => (
-                  <div key={colaborador.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
-                    <p className="font-semibold text-gray-900">
-                      {colaborador.nombre} {colaborador.apellidos}
-                    </p>
-                    <p className="text-sm text-gray-600">{colaborador.email}</p>
-                    <span className={`inline-block mt-2 px-2 py-1 rounded text-xs font-medium ${
-                      colaborador.tipo_colaboracion === 'monetario' ? 'bg-green-100 text-green-800' :
-                      colaborador.tipo_colaboracion === 'voluntario' ? 'bg-blue-100 text-blue-800' :
-                      'bg-purple-100 text-purple-800'
-                    }`}>
-                      {colaborador.tipo_colaboracion}
-                    </span>
+                  <div 
+                    key={colaborador.id} 
+                    className={`border rounded-lg p-4 transition-all cursor-pointer ${
+                      excludedIds.has(colaborador.id) 
+                        ? 'bg-gray-100 border-gray-300 opacity-50' 
+                        : 'border-gray-200 hover:bg-gray-50'
+                    }`}
+                    onClick={() => toggleExclude(colaborador.id)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <p className="font-semibold text-gray-900">
+                          {colaborador.nombre} {colaborador.apellidos}
+                        </p>
+                        <p className="text-sm text-gray-600">{colaborador.email}</p>
+                        <span className={`inline-block mt-2 px-2 py-1 rounded text-xs font-medium ${
+                          colaborador.tipo_colaboracion === 'monetario' ? 'bg-green-100 text-green-800' :
+                          colaborador.tipo_colaboracion === 'voluntario' ? 'bg-blue-100 text-blue-800' :
+                          'bg-purple-100 text-purple-800'
+                        }`}>
+                          {colaborador.tipo_colaboracion}
+                        </span>
+                      </div>
+                      
+                      {/* Checkbox */}
+                      <input
+                        type="checkbox"
+                        checked={!excludedIds.has(colaborador.id)}
+                        onChange={(e) => {
+                          e.stopPropagation();
+                          toggleExclude(colaborador.id);
+                        }}
+                        className="w-5 h-5 text-[#8A4D76] rounded focus:ring-2 focus:ring-[#8A4D76] cursor-pointer"
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -400,8 +462,13 @@ export default function NewsletterPage() {
               </p>
               <div className="bg-purple-50 border-l-4 border-[#8A4D76] p-4 rounded mb-6">
                 <p className="text-sm font-semibold text-gray-800">
-                  <span className="text-[#8A4D76]">{colaboradores.length}</span> destinatario{colaboradores.length !== 1 ? 's' : ''}
+                  <span className="text-[#8A4D76]">{colaboradores.length - excludedIds.size}</span> destinatario{(colaboradores.length - excludedIds.size) !== 1 ? 's' : ''}
                 </p>
+                {excludedIds.size > 0 && (
+                  <p className="text-xs text-gray-600 mt-1">
+                    ({excludedIds.size} excluido{excludedIds.size !== 1 ? 's' : ''})
+                  </p>
+                )}
                 <p className="text-sm text-gray-600 mt-1">
                   Asunto: <span className="font-medium">{formData.asunto}</span>
                 </p>
