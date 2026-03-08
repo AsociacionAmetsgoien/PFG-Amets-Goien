@@ -752,6 +752,13 @@ export default function ColaborarClient() {
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900">{t('collaborate.bankTransfer.title')}</h3>
                 </div>
+                
+                {/* Titular */}
+                <div className="bg-blue-100 border-l-4 border-blue-600 p-4 mb-4 rounded">
+                  <p className="text-xs font-semibold text-blue-900 mb-1">Titular de las cuentas:</p>
+                  <p className="text-sm font-bold text-blue-900">ASOCIACION AMETSGOIEN PARA LA ACOGIDA Y LA INTEGRACION SOCIOCULTURAL</p>
+                </div>
+
                 <div className="space-y-3">
                   <div className="bg-white rounded-lg p-3 border border-blue-200">
                     <p className="text-xs text-gray-500 mb-1">Kutxabank</p>

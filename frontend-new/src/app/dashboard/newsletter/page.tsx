@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Navbar from "@/components/Navbar";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
@@ -221,8 +222,10 @@ export default function NewsletterPage() {
   };
 
   return (
-    <div className="min-h-screen p-8" style={{ backgroundColor: '#E8D5F2' }}>
-      <div className="max-w-7xl mx-auto">
+    <>
+      <Navbar />
+      <div className="min-h-screen pt-20 p-8" style={{ backgroundColor: '#E8D5F2' }}>
+        <div className="max-w-7xl mx-auto">
         
         {/* Header */}
         <div className="mb-8">
@@ -236,7 +239,7 @@ export default function NewsletterPage() {
             Newsletter
           </h1>
           <p className="text-gray-700 text-lg">
-            Envía mensajes a tus colaboradores y voluntarios
+            Herramienta para enviar correos a colaboradores y voluntarios
           </p>
         </div>
 
@@ -425,7 +428,8 @@ export default function NewsletterPage() {
           </div>
         )}
 
+        </div>
       </div>
-    </div>
+    </>
   );
 }
