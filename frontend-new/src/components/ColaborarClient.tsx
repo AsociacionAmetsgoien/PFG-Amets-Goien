@@ -22,6 +22,8 @@ interface DonacionForm {
   cantidad: string;
   periodicidad: 'puntual'; // Solo donaciones puntuales
   metodoPago: 'tarjeta' | 'bizum' | ''; // Dos métodos separados
+  destino: string; // Destino de la donación (opcional)
+  destino_personalizado: string; // Destino personalizado si elige "otro"
   aceptaPolitica: boolean;
 }
 
@@ -39,6 +41,8 @@ export default function ColaborarClient() {
     cantidad: "",
     periodicidad: "puntual",
     metodoPago: "",
+    destino: "",
+    destino_personalizado: "",
     aceptaPolitica: false
   });
   const [loading, setLoading] = useState(false);
@@ -88,6 +92,8 @@ export default function ColaborarClient() {
         telefono: formData.telefono ? `${formData.prefijoTelefono} ${formData.telefono}` : null,
         direccion: formData.direccion || null,
         periodicidad: formData.periodicidad,
+        destino: formData.destino || null,
+        destino_personalizado: formData.destino_personalizado || null,
         anotacion: formData.anotacion ? 
           `Donación puntual: ${formData.cantidad}€ - ${formData.anotacion}` : 
           `Donación puntual: ${formData.cantidad}€ via Redsys`
@@ -533,6 +539,50 @@ export default function ColaborarClient() {
                 />
               </fieldset>
 
+              {/* Destino de la Donación (Opcional) */}
+              <fieldset>
+                <legend className="block text-gray-800 font-semibold mb-2 text-sm">
+                  {t('collaborate.donation.destination')} <span className="text-gray-500 text-xs">{t('collaborate.donation.optional')}</span>
+                </legend>
+                <select
+                  id="donacion-destino"
+                  value={formData.destino}
+                  onChange={(e) => setFormData({ ...formData, destino: e.target.value, destino_personalizado: '' })}
+                  className="w-full px-3 py-2 rounded-lg border border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none text-sm"
+                  aria-label="Destino de la donación"
+                >
+                  <option value="">{t('collaborate.donation.destinationGeneral')}</option>
+                  <option value="casa">{t('collaborate.donation.destinationHouse')}</option>
+                  <option value="comida">{t('collaborate.donation.destinationFood')}</option>
+                  <option value="ropa">{t('collaborate.donation.destinationClothing')}</option>
+                  <option value="estudios">{t('collaborate.donation.destinationEducation')}</option>
+                  <option value="salud">{t('collaborate.donation.destinationHealth')}</option>
+                  <option value="otro">{t('collaborate.donation.destinationOther')}</option>
+                </select>
+                
+                {formData.destino === 'otro' && (
+                  <div className="mt-3">
+                    <label htmlFor="donacion-destino-personalizado" className="block text-gray-700 font-medium mb-1 text-sm">
+                      {t('collaborate.donation.destinationSpecify')}
+                    </label>
+                    <input
+                      type="text"
+                      id="donacion-destino-personalizado"
+                      value={formData.destino_personalizado}
+                      onChange={(e) => setFormData({ ...formData, destino_personalizado: e.target.value })}
+                      maxLength={255}
+                      className="w-full px-3 py-2 rounded-lg border border-gray-300 text-gray-900 bg-white focus:border-[#8A4D76] focus:outline-none text-sm"
+                      placeholder={t('collaborate.donation.destinationPlaceholder')}
+                      aria-label="Destino personalizado"
+                    />
+                  </div>
+                )}
+                
+                <p className="text-xs text-gray-500 mt-2">
+                  {t('collaborate.donation.destinationDescription')}
+                </p>
+              </fieldset>
+
               {/* Nota: Periodicidad siempre es 'puntual' - donaciones únicas */}
 
               {/* Método de Pago - Dos botones separados: Tarjeta y Bizum */}
@@ -752,6 +802,13 @@ export default function ColaborarClient() {
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900">{t('collaborate.bankTransfer.title')}</h3>
                 </div>
+                
+                {/* Titular */}
+                <div className="bg-blue-100 border-l-4 border-blue-600 p-4 mb-4 rounded">
+                  <p className="text-xs font-semibold text-blue-900 mb-1">Titular de las cuentas:</p>
+                  <p className="text-sm font-bold text-blue-900">ASOCIACION AMETSGOIEN PARA LA ACOGIDA Y LA INTEGRACION SOCIOCULTURAL</p>
+                </div>
+
                 <div className="space-y-3">
                   <div className="bg-white rounded-lg p-3 border border-blue-200">
                     <p className="text-xs text-gray-500 mb-1">Kutxabank</p>

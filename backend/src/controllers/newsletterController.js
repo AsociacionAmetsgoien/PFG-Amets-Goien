@@ -58,7 +58,7 @@ export const getColaboradoresNewsletter = async (req, res) => {
  */
 export const sendNewsletter = async (req, res) => {
   try {
-    const { asunto, mensaje, destinatarios_tipo, destinatarios_ids } = req.body;
+    const { asunto, mensaje, destinatarios_tipo, exclude_ids } = req.body;
 
     // Validaciones
     if (!asunto || !mensaje) {
@@ -75,35 +75,38 @@ export const sendNewsletter = async (req, res) => {
 
     let destinatarios = [];
 
-    // Obtener destinatarios según tipo o IDs específicos
-    if (destinatarios_ids && destinatarios_ids.length > 0) {
-      // Enviar a IDs específicos
-      const allColaboradores = await Colaborador.getAll();
-      destinatarios = allColaboradores.filter(c => 
-        destinatarios_ids.includes(c.id) && c.email
+    // Obtener destinatarios según tipo
+    let colaboradores = await Colaborador.getAll();
+    
+    // Filtrar por tipo
+    if (destinatarios_tipo === 'monetario') {
+      colaboradores = colaboradores.filter(c => 
+        (c.tipo_colaboracion === 'monetario' || c.tipo_colaboracion === 'ambos') && c.email
       );
+    } else if (destinatarios_tipo === 'voluntario') {
+      colaboradores = colaboradores.filter(c => 
+        (c.tipo_colaboracion === 'voluntario' || c.tipo_colaboracion === 'ambos') && c.email
+      );
+    } else if (destinatarios_tipo === 'ambos') {
+      colaboradores = colaboradores.filter(c => 
+        c.tipo_colaboracion === 'ambos' && c.email
+      );
+    } else if (destinatarios_tipo === 'todos') {
+      colaboradores = colaboradores.filter(c => c.email);
     } else {
-      // Enviar por tipo
-      let colaboradores = await Colaborador.getAll();
-      
-      if (destinatarios_tipo === 'monetario') {
-        colaboradores = colaboradores.filter(c => 
-          (c.tipo_colaboracion === 'monetario' || c.tipo_colaboracion === 'ambos') && c.email
-        );
-      } else if (destinatarios_tipo === 'voluntario') {
-        colaboradores = colaboradores.filter(c => 
-          (c.tipo_colaboracion === 'voluntario' || c.tipo_colaboracion === 'ambos') && c.email
-        );
-      } else if (destinatarios_tipo === 'todos') {
-        colaboradores = colaboradores.filter(c => c.email);
-      } else {
-        colaboradores = colaboradores.filter(c => 
-          c.tipo_colaboracion === destinatarios_tipo && c.email
-        );
-      }
-      
-      destinatarios = colaboradores;
+      colaboradores = colaboradores.filter(c => 
+        c.tipo_colaboracion === destinatarios_tipo && c.email
+      );
     }
+    
+    // Aplicar exclusiones manuales
+    if (exclude_ids && Array.isArray(exclude_ids) && exclude_ids.length > 0) {
+      const excludedCount = colaboradores.length;
+      colaboradores = colaboradores.filter(c => !exclude_ids.includes(c.id));
+      console.log(`📌 Excluidos ${excludedCount - colaboradores.length} destinatarios manualmente`);
+    }
+    
+    destinatarios = colaboradores;
 
     if (destinatarios.length === 0) {
       return res.status(400).json({ 
