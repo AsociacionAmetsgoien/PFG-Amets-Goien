@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import userRoutes from './routes/userRoutes.js';
 import actividadRoutes from './routes/actividadRoutes.js';
 import colaboradorRoutes from './routes/colaboradorRoutes.js';
@@ -59,6 +59,32 @@ const formLimiter = rateLimit({
   message: 'Demasiados envíos de formulario, por favor intenta de nuevo más tarde.'
 });
 
+// Rate limiting específico para creación de donaciones con Redsys
+// Mantiene compatibilidad con el flujo actual, pero frena patrones automatizados.
+const donationCreateBurstLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutos
+  max: 3, // Máximo 3 intentos rápidos por IP
+  message: 'Demasiados intentos de donación en poco tiempo. Intenta de nuevo en unos minutos.',
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+const donationCreateLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hora
+  max: 8, // Máximo 8 intentos por huella en 1h
+  message: 'Demasiados intentos de donación. Intenta de nuevo más tarde.',
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => {
+    const ip = ipKeyGenerator(req.ip || req.socket?.remoteAddress || 'unknown');
+    const email = (req.body?.colaboradorData?.email || '').toString().trim().toLowerCase();
+    const telefono = (req.body?.colaboradorData?.telefono || '').toString().replace(/\s+/g, '');
+
+    // Clave híbrida para limitar mejor ataques con rotación de datos/IP
+    return `${ip}|${email}|${telefono}`;
+  }
+});
+
 // CORS configurado para permitir requests desde el frontend
 app.use(cors({
   origin: function(origin, callback) {
@@ -107,7 +133,7 @@ app.use('/api/users/register', authLimiter);
 
 // Rutas de formularios públicos (rate limiting moderado)
 app.use('/api/contacto', formLimiter);
-app.use('/api/payment/redsys/create', formLimiter); // Redsys payment creation
+app.use('/api/payment/redsys/create', donationCreateBurstLimiter, donationCreateLimiter); // Redsys payment creation
 app.use('/api/colaboradores/registro-voluntario', formLimiter); // Registro de voluntarios
 
 // Aplicar rate limiting general a todas las rutas de API

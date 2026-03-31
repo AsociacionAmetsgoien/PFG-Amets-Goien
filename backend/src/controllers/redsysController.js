@@ -22,7 +22,39 @@ export const createRedsysTransaction = async (req, res) => {
   try {
     const { amount, metodoPago, colaboradorData } = req.body;
 
+    // Limpieza preventiva: expirar pendientes antiguas sin pago confirmado.
+    // No afecta a pagos exitosos; si un webhook llega tarde, la donación se actualiza igualmente.
+    try {
+      const expired = await Donacion.expireOldPending(120);
+      if (expired.count > 0) {
+        console.log(`🧹 Donaciones pendientes expiradas automáticamente: ${expired.count}`);
+      }
+    } catch (cleanupError) {
+      console.warn('⚠️ No se pudo ejecutar limpieza de pendientes:', cleanupError.message);
+    }
+
+    const forwardedFor = req.headers['x-forwarded-for'];
+    const clientIp = forwardedFor
+      ? forwardedFor.split(',')[0].trim()
+      : (req.ip || req.connection?.remoteAddress || 'unknown');
+
+    const requestMeta = {
+      ip: clientIp,
+      forwardedFor: typeof forwardedFor === 'string' ? forwardedFor.slice(0, 300) : null,
+      userAgent: typeof req.headers['user-agent'] === 'string' ? req.headers['user-agent'].slice(0, 500) : null,
+      origin: typeof req.headers.origin === 'string' ? req.headers.origin.slice(0, 300) : null,
+      referer: typeof req.headers.referer === 'string' ? req.headers.referer.slice(0, 500) : null,
+      acceptLanguage: typeof req.headers['accept-language'] === 'string' ? req.headers['accept-language'].slice(0, 120) : null,
+      requestedAt: new Date().toISOString()
+    };
+
     console.log('📦 Creando transacción Redsys:', { amount, metodoPago, colaboradorData });
+    console.log('🛡️ Huella de solicitud:', {
+      ip: requestMeta.ip,
+      origin: requestMeta.origin,
+      referer: requestMeta.referer,
+      userAgent: requestMeta.userAgent
+    });
 
     // Validar datos
     if (!amount || amount <= 0) {
@@ -61,8 +93,11 @@ export const createRedsysTransaction = async (req, res) => {
         periodicidad: periodicidad,
         estado: 'pendiente',
         anotacion: anotacion,
-        // Guardar datos del colaborador temporalmente en la anotación
-        metadata: JSON.stringify(colaboradorData)
+        // Guardar datos del colaborador y huella técnica básica para análisis forense.
+        metadata: JSON.stringify({
+          ...colaboradorData,
+          _request_meta: requestMeta
+        })
       });
       donacionId = nuevaDonacion.id;
       console.log('✅ Donación creada en estado pendiente (sin colaborador):', donacionId);
