@@ -51,6 +51,7 @@ class Donacion {
         metadata ? `${anotacion} [METADATA:${metadata}]` : anotacion
       ]
     );
+
     const row = result.rows[0];
     
     // Extraer metadata de la anotación si existe
@@ -122,6 +123,30 @@ class Donacion {
     }
     
     return row;
+  }
+
+  static async expireOldPending(minutes = 120) {
+    const result = await pool.query(
+      `UPDATE donaciones
+       SET estado = 'expirada',
+           updated_at = NOW(),
+           anotacion = CASE
+             WHEN anotacion IS NULL OR anotacion = '' THEN $1
+             ELSE CONCAT(anotacion, ' | ', $1)
+           END
+       WHERE estado = 'pendiente'
+         AND created_at < NOW() - ($2::text || ' minutes')::interval
+       RETURNING id`,
+      [
+        'Expirada automaticamente por tiempo sin confirmacion de pago',
+        minutes
+      ]
+    );
+
+    return {
+      count: result.rowCount,
+      ids: result.rows.map(row => row.id)
+    };
   }
 }
 

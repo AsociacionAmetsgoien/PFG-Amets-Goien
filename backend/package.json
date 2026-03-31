@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/client": "^8.1.6",
     "@sendgrid/mail": "^8.1.6",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
@@ -22,7 +23,7 @@
     "helmet": "^8.1.0",
     "joi": "^18.0.2",
     "jsonwebtoken": "^9.0.2",
-    "nodemailer": "^7.0.11",
+    "nodemailer": "^8.0.4",
     "pg": "^8.16.3",
     "pg-hstore": "^2.3.4",
     "stripe": "^20.1.0"
