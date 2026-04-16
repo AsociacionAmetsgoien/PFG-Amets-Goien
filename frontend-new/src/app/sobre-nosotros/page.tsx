@@ -38,7 +38,7 @@ export default function SobreNosotrosPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div>
                 <p className="text-gray-700 text-lg mb-6 leading-relaxed">
-                  <strong>Ametsgoien</strong> {t('about.whoWeAre.p1')} <strong>Aitor Arbaiza</strong> y <strong>Josu Beaskoetxea</strong>, 
+                  <strong>Ametsgoien</strong> {t('about.whoWeAre.p1')} <strong>Aitor Arbaiza</strong> {t('about.whoWeAre.y')} <strong>Josu Beaskoetxea</strong>, 
                   {t('about.whoWeAre.p1b')}
                 </p>
                 <p className="text-gray-700 text-lg mb-6 leading-relaxed">
