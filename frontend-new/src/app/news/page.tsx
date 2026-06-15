@@ -356,12 +356,12 @@ export default function NewsPage() {
       <Navbar />
 
       <div id="main-content" className="min-h-screen pt-20" style={{ backgroundColor: '#E8D5F2' }} role="main">
-        <section className="py-20 px-4 md:px-8 lg:px-16" style={{ backgroundColor: '#8A4D76' }}>
-          <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
+        <section className="py-16 px-4 md:px-8 lg:px-16" style={{ backgroundColor: '#8A4D76' }}>
+          <div className="max-w-6xl mx-auto text-center text-white">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
               {page.title}
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto">
               {page.subtitle}
             </p>
           </div>
