@@ -2,7 +2,7 @@
   "nav": {
     "home": "Home",
     "association": "The Association",
-    "news": "News",
+    "news": "Blog",
     "activities": "Activities",
     "volunteer": "Become a Volunteer",
     "collaborate": "Collaborate",
@@ -64,12 +64,18 @@
       }
     },
     "news": {
-      "title": "Latest News",
-      "loading": "Loading news...",
-      "noNews": "No news published yet.",
-      "newsTitle": "News",
+      "title": "Blog",
+      "loading": "Loading blog...",
+      "noNews": "No posts published yet.",
+      "newsTitle": "Blog",
       "readMore": "Read more",
-      "close": "Close"
+      "close": "Close",
+      "subtitle": "We gather press mentions and articles about Ametsgoien.",
+      "cta": {
+        "title": "Would you like to contact us?",
+        "subtitle": "If you are a media outlet or want to share an article about the project, reach out through the contact page.",
+        "button": "Go to contact"
+      }
     },
     "volunteerSection": {
       "title": "Do you want to be part of the change?",

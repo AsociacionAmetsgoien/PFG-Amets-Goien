@@ -120,8 +120,7 @@ const Navbar = () => {
               {t('nav.association')}
             </a>
             <a 
-              href="#noticias"
-              onClick={(e) => handleNavClick(e, 'noticias')}
+              href="/news"
               className="text-white no-underline hover:scale-110 transition-all duration-200"
               style={{ 
                 textDecoration: 'none', 
@@ -224,8 +223,8 @@ const Navbar = () => {
                 {t('nav.association')}
               </a>
               <a 
-                href="#noticias"
-                onClick={(e) => handleNavClick(e, 'noticias')}
+                href="/news"
+                onClick={() => setMobileMenuOpen(false)}
                 className="text-white text-sm font-medium py-2 hover:bg-white/10 rounded-lg px-3 transition-colors"
               >
                 {t('nav.news')}

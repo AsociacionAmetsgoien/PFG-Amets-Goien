@@ -916,9 +916,9 @@ export default function ColaborarClient() {
               </div>
 
               {/* Cuentas Bancarias */}
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 border-2 border-blue-200 hover:shadow-xl transition-all">
+              <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 border-2 border-purple-200 hover:shadow-xl transition-all">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white">
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center text-white" style={{ backgroundColor: '#8A4D76' }}>
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                     </svg>
@@ -927,21 +927,21 @@ export default function ColaborarClient() {
                 </div>
                 
                 {/* Titular */}
-                <div className="bg-blue-100 border-l-4 border-blue-600 p-4 mb-4 rounded">
-                  <p className="text-xs font-semibold text-blue-900 mb-1">Titular de las cuentas:</p>
-                  <p className="text-sm font-bold text-blue-900">ASOCIACION AMETSGOIEN PARA LA ACOGIDA Y LA INTEGRACION SOCIOCULTURAL</p>
+                <div className="bg-white border-l-4 p-4 mb-4 rounded" style={{ borderLeftColor: '#8A4D76' }}>
+                  <p className="text-xs font-semibold mb-1" style={{ color: '#8A4D76' }}>Titular de las cuentas:</p>
+                  <p className="text-sm font-bold text-gray-900">ASOCIACION AMETSGOIEN PARA LA ACOGIDA Y LA INTEGRACION SOCIOCULTURAL</p>
                 </div>
 
                 <div className="space-y-3">
-                  <div className="bg-white rounded-lg p-3 border border-blue-200">
+                  <div className="bg-white rounded-lg p-3 border border-purple-200">
                     <p className="text-xs text-gray-500 mb-1">Kutxabank</p>
                     <p className="font-mono text-sm font-semibold text-gray-900">ES66 2095 0010 4091 2611 9437</p>
                   </div>
-                  <div className="bg-white rounded-lg p-3 border border-blue-200">
+                  <div className="bg-white rounded-lg p-3 border border-purple-200">
                     <p className="text-xs text-gray-500 mb-1">La Caixa</p>
                     <p className="font-mono text-sm font-semibold text-gray-900">ES38 2100 3771 2722 0022 2525</p>
                   </div>
-                  <div className="bg-white rounded-lg p-3 border border-blue-200">
+                  <div className="bg-white rounded-lg p-3 border border-purple-200">
                     <p className="text-xs text-gray-500 mb-1">Santander</p>
                     <p className="font-mono text-sm font-semibold text-gray-900">ES91 0049 0260 1624 1160 5455</p>
                   </div>
