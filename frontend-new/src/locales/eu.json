@@ -2,7 +2,7 @@
   "nav": {
     "home": "Hasiera",
     "association": "Elkartea",
-    "news": "Albisteak",
+    "news": "Bloga",
     "activities": "Jarduerak",
     "volunteer": "Bazkide Izan",
     "collaborate": "Lagundu",
@@ -64,12 +64,18 @@
       }
     },
     "news": {
-      "title": "Azken Berriak",
-      "loading": "Berriak kargatzen...",
-      "noNews": "Ez dago berririk argitaratuta oraindik.",
-      "newsTitle": "Berriak",
+      "title": "Bloga",
+      "loading": "Bloga kargatzen...",
+      "noNews": "Oraindik ez dago argitalpenik.",
+      "newsTitle": "Bloga",
       "readMore": "Irakurri gehiago",
-      "close": "Itxi"
+      "close": "Itxi",
+      "subtitle": "Ametsgoieni buruzko prentsako aipamenak eta artikuluak biltzen ditugu.",
+      "cta": {
+        "title": "Gurekin harremanetan jarri nahi duzu?",
+        "subtitle": "Komunikabidea bazara edo proiektuari buruzko argitalpen bat partekatu nahi baduzu, idatz iezaguzu kontaktu orritik.",
+        "button": "Joan kontaktura"
+      }
     },
     "volunteerSection": {
       "title": "Aldaketaren parte izan nahi duzu?",
