@@ -109,17 +109,17 @@ const Footer = () => {
             <div className="w-32 h-20 md:w-40 md:h-24 flex items-center justify-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
               <img 
                 src="/lavanindu.png" 
-                alt="Colaborador pendiente"
+                alt="Lavanindu"
                 className="max-w-full max-h-full object-contain transition-all duration-300"
               />
             </div>
 
             {/* Placeholder colaborador 3 - Logo más grande */}
-            <div className="w-32 h-20 md:w-40 md:h-24 flex items-center justify-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
+            <div className="w-32 h-20 md:w-44 md:h-28 flex items-center justify-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
               <img 
                 src="/nhdeusto.png" 
-                alt="Colaborador pendiente"
-                className="max-w-full max-h-full object-contain transition-all duration-300 scale-150"
+                alt="NH Deusto"
+                className="max-w-full max-h-full object-contain transition-all duration-300 transform scale-150 md:scale-150"
               />
             </div>
 
@@ -127,7 +127,7 @@ const Footer = () => {
             <div className="w-32 h-20 md:w-40 md:h-24 flex items-center justify-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
               <img 
                 src="/apostolicas.jpg" 
-                alt="Colaborador pendiente"
+                alt="Asociación Apostólica"
                 className="max-w-full max-h-full object-contain transition-all duration-300"
               />
             </div>
@@ -136,8 +136,35 @@ const Footer = () => {
             <div className="w-32 h-20 md:w-40 md:h-24 flex items-center justify-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
               <img 
                 src="/berziklatu.png" 
-                alt="Colaborador pendiente"
+                alt="Berziklatu"
                 className="max-w-full max-h-full object-contain transition-all duration-300"
+              />
+            </div>
+
+            {/* Placeholder colaborador 6 */}
+            <div className="w-32 h-20 md:w-40 md:h-24 flex items-center justify-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
+              <img 
+                src="/Imagen1.png" 
+                alt="Kalamazco"
+                className="max-w-full max-h-full object-contain transition-all duration-300"
+              />
+            </div>
+
+            {/* Placeholder colaborador 6 */}
+            <div className="w-32 h-20 md:w-40 md:h-24 flex items-center justify-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
+              <img 
+                src="/urduñako-udala.png" 
+                alt="Ayuntamiento de Orduña"
+                className="max-w-full max-h-full object-contain transition-all duration-300"
+              />
+            </div>
+
+            {/* Placeholder colaborador 6 */}
+            <div className="w-32 h-20 md:w-44 md:h-28 flex items-center justify-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
+              <img 
+                src="/gobierno-vasco-logo-png_seeklogo-196082.png" 
+                alt="Gobierno Vasco"
+                className="max-w-full max-h-full object-contain transition-all duration-300 transform scale-150 md:scale-150"
               />
             </div>
 
