@@ -341,8 +341,8 @@
           "answer": "Ametsgoien es una asociación de reciente constitución. Según la normativa fiscal vigente, las entidades sin ánimo de lucro pueden emitir certificados de desgravación fiscal a partir de los tres años desde su fundación. Una vez cumplido este plazo, te enviaremos automáticamente el certificado anual para que puedas incluirlo en tu declaración de la renta."
         },
         "q3": {
-          "question": "¿Cómo funcionan las donaciones recurrentes?",
-          "answer": "Las donaciones recurrentes no se cobran con Redsys desde la web. Al elegir esta opción, rellenas tus datos, firmas el formulario y generamos un PDF que se envía por correo a la asociación. El equipo de Ametsgoien revisa esa solicitud y gestiona después la aportación periódica directamente contigo."
+          "question": "¿Qué diferencia hay entre enviar la solicitud recurrente por la web y hacerlo a mano?",
+          "answer": "El formulario web genera el PDF firmado y lo envía automáticamente a Ametsgoien, lo que resulta más cómodo y permite registrar la solicitud de colaborador sin duplicados. Como contrapartida, el PDF con datos personales y bancarios viaja como adjunto de correo, por lo que no debe usarse si prefieres evitar ese canal. La opción manual permite descargar el PDF editable, rellenarlo y enviarlo tú por el medio que consideres más adecuado; da más control sobre el envío, aunque requiere más pasos y la asociación lo registrará después manualmente."
         }
       }
     },
@@ -509,6 +509,37 @@
       "label": "Tipo de donación",
       "oneTime": "Donación puntual",
       "recurring": "Donación recurrente"
+    },
+    "recurringDonation": {
+      "manualTitle": "Opción manual",
+      "manualText": "Si prefieres no enviar datos bancarios por la web, descarga el PDF editable y envíalo tú directamente a la asociación.",
+      "manualDownload": "Descargar PDF editable",
+      "help": "Si tienes dudas, puedes escribirnos antes de enviarlo.",
+      "send": "Enviar solicitud firmada",
+      "clear": "Borrar firma",
+      "success": "Hemos recibido tu solicitud de donación recurrente. Revisaremos el PDF y te contactaremos si necesitamos confirmar algo.",
+      "error": "No se ha podido enviar el formulario. Vuelve a intentarlo.",
+      "signature": "Firma",
+      "labels": {
+        "nombre": "Nombre",
+        "apellidos": "Apellidos",
+        "dni": "DNI / NIE",
+        "direccion": "Dirección",
+        "cp": "Código Postal",
+        "localidad": "Localidad",
+        "telefono": "Teléfono",
+        "email": "Correo electrónico",
+        "titular": "Titular de la cuenta",
+        "iban": "IBAN / Número de cuenta",
+        "cantidad": "Cantidad de colaboración (€)",
+        "periodicidad": "Periodicidad"
+      },
+      "periodicity": {
+        "mensual": "Mensual",
+        "trimestral": "Trimestral",
+        "semestral": "Semestral",
+        "anual": "Anual"
+      }
     }
   },
   "privacy": {
@@ -551,7 +582,8 @@
         "Teléfono (opcional)",
         "Dirección (opcional)",
         "Importe, estado y metadatos técnicos de la donación",
-        "Datos de pago procesados por Redsys (tarjeta y Bizum), sin almacenamiento de numeración completa de tarjeta en AMETSGOIEN"
+        "Datos de pago procesados por Redsys (tarjeta y Bizum), sin almacenamiento de numeración completa de tarjeta en AMETSGOIEN",
+        "En solicitudes de donación recurrente: DNI/NIE, dirección postal, localidad, código postal, titular de la cuenta, IBAN, importe, periodicidad y firma digitalizada cuando se usa el formulario web."
       ]
     },
     "section4": {
@@ -562,7 +594,8 @@
         "Gestionar colaboraciones, donaciones y comunicaciones relacionadas con la entidad.",
         "Emitir y remitir confirmaciones de donación, justificantes y comunicaciones operativas asociadas al servicio.",
         "Cumplir obligaciones legales, contables, fiscales y de prevención del fraude.",
-        "Mantener comunicaciones sobre actividades de AMETSGOIEN solo cuando exista base legitimadora suficiente."
+        "Mantener comunicaciones sobre actividades de AMETSGOIEN solo cuando exista base legitimadora suficiente.",
+        "Tramitar solicitudes de aportación periódica mediante PDF firmado y gestionar la relación de colaborador asociada."
       ]
     },
     "section5": {
@@ -579,7 +612,7 @@
       "stripe": "(procesamiento de pagos): Los pagos online se gestionan mediante Redsys (La Caixa), que opera bajo sus propios estándares de seguridad y cumplimiento. AMETSGOIEN no almacena datos completos de tarjeta. Más información en",
       "vercel": "(hosting frontend): Alojamiento del sitio web y entrega de contenido. Más información en",
       "railway": "(hosting backend y base de datos): Alojamiento de la API y de la base de datos de gestión. Más información en",
-      "sendgrid": "(servicio de correo transaccional): Envío de confirmaciones y comunicaciones operativas. Más información en",
+      "sendgrid": "(servicio de correo transaccional): Envío de solicitudes, confirmaciones y comunicaciones operativas. En las solicitudes recurrentes enviadas desde la web puede adjuntarse un PDF con datos identificativos y bancarios necesarios para tramitar la aportación.",
       "guarantees": "Cuando procede, se aplican mecanismos de garantías para transferencias internacionales y medidas contractuales/organizativas acordes al RGPD, incluida la suscripción de cláusulas contractuales tipo u otros instrumentos válidos."
     },
     "section8": {
@@ -607,13 +640,14 @@
       "intro": "Las donaciones realizadas a AMETSGOIEN son contribuciones voluntarias destinadas a financiar proyectos de acogida y acompañamiento social.",
       "oneTime": "Donaciones puntuales:",
       "oneTimeText": "Una vez procesada la donación, tendrá carácter definitivo. No obstante, si detectas un error material (importe, duplicidad o cargo indebido), contacta con nosotros en ametsgoien@gmail.com en un plazo razonable y evaluaremos tu caso de forma individualizada.",
-      "recurring": "Donaciones recurrentes (suscripciones):",
-      "recurringIntro": "Puedes cancelar tu suscripción en cualquier momento sin coste adicional. Para ello:",
+      "recurring": "Solicitudes de donación recurrente:",
+      "recurringIntro": "Las donaciones recurrentes no se cobran automáticamente con Redsys desde la web. El usuario puede elegir entre enviar la solicitud firmada mediante el formulario web o descargar el PDF editable y remitirlo manualmente a AMETSGOIEN.",
       "recurringSteps": [
-        "Accede al enlace de gestión enviado en el email de confirmación",
-        "O contacta con nosotros en ametsgoien@gmail.com"
+        "Si se usa el formulario web, se genera un PDF firmado con los datos introducidos y se remite por correo electrónico a la asociación para su revisión y gestión.",
+        "Si se usa la descarga manual, el usuario asume el envío del PDF por el canal que considere oportuno y AMETSGOIEN registrará la solicitud cuando la reciba.",
+        "AMETSGOIEN no solicita datos de tarjeta, CVV ni claves bancarias para estas solicitudes recurrentes."
       ],
-      "recurringNote": "La cancelación será efectiva para periodos futuros, sin nuevas renovaciones desde su tramitación. Las cantidades ya abonadas solo se revisarán en supuestos de error o incidencia justificada."
+      "recurringNote": "El tratamiento de estos datos se basa en el consentimiento prestado al enviar o remitir la solicitud y en la necesidad de gestionar la colaboración solicitada. El usuario puede pedir información, rectificación, supresión u oposición escribiendo a ametsgoien@gmail.com."
     },
     "section11": {
       "title": "11. Modificaciones de la política",
@@ -621,7 +655,7 @@
     },
     "footer": {
       "lastUpdate": "Última actualización:",
-      "lastUpdateDate": "Marzo 2026",
+      "lastUpdateDate": "Junio 2026",
       "contactInfo": "Para consultas sobre política de privacidad, reembolsos o gestión de suscripciones, contacta:",
       "contactEmail": "ametsgoien@gmail.com"
     }

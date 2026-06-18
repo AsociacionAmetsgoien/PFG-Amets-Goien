@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-
-type Language = 'es' | 'eu' | 'en';
+const PDF_DOWNLOAD_URL = '/Formulario_Ametsgoien_Aportaciones.pdf';
+const AMOUNT_OPTIONS = [10, 20, 50, 100];
 
 type FormState = {
   nombre: string;
@@ -24,108 +24,37 @@ type FormState = {
   website: string;
 };
 
-const copy = {
-  es: {
-    title: 'Formulario de donación recurrente',
-    subtitle: 'Rellena los datos y firma aquí. Recibiremos el PDF generado en la asociación con tu solicitud lista para revisar.',
-    intro: 'Este formulario no usa Redsys. Sirve para dejar preparada tu intención de donación periódica en un PDF firmado.',
-    help: 'Si tienes dudas, puedes escribirnos antes de enviarlo.',
-    send: 'Enviar formulario y generar PDF',
-    clear: 'Borrar firma',
-    success: 'Hemos recibido tu solicitud de donación recurrente. Revisaremos el PDF y te contactaremos si necesitamos confirmar algo.',
-    error: 'No se ha podido enviar el formulario. Vuelve a intentarlo.',
-    consent: 'Autorizo a Ametsgoien a registrar y remitir mi solicitud de donación recurrente con los datos introducidos.',
-    signature: 'Firma',
-    labels: {
-      nombre: 'Nombre',
-      apellidos: 'Apellidos',
-      dni: 'DNI / NIE',
-      direccion: 'Dirección',
-      cp: 'Código Postal',
-      localidad: 'Localidad',
-      telefono: 'Teléfono',
-      email: 'Correo electrónico',
-      titular: 'Titular de la cuenta',
-      iban: 'IBAN / Número de cuenta',
-      cantidad: 'Cantidad de colaboración (€)',
-      periodicidad: 'Periodicidad'
-    },
-    periodicity: {
-      mensual: 'Mensual',
-      trimestral: 'Trimestral',
-      semestral: 'Semestral',
-      anual: 'Anual'
-    }
-  },
-  eu: {
-    title: 'Ekarpen errepikakorrerako formularioa',
-    subtitle: 'Bete datuak eta hemen sinatu. Sortutako PDFa jasoko dugu elkartean zure eskaera prest egon dadin.',
-    intro: 'Formulario honek ez du Redsys erabiltzen. Zure dohaintza periodikoaren asmoa sinatutako PDF batean prest uzteko balio du.',
-    help: 'Zalantzarik baduzu, bidali aurretik idatz diezagukezu.',
-    send: 'Bidali formularioa eta sortu PDFa',
-    clear: 'Sinadura ezabatu',
-    success: 'Jasota dugu zure dohaintza errepikakorrerako eskaera. PDFa berrikusiko dugu eta zerbait baieztatu behar badugu zurekin harremanetan jarriko gara.',
-    error: 'Ezin izan da formularioa bidali. Saiatu berriro.',
-    consent: 'Onartzen dut AMETSGOIENek sartutako datuekin nire dohaintza errepikakorrerako eskaera erregistratu eta bidaltzea.',
-    signature: 'Sinadura',
-    labels: {
-      nombre: 'Izena',
-      apellidos: 'Abizenak',
-      dni: 'NAN / AIZ',
-      direccion: 'Helbidea',
-      cp: 'Posta kodea',
-      localidad: 'Herria',
-      telefono: 'Telefonoa',
-      email: 'Helbide elektronikoa',
-      titular: 'Kontuaren titularra',
-      iban: 'IBAN / Kontu zenbakia',
-      cantidad: 'Lankidetza zenbatekoa (€)',
-      periodicidad: 'Maiztasuna'
-    },
-    periodicity: {
-      mensual: 'Hilerokoa',
-      trimestral: 'Hiruhilekoa',
-      semestral: 'Seihilekoa',
-      anual: 'Urterokoa'
-    }
-  },
-  en: {
-    title: 'Recurring donation form',
-    subtitle: 'Fill in your details and sign here. We will receive the generated PDF at the association with your request ready to review.',
-    intro: 'This form does not use Redsys. It prepares your recurring donation request in a signed PDF.',
-    help: 'If you have any questions, you can contact us before sending it.',
-    send: 'Send form and generate PDF',
-    clear: 'Clear signature',
-    success: 'We have received your recurring donation request. We will review the PDF and contact you if we need to confirm anything.',
-    error: 'The form could not be sent. Please try again.',
-    consent: 'I authorize Ametsgoien to record and send my recurring donation request with the details entered.',
-    signature: 'Signature',
-    labels: {
-      nombre: 'First name',
-      apellidos: 'Last name',
-      dni: 'ID / NIE',
-      direccion: 'Address',
-      cp: 'Postal code',
-      localidad: 'City',
-      telefono: 'Phone',
-      email: 'Email address',
-      titular: 'Account holder',
-      iban: 'IBAN / Account number',
-      cantidad: 'Contribution amount (€)',
-      periodicidad: 'Frequency'
-    },
-    periodicity: {
-      mensual: 'Monthly',
-      trimestral: 'Quarterly',
-      semestral: 'Semiannual',
-      anual: 'Yearly'
-    }
-  }
-} as const;
+type RecurringDonationContent = {
+  manualTitle: string;
+  manualText: string;
+  manualDownload: string;
+  help: string;
+  send: string;
+  clear: string;
+  success: string;
+  error: string;
+  signature: string;
+  labels: {
+    nombre: string;
+    apellidos: string;
+    dni: string;
+    direccion: string;
+    cp: string;
+    localidad: string;
+    telefono: string;
+    email: string;
+    titular: string;
+    iban: string;
+    cantidad: string;
+    periodicidad: string;
+  };
+  periodicity: Record<FormState['periodicidad'], string>;
+};
+
 
 export default function RecurringDonationForm({ embedded = false }: { embedded?: boolean }) {
-  const { language } = useLanguage();
-  const content = copy[(language as Language) || 'es'] ?? copy.es;
+  const { t } = useLanguage();
+  const content = t('collaborate.recurringDonation') as RecurringDonationContent;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const drawingRef = useRef(false);
   const lastPointRef = useRef<{ x: number; y: number } | null>(null);
@@ -371,21 +300,22 @@ export default function RecurringDonationForm({ embedded = false }: { embedded?:
 
   const formContent = (
     <>
-        <div className={embedded ? "text-center mb-6" : "text-center mb-10"}>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: '#8A4D76' }}>
-            {content.title}
-          </h2>
-          <p className={`${embedded ? 'text-sm' : 'text-lg'} text-gray-700 max-w-3xl mx-auto leading-relaxed`}>
-            {content.subtitle}
-          </p>
-          <p className={`${embedded ? 'hidden' : 'block'} text-sm text-gray-500 mt-3 max-w-2xl mx-auto`}>
-            {content.intro}
-          </p>
-        </div>
-
         <div className={embedded ? "block" : "grid grid-cols-1 lg:grid-cols-5 gap-8 items-start"}>
           <div className={embedded ? "" : "lg:col-span-3 bg-[#F8F2FA] rounded-3xl p-6 md:p-8 shadow-lg border border-purple-100"}>
             <form onSubmit={handleSubmit} className="space-y-5">
+
+              <div className="rounded-lg border border-gray-200 bg-white p-4">
+                <p className="text-sm font-bold text-gray-900 mb-1">{content.manualTitle}</p>
+                <p className="text-xs text-gray-600 mb-3">{content.manualText}</p>
+                <a
+                  href={PDF_DOWNLOAD_URL}
+                  download
+                  className="inline-flex w-full items-center justify-center rounded-full border border-[#8A4D76] px-4 py-2 text-sm font-bold text-[#8A4D76] transition-colors hover:bg-[#8A4D76] hover:text-white"
+                >
+                  {content.manualDownload}
+                </a>
+              </div>
+
               <div className="hidden" aria-hidden="true">
                 <label htmlFor="recurrente-website">Website</label>
                 <input
@@ -412,23 +342,49 @@ export default function RecurringDonationForm({ embedded = false }: { embedded?:
 
               <Field label={content.labels.iban} value={formData.iban} onChange={(value) => setFormData({ ...formData, iban: value })} required />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Field label={content.labels.cantidad} value={formData.cantidad} onChange={(value) => setFormData({ ...formData, cantidad: value })} type="number" step="1" min="1" required />
-                <div>
-                  <label className="block text-sm font-semibold text-gray-800 mb-2">{content.labels.periodicidad} *</label>
-                  <select
-                    value={formData.periodicidad}
-                    onChange={(event) => setFormData({ ...formData, periodicidad: event.target.value as FormState['periodicidad'] })}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 focus:border-[#8A4D76] focus:outline-none"
-                    required
-                  >
-                    <option value="mensual">{content.periodicity.mensual}</option>
-                    <option value="trimestral">{content.periodicity.trimestral}</option>
-                    <option value="semestral">{content.periodicity.semestral}</option>
-                    <option value="anual">{content.periodicity.anual}</option>
-                  </select>
+              <fieldset>
+                <legend className="block text-sm font-semibold text-gray-800 mb-2">{content.labels.cantidad} *</legend>
+                <div className="grid grid-cols-4 gap-2 mb-3" role="group" aria-label={content.labels.cantidad}>
+                  {AMOUNT_OPTIONS.map((amount) => (
+                    <button
+                      key={amount}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, cantidad: amount.toString() })}
+                      className={`py-2 px-3 rounded-lg font-semibold text-sm transition-all ${
+                        formData.cantidad === amount.toString()
+                          ? 'text-white shadow-md'
+                          : 'bg-gray-100 text-gray-700 border border-gray-300 hover:border-[#8A4D76]'
+                      }`}
+                      style={formData.cantidad === amount.toString() ? { backgroundColor: '#8A4D76' } : {}}
+                      aria-pressed={formData.cantidad === amount.toString()}
+                    >
+                      {amount}€
+                    </button>
+                  ))}
                 </div>
-              </div>
+                <Field label="" value={formData.cantidad} onChange={(value) => setFormData({ ...formData, cantidad: value })} type="number" step="1" min="1" required />
+              </fieldset>
+
+              <fieldset>
+                <legend className="block text-sm font-semibold text-gray-800 mb-2">{content.labels.periodicidad} *</legend>
+                <div className="grid grid-cols-2 gap-2" role="group" aria-label={content.labels.periodicidad}>
+                  {(Object.keys(content.periodicity) as FormState['periodicidad'][]).map((period) => (
+                    <button
+                      key={period}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, periodicidad: period })}
+                      className={`rounded-lg border-2 p-3 text-sm font-bold transition-all ${
+                        formData.periodicidad === period
+                          ? 'border-[#8A4D76] bg-purple-50 text-[#8A4D76]'
+                          : 'border-gray-300 bg-white text-gray-700 hover:border-[#8A4D76]'
+                      }`}
+                      aria-pressed={formData.periodicidad === period}
+                    >
+                      {content.periodicity[period]}
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
 
               <div className="bg-white rounded-2xl p-4 border border-gray-200">
                 <label className="block text-sm font-semibold text-gray-800 mb-3">{content.signature} *</label>
@@ -462,7 +418,13 @@ export default function RecurringDonationForm({ embedded = false }: { embedded?:
                   className="mt-1 w-4 h-4 rounded border-gray-300 text-[#8A4D76] focus:ring-[#8A4D76]"
                   required
                 />
-                <span className="text-sm text-gray-700 leading-relaxed">{content.consent}</span>
+                <span className="text-sm text-gray-700 leading-relaxed">
+                  {t('collaborate.donation.privacyConsent')}{' '}
+                  <a href="/privacidad" className="font-semibold hover:underline" style={{ color: '#8A4D76' }}>
+                    {t('collaborate.donation.privacyLink')}
+                  </a>
+                  {' '}{t('collaborate.donation.authorizeData')} *
+                </span>
               </label>
               
 
@@ -486,15 +448,15 @@ export default function RecurringDonationForm({ embedded = false }: { embedded?:
           <div className={`${embedded ? 'hidden' : 'lg:col-span-2 space-y-4'}`}>
             <div className="bg-[#E8D5F2] rounded-3xl p-6 border border-purple-100 shadow-sm">
               <h3 className="text-2xl font-bold mb-3" style={{ color: '#8A4D76' }}>
-                {content.title}
+                {content.manualTitle}
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                El PDF se completa automáticamente con los datos del formulario, se firma con la firma dibujada y se envía por email a la asociación.
+                {content.manualText}
               </p>
             </div>
 
             <div className="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm">
-              <h3 className="text-lg font-bold text-gray-900 mb-3">Qué recibirá la asociación</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-3">QuÃ© recibirÃ¡ la asociaciÃ³n</h3>
               <ul className="space-y-3 text-sm text-gray-700">
                 <li>Formulario PDF rellenado con tus datos.</li>
                 <li>Firma digitalizada dentro del documento.</li>
@@ -538,16 +500,18 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block text-sm font-semibold text-gray-800 mb-2">
-        {label}{required ? ' *' : ''}
-      </label>
+      {label && (
+        <label className="block text-sm font-semibold text-gray-800 mb-1">
+          {label}{required ? ' *' : ''}
+        </label>
+      )}
       <input
         type={type}
         value={value}
         step={step}
         min={min}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 focus:border-[#8A4D76] focus:outline-none"
+        className="w-full px-3 py-2 rounded-lg border border-gray-300 bg-white text-sm text-gray-900 focus:border-[#8A4D76] focus:outline-none"
         required={required}
       />
     </div>

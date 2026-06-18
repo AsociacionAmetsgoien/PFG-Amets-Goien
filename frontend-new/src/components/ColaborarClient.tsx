@@ -720,26 +720,7 @@ export default function ColaborarClient() {
                   🔒 {t('collaborate.redsys.secureProcessed')}
                 </p>
 
-                  {/* Enlace a otras formas de pago */}
-                  <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
-                    <p className="text-xs text-gray-700">
-                      💼 <strong>{t('collaborate.redsys.otherFormsTitle')}</strong> {t('collaborate.redsys.otherFormsText')} <span className="font-mono font-semibold">12892</span>.{" "}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const seccion = document.getElementById('otras-formas-donar');
-                          if (seccion) {
-                            const yOffset = -80;
-                            const y = seccion.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                            window.scrollTo({ top: y, behavior: 'smooth' });
-                          }
-                        }}
-                        className="text-purple-600 hover:text-purple-800 underline font-semibold"
-                      >
-                        {t('collaborate.redsys.seeDetails')}
-                      </button>
-                    </p>
-                  </div>
+                  
               </fieldset>
 
               {/* Política de Privacidad */}

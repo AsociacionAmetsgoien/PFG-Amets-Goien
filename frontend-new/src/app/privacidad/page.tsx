@@ -171,7 +171,7 @@ export default function PrivacidadPage() {
                   <li><strong>Redsys (La Caixa)</strong> Procesamiento seguro de pagos con tarjeta y Bizum. <a href="https://www.redsys.es/politica-de-privacidad.html" target="_blank" rel="noopener noreferrer" className="text-[#8A4D76] hover:underline">redsys.es/privacidad</a></li>
                   <li><strong>Vercel Inc.</strong> {t('privacy.section7.vercel')} <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#8A4D76] hover:underline">vercel.com/privacy</a></li>
                   <li><strong>Railway Corp.</strong> {t('privacy.section7.railway')} <a href="https://railway.app/legal/privacy" target="_blank" rel="noopener noreferrer" className="text-[#8A4D76] hover:underline">railway.app/privacy</a></li>
-                  <li><strong>SendGrid (Twilio Inc.)</strong> {t('privacy.section7.sendgrid')} <a href="https://www.twilio.com/legal/privacy" target="_blank" rel="noopener noreferrer" className="text-[#8A4D76] hover:underline">twilio.com/privacy</a></li>
+                  <li><strong>Brevo</strong> {t('privacy.section7.sendgrid')} <a href="https://www.brevo.com/legal/privacypolicy/" target="_blank" rel="noopener noreferrer" className="text-[#8A4D76] hover:underline">brevo.com/privacy</a></li>
                 </ul>
                 <p className="mt-3">
                   {t('privacy.section7.guarantees')}

@@ -91,17 +91,12 @@ function buildAdminHtml(summary) {
       <h2 style="color: #8A4D76; margin-bottom: 16px;">Nueva solicitud de donación recurrente</h2>
       <div style="background: white; padding: 20px; border-radius: 10px; line-height: 1.6; color: #333;">
         <p><strong>Nombre:</strong> ${summary.nombreCompleto}</p>
-        <p><strong>DNI:</strong> ${summary.dni}</p>
         <p><strong>Email:</strong> ${summary.email}</p>
         <p><strong>Teléfono:</strong> ${summary.telefono || '-'}</p>
-        <p><strong>Dirección:</strong> ${summary.direccion}</p>
-        <p><strong>CP / Localidad:</strong> ${summary.codigoPostal} ${summary.localidad}</p>
-        <p><strong>Titular de la cuenta:</strong> ${summary.titularCuenta}</p>
-        <p><strong>IBAN:</strong> ${summary.ibanMascara}</p>
         <p><strong>Importe:</strong> ${summary.cantidad}€</p>
         <p><strong>Periodicidad:</strong> ${summary.periodicidad}</p>
       </div>
-      <p style="color: #666; font-size: 12px; margin-top: 18px;">Se adjunta el PDF rellenado y firmado.</p>
+      <p style="color: #666; font-size: 12px; margin-top: 18px;">Se adjunta el PDF rellenado y firmado. El cuerpo del correo no repite datos bancarios ni identificativos sensibles.</p>
     </div>
   `;
 }
@@ -114,7 +109,7 @@ function buildUserHtml(summary) {
       <p>Hemos recibido correctamente tu formulario de donación recurrente. Revisaremos tu solicitud y te contactaremos si necesitamos confirmar algún dato.</p>
       <p><strong>Importe:</strong> ${summary.cantidad}€</p>
       <p><strong>Periodicidad:</strong> ${summary.periodicidad}</p>
-      <p style="color: #666; font-size: 12px; margin-top: 18px;">Este es un mensaje automÃ¡tico. No respondas a este correo.</p>
+      <p style="color: #666; font-size: 12px; margin-top: 18px;">Este es un mensaje automático. No respondas a este correo.</p>
     </div>
   `;
 }
@@ -247,7 +242,7 @@ export const registerRecurrentePublico = async (req, res) => {
     }
     return res.status(200).json({
       success: true,
-      message: 'Solicitud de donaciÃ³n recurrente recibida correctamente',
+      message: 'Solicitud de donación recurrente recibida correctamente',
       colaborador: {
         id: colaborador.id,
         nombre: colaborador.nombre,
@@ -258,7 +253,7 @@ export const registerRecurrentePublico = async (req, res) => {
   } catch (error) {
     console.error(`[${requestId}] Error al procesar la solicitud recurrente:`, error);
     return res.status(500).json({
-      message: 'Error al procesar la solicitud. Por favor, intÃ©ntalo de nuevo mÃ¡s tarde.',
+      message: 'Error al procesar la solicitud. Por favor, intÃ©ntalo de nuevo más tarde.',
       error: error.message
     });
   }
