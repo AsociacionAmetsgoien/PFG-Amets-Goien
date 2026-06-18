@@ -101,7 +101,6 @@
       "admin": "➣ Enseñanza de habilidades",
       "adminDesc": "Compartir tus conocimientos y ayudar a personas a desarrollar nuevas habilidades."
     },
-   
     "communications": "Mantente informado",
     "communicationsDesc": "Como voluntario/a, recibirás periódicamente:",
     "communicationsList": {
@@ -340,6 +339,10 @@
         "q2": {
           "question": "¿Cómo puedo desgravar mis donativos?",
           "answer": "Ametsgoien es una asociación de reciente constitución. Según la normativa fiscal vigente, las entidades sin ánimo de lucro pueden emitir certificados de desgravación fiscal a partir de los tres años desde su fundación. Una vez cumplido este plazo, te enviaremos automáticamente el certificado anual para que puedas incluirlo en tu declaración de la renta."
+        },
+        "q3": {
+          "question": "¿Cómo funcionan las donaciones recurrentes?",
+          "answer": "Las donaciones recurrentes no se cobran con Redsys desde la web. Al elegir esta opción, rellenas tus datos, firmas el formulario y generamos un PDF que se envía por correo a la asociación. El equipo de Ametsgoien revisa esa solicitud y gestiona después la aportación periódica directamente contigo."
         }
       }
     },
@@ -501,7 +504,12 @@
         "otro": "Otro destino"
       }
     },
-    "contact": "Contactar"
+    "contact": "Contactar",
+    "donationMode": {
+      "label": "Tipo de donación",
+      "oneTime": "Donación puntual",
+      "recurring": "Donación recurrente"
+    }
   },
   "privacy": {
     "backButton": "Volver",

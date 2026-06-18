@@ -86,6 +86,15 @@ function buildBrevoPayload(mailOptions) {
     payload.headers = mailOptions.headers;
   }
 
+  if (Array.isArray(mailOptions.attachments) && mailOptions.attachments.length > 0) {
+    payload.attachment = mailOptions.attachments
+      .filter((attachment) => attachment && attachment.content && (attachment.name || attachment.filename))
+      .map((attachment) => ({
+        name: attachment.name || attachment.filename,
+        content: attachment.content
+      }));
+  }
+
   return { apiKey, payload };
 }
 

@@ -4,12 +4,14 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import RedsysPaymentForm from "@/components/RedsysPaymentForm";
+import RecurringDonationForm from "@/components/RecurringDonationForm";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 // Control para habilitar/deshabilitar donaciones
 const DONATIONS_DISABLED = false; // Cambiado a false para habilitar Redsys
+type DonationMode = 'puntual' | 'recurrente';
 
 interface DonacionForm {
   nombre: string;
@@ -52,6 +54,7 @@ export default function ColaborarClient() {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [bizumCopiado, setBizumCopiado] = useState(false);
   const [faqAbiertas, setFaqAbiertas] = useState<{ [key: string]: boolean }>({});
+  const [donationMode, setDonationMode] = useState<DonationMode>('puntual');
 
   // Auto-ocultar mensaje después de 5 segundos
   useEffect(() => {
@@ -423,6 +426,40 @@ export default function ColaborarClient() {
                 {t('collaborate.donation.title')}
               </h2>
               <p className="text-center text-gray-600 mb-6">{t('collaborate.donation.subtitle')}</p>
+
+              <div className="mb-6 rounded-xl bg-gray-100 p-1 grid grid-cols-2 gap-1" role="tablist" aria-label={t('collaborate.donationMode.label')}>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={donationMode === 'puntual'}
+                  onClick={() => setDonationMode('puntual')}
+                  className={`rounded-lg px-3 py-3 text-sm font-bold transition-all ${
+                    donationMode === 'puntual'
+                      ? 'bg-white text-[#8A4D76] shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  {t('collaborate.donationMode.oneTime')}
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={donationMode === 'recurrente'}
+                  onClick={() => setDonationMode('recurrente')}
+                  className={`rounded-lg px-3 py-3 text-sm font-bold transition-all ${
+                    donationMode === 'recurrente'
+                      ? 'bg-white text-[#8A4D76] shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  {t('collaborate.donationMode.recurring')}
+                </button>
+              </div>
+
+              {donationMode === 'recurrente' ? (
+                <RecurringDonationForm embedded />
+              ) : (
+              <>
               
               {/* Mensaje de donaciones deshabilitadas */}
               {DONATIONS_DISABLED && (
@@ -765,6 +802,8 @@ export default function ColaborarClient() {
               )}
               </fieldset>
               </form>
+              </>
+              )}
             </div>
 
             {/* Información adicional */}
@@ -845,6 +884,32 @@ export default function ColaborarClient() {
                 {faqAbiertas.q2 && (
                   <div className="px-6 pb-5 text-gray-700 leading-relaxed">
                     {t('collaborate.faq.questions.q2.answer')}
+                  </div>
+                )}
+              </div>
+
+              {/* Pregunta 3 */}
+              <div className="bg-white rounded-xl shadow-md overflow-hidden border-2 border-transparent hover:border-purple-200 transition-all">
+                <button
+                  type="button"
+                  onClick={() => setFaqAbiertas(prev => ({ ...prev, q3: !prev.q3 }))}
+                  className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 hover:bg-purple-50 transition-colors"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 flex-1">
+                    {t('collaborate.faq.questions.q3.question')}
+                  </h3>
+                  <svg
+                    className={`w-6 h-6 text-purple-600 flex-shrink-0 transition-transform ${faqAbiertas.q3 ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {faqAbiertas.q3 && (
+                  <div className="px-6 pb-5 text-gray-700 leading-relaxed">
+                    {t('collaborate.faq.questions.q3.answer')}
                   </div>
                 )}
               </div>

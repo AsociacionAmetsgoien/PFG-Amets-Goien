@@ -101,7 +101,6 @@
       "admin": "➣ Trebetasunak irakastea",
       "adminDesc": "Zure ezagutzak partekatu eta lagundu pertsonak trebetasun berriak garatzen."
     },
-    
     "communications": "Informatuta egon",
     "communicationsDesc": "Bazkide gisa, aldizka jasoko duzu:",
     "communicationsList": {
@@ -110,7 +109,7 @@
       "opportunities": "✓ Zure eskuragarritasunaren arabera laguntzeko aukerak",
       "meetings": "✓ Bazkideen bilkuren eta topaketen deiak"
     },
-      "unsubscribe": "Edozein unetan gure komunikazioetan baja eman dezakezu.",
+    "unsubscribe": "Edozein unetan gure komunikazioetan baja eman dezakezu.",
     "form": {
       "name": "Izena",
       "surname": "Abizenak",
@@ -340,6 +339,10 @@
         "q2": {
           "question": "Nola kendu ditzaket nire dohaintzak?",
           "answer": "Ametsgoien duela gutxi sortu zen elkartea da. Indarrean dagoen zerga araudiaren arabera, irabazi-asmorik gabeko erakundeek hiru urteko epea bete ondoren eman ditzakete zerga-kenkariaren ziurtagiriak. Epe hau betetzean, urteko ziurtagiria automatikoki bidaliko dizugu zure errentaren aitorpenean sar dezazun."
+        },
+        "q3": {
+          "question": "Nola funtzionatzen dute dohaintza errepikakorren eskaerek?",
+          "answer": "Dohaintza errepikakorrak ez dira webgunetik Redsys bidez kobratzen. Aukera hori hautatzean, datuak betetzen dituzu, formularioa sinatzen duzu eta PDF bat sortzen dugu elkarteari posta elektronikoz bidaltzeko. Ametsgoieneko taldeak eskaera aztertzen du eta ondoren ekarpen periodikoa zuzenean zurekin kudeatzen du."
         }
       }
     },
@@ -501,7 +504,12 @@
         "otro": "Beste helmuga bat"
       }
     },
-    "contact": "Harremanetan jarri"
+    "contact": "Harremanetan jarri",
+    "donationMode": {
+      "label": "Dohaintza mota",
+      "oneTime": "Dohaintza puntuala",
+      "recurring": "Dohaintza errepikakorra"
+    }
   },
   "privacy": {
     "backButton": "Itzuli",

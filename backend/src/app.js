@@ -14,6 +14,9 @@ import redsysRoutes from './routes/redsysRoutes.js';
 import donacionRoutes from './routes/donacionRoutes.js';
 import newsletterRoutes from './routes/newsletterRoutes.js';
 import estadisticasRoutes from './routes/estadisticasRoutes.js';
+import { registerRecurrentePublico } from './controllers/recurrenteController.js';
+import { recurrentePublicoSchema } from './validations/recurrenteValidation.js';
+import { validate } from './middleware/validate.js';
 
 const app = express();
 
@@ -151,8 +154,8 @@ app.use(cors({
 
 // Parse JSON y URL-encoded bodies
 // Redsys envía datos en formato application/x-www-form-urlencoded
-app.use(express.json()); // Para la mayoría de endpoints
-app.use(express.urlencoded({ extended: true })); // Para Redsys webhooks
+app.use(express.json({ limit: '5mb' })); // Para la mayoría de endpoints
+app.use(express.urlencoded({ extended: true, limit: '5mb' })); // Para Redsys webhooks
 
 // Health check route (sin rate limiting)
 app.get('/health', (req, res) => {
@@ -170,12 +173,14 @@ app.use('/api/users/register', authLimiter);
 app.use('/api/contacto', formLimiter);
 app.use('/api/payment/redsys/create', donationAntiBotGuard, donationCreateBurstLimiter, donationCreateLimiter); // Redsys payment creation
 app.use('/api/colaboradores/registro-voluntario', formLimiter); // Registro de voluntarios
+app.use('/api/colaboradores/registro-recurrente', formLimiter); // Formulario recurrente con PDF
 
 // Aplicar rate limiting general a todas las rutas de API
 app.use('/api/', generalLimiter);
 
 // Routes
 app.use('/api/users', userRoutes);
+app.post('/api/colaboradores/registro-recurrente', formLimiter, validate(recurrentePublicoSchema), registerRecurrentePublico);
 app.use('/api/colaboradores', colaboradorRoutes);
 app.use('/api/empleados', empleadoRoutes);
 app.use('/api/noticias', noticiaRoutes);

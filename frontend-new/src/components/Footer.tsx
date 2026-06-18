@@ -153,7 +153,7 @@ const Footer = () => {
             {/* Placeholder colaborador 6 */}
             <div className="w-32 h-20 md:w-40 md:h-24 flex items-center justify-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
               <img 
-                src="/urduñako-udala.png" 
+                src="/urduna-ko-udala.png" 
                 alt="Ayuntamiento de Orduña"
                 className="max-w-full max-h-full object-contain transition-all duration-300"
               />

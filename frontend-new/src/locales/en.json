@@ -101,7 +101,6 @@
       "admin": "➣ Skills Training",
       "adminDesc": "Share your knowledge and help people develop new skills."
     },
-    
     "communications": "Stay informed",
     "communicationsDesc": "As a volunteer, you will periodically receive:",
     "communicationsList": {
@@ -340,6 +339,10 @@
         "q2": {
           "question": "How can I get tax deductions for my donations?",
           "answer": "Ametsgoien is a recently established association. According to current tax regulations, non-profit organizations can issue tax deduction certificates after three years from their foundation. Once this period is completed, we will automatically send you the annual certificate to include in your tax return."
+        },
+        "q3": {
+          "question": "How do recurring donation requests work?",
+          "answer": "Recurring donations are not charged through Redsys on the website. When you choose this option, you fill in your details, sign the form and we generate a PDF that is emailed to the association. The Ametsgoien team reviews the request and then manages the periodic contribution directly with you."
         }
       }
     },
@@ -349,9 +352,11 @@
     },
     "donation": {
       "title": "Make a donation",
-      "subtitle": "Complete the form to make your donation. All transactions are secure.",      "temporarilyDisabled": "Online Donations Currently Unavailable",
+      "subtitle": "Complete the form to make your donation. All transactions are secure.",
+      "temporarilyDisabled": "Online Donations Currently Unavailable",
       "disabledMessage": "The online donation system is currently being configured. Please use the Bizum or bank transfer options found below.",
-      "otherOptionsLink": "See alternative payment options",      "amount": "Amount (€)",
+      "otherOptionsLink": "See alternative payment options",
+      "amount": "Amount (€)",
       "amountPlaceholder": "Ex: 20",
       "destination": "Where would you like your donation to go?",
       "optional": "(Optional)",
@@ -499,7 +504,12 @@
         "otro": "Other destination"
       }
     },
-    "contact": "Contact"
+    "contact": "Contact",
+    "donationMode": {
+      "label": "Donation type",
+      "oneTime": "One-time donation",
+      "recurring": "Recurring donation"
+    }
   },
   "privacy": {
     "backButton": "Back",
