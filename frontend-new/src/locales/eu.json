@@ -101,7 +101,6 @@
       "admin": "➣ Trebetasunak irakastea",
       "adminDesc": "Zure ezagutzak partekatu eta lagundu pertsonak trebetasun berriak garatzen."
     },
-    
     "communications": "Informatuta egon",
     "communicationsDesc": "Bazkide gisa, aldizka jasoko duzu:",
     "communicationsList": {
@@ -110,7 +109,7 @@
       "opportunities": "✓ Zure eskuragarritasunaren arabera laguntzeko aukerak",
       "meetings": "✓ Bazkideen bilkuren eta topaketen deiak"
     },
-      "unsubscribe": "Edozein unetan gure komunikazioetan baja eman dezakezu.",
+    "unsubscribe": "Edozein unetan gure komunikazioetan baja eman dezakezu.",
     "form": {
       "name": "Izena",
       "surname": "Abizenak",
@@ -340,6 +339,10 @@
         "q2": {
           "question": "Nola kendu ditzaket nire dohaintzak?",
           "answer": "Ametsgoien duela gutxi sortu zen elkartea da. Indarrean dagoen zerga araudiaren arabera, irabazi-asmorik gabeko erakundeek hiru urteko epea bete ondoren eman ditzakete zerga-kenkariaren ziurtagiriak. Epe hau betetzean, urteko ziurtagiria automatikoki bidaliko dizugu zure errentaren aitorpenean sar dezazun."
+        },
+        "q3": {
+          "question": "Zer alde dago eskaera errepikakorra web bidez bidaltzearen eta eskuz egitearen artean?",
+          "answer": "Web formularioak sinatutako PDFa sortu eta automatikoki bidaltzen dio Ametsgoieni; erosoagoa da eta laguntzailearen erregistroa bikoiztu gabe kudeatzen laguntzen du. Aldiz, datu pertsonal eta banku-datuak dituen PDFa posta elektronikoko eranskin gisa bidaltzen da, eta ez da aukera egokia kanal hori saihestu nahi baduzu. Eskuzko aukeran PDF editagarria deskargatu, bete eta zuk aukeratutako bidearen bidez bidaltzen duzu; kontrol handiagoa ematen du, baina urrats gehiago ditu eta elkarteak gero erregistratuko du eskuz."
         }
       }
     },
@@ -501,7 +504,43 @@
         "otro": "Beste helmuga bat"
       }
     },
-    "contact": "Harremanetan jarri"
+    "contact": "Harremanetan jarri",
+    "donationMode": {
+      "label": "Dohaintza mota",
+      "oneTime": "Dohaintza puntuala",
+      "recurring": "Dohaintza errepikakorra"
+    },
+    "recurringDonation": {
+      "manualTitle": "Eskuzko aukera",
+      "manualText": "Banku-datuak webgunetik bidali nahi ez badituzu, deskargatu PDF editagarria eta bidali zuk zuzenean elkartera.",
+      "manualDownload": "Deskargatu PDF editagarria",
+      "help": "Zalantzarik baduzu, bidali aurretik idatz diezagukezu.",
+      "send": "Bidali sinatutako eskaera",
+      "clear": "Sinadura ezabatu",
+      "success": "Jasota dugu zure dohaintza errepikakorrerako eskaera. PDFa berrikusiko dugu eta zerbait baieztatu behar badugu zurekin harremanetan jarriko gara.",
+      "error": "Ezin izan da formularioa bidali. Saiatu berriro.",
+      "signature": "Sinadura",
+      "labels": {
+        "nombre": "Izena",
+        "apellidos": "Abizenak",
+        "dni": "NAN / AIZ",
+        "direccion": "Helbidea",
+        "cp": "Posta kodea",
+        "localidad": "Herria",
+        "telefono": "Telefonoa",
+        "email": "Helbide elektronikoa",
+        "titular": "Kontuaren titularra",
+        "iban": "IBAN / Kontu zenbakia",
+        "cantidad": "Ekarpenaren zenbatekoa (€)",
+        "periodicidad": "Maiztasuna"
+      },
+      "periodicity": {
+        "mensual": "Hilerokoa",
+        "trimestral": "Hiruhilekoa",
+        "semestral": "Seihilekoa",
+        "anual": "Urterokoa"
+      }
+    }
   },
   "privacy": {
     "backButton": "Itzuli",
@@ -543,7 +582,8 @@
         "Telefonoa (aukerakoa)",
         "Helbidea (aukerakoa)",
         "Dohaintzaren zenbatekoa, egoera eta metadatu teknikoak",
-        "Redsys bidez prozesatutako ordainketa datuak (txartela eta Bizum), AMETSGOIENek txartel datu osoak gorde gabe"
+        "Redsys bidez prozesatutako ordainketa datuak (txartela eta Bizum), AMETSGOIENek txartel datu osoak gorde gabe",
+        "Dohaintza errepikakorren eskaeretan: NAN/AIZ, posta helbidea, herria, posta kodea, kontuaren titularra, IBAN, zenbatekoa, maiztasuna eta sinadura digitalizatua web formularioa erabiltzen denean."
       ]
     },
     "section4": {
@@ -552,7 +592,8 @@
       "purposes": [
         "Kontsultak edo informazio eskaerak erantzutea.",
         "Elkartearekiko lankidetza edo kontaktu eskaerak kudeatzea.",
-        "AMETSGOIEN-en jarduerari lotutako komunikazioak mantentzea, erabiltzaileak berariaz baimendu duenean."
+        "AMETSGOIEN-en jarduerari lotutako komunikazioak mantentzea, erabiltzaileak berariaz baimendu duenean.",
+        "Sinatutako PDF bidezko ekarpen periodikoen eskaerak izapidetzea eta horri lotutako laguntzaile harremana kudeatzea."
       ]
     },
     "section5": {
@@ -569,7 +610,7 @@
       "stripe": "(ordainketen prozesatzea): Online ordainketak Redsys (La Caixa) plataformaren bidez kudeatzen dira, segurtasun eta betetze estandar propioekin. AMETSGOIENek ez ditu banku txartelen datu osoak gordetzen. Informazio gehiago hemen",
       "vercel": "(frontend hosting): www.ametsgoien.org webgunea ostatzeko. Informazio gehiago hemen",
       "railway": "(backend eta datu base hosting): API REST zerbitzaria eta PostgreSQL datu basea ostatzeko. Informazio gehiago hemen",
-      "sendgrid": "(email zerbitzua): Dohaintzen baieztapenak eta kontaktu formularioen erantzunak bidaltzeko. Informazio gehiago hemen",
+      "sendgrid": "(posta elektroniko transakzionalaren zerbitzua): eskaerak, baieztapenak eta komunikazio operatiboak bidaltzeko. Webgunetik bidalitako eskaera errepikakorretan, ekarpena izapidetzeko beharrezko identifikazio eta banku-datuak dituen PDF bat erantsi daiteke.",
       "guarantees": "Hornitzaile guztiekin konfidentzialtasun akordio eta klausula kontraktualak bidez indarrean dagoen araudiak eskatutako bermeak hartu dira."
     },
     "section8": {
@@ -595,13 +636,14 @@
       "intro": "AMETSGOIEN-era egindako dohaintzak harrera eta gizarte laguntzako proiektuak finantzatzeko borondatezko ekarpenak dira.",
       "oneTime": "Behin-behineko dohaintzak:",
       "oneTimeText": "Behin dohaintza prozesatu ondoren, hau behin betikoa da. Zure dohaintzan errorerik detektatzen baduzu, jarri gurekin harremanetan ametsgoien@gmail.com helbidean 48 orduko epean eta zure kasua modu indibidualean ebaluatuko dugu.",
-      "recurring": "Dohaintza errepikakorra (harpidetza):",
-      "recurringIntro": "Zure harpidetza edozein unetan ezeztatu dezakezu kostu gehigarririk gabe. Horretarako:",
+      "recurring": "Dohaintza errepikakorren eskaerak:",
+      "recurringIntro": "Dohaintza errepikakorrak ez dira automatikoki kobratzen webgunetik Redsys bidez. Erabiltzaileak aukera dezake eskaera sinatua web formularioaren bidez bidali edo PDF editagarria deskargatu eta AMETSGOIENi eskuz bidali.",
       "recurringSteps": [
-        "Sartu baieztapen emailean bidalitako kudeaketa estekara",
-        "Edo jarri gurekin harremanetan ametsgoien@gmail.com helbidean"
+        "Web formularioa erabiltzen bada, sartutako datuekin sinatutako PDF bat sortzen da eta elkarteari posta elektronikoz bidaltzen zaio berrikusi eta kudeatzeko.",
+        "Eskuzko deskarga erabiltzen bada, erabiltzaileak berak bidaltzen du PDFa egokien iruditzen zaion kanalaren bidez, eta AMETSGOIENek eskaera jasotzen duenean erregistratuko du.",
+        "AMETSGOIENek ez du txartel-daturik, CVVrik edo banku-gakorik eskatzen eskaera errepikakor hauetarako."
       ],
-      "recurringNote": "Ezeztapena hurrengo fakturazio alditik aurrera izango da eraginkorra. Jadanik ordaindutako kopuruak ez dira itzulgarriak."
+      "recurringNote": "Datu horien tratamendua eskaera bidali edo igortzean emandako baimenean eta eskatutako lankidetza kudeatzeko beharrean oinarritzen da. Erabiltzaileak informazioa, zuzenketa, ezabaketa edo aurka egiteko eskubideak eska ditzake ametsgoien@gmail.com helbidera idatzita."
     },
     "section11": {
       "title": "11. Politikaren aldaketak",
@@ -609,7 +651,7 @@
     },
     "footer": {
       "lastUpdate": "Azken eguneratzea:",
-      "lastUpdateDate": "2026ko urtarrila",
+      "lastUpdateDate": "2026ko ekaina",
       "contactInfo": "Pribatutasun politika, itzulketak edo harpidetzaren kudeaketari buruzko galderetarako, jarri harremanetan:",
       "contactEmail": "ametsgoien@gmail.com"
     }

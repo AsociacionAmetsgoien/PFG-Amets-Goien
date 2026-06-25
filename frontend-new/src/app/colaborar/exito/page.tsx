@@ -145,14 +145,14 @@ function ExitoContent() {
         </div>
 
         {/* Información adicional */}
-        <div className="bg-blue-50 rounded-xl p-6 mb-6 border border-blue-200">
+        <div className="bg-purple-50 rounded-xl p-6 mb-6 border border-purple-200">
           <div className="flex items-start gap-3">
-            <svg className="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 text-purple-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
             <div>
-              <p className="font-semibold text-blue-900 mb-1">{t('collaborate.success.emailSent')}</p>
-              <p className="text-sm text-blue-700">
+              <p className="font-semibold text-purple-900 mb-1">{t('collaborate.success.emailSent')}</p>
+              <p className="text-sm text-purple-700">
                 {t('collaborate.success.emailDescription')}
                 {paymentInfo.colaborador?.email && (
                   <> en <span className="font-semibold">{paymentInfo.colaborador.email}</span></>

@@ -183,22 +183,6 @@ const Navbar = () => {
               {t('nav.collaborate')}
             </button>
             </a>
-            <a 
-              href="/acceso-interno" 
-              className="text-white no-underline hover:scale-110 transition-all duration-200"
-              style={{ 
-                textDecoration: 'none', 
-                fontSize: '14px',
-                fontWeight: '500',
-                letterSpacing: '0.3px',
-                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
-              }}
-              aria-label="Acceso para personal interno"
-              role="menuitem"
-            >
-              {t('nav.internal')}
-            </a>
-            
             {/* Selector de idiomas */}
             <LanguageSwitcher />
           </div>
@@ -252,13 +236,6 @@ const Navbar = () => {
                 >
                   {t('nav.collaborate')}
                 </button>
-              </a>
-              <a 
-                href="/acceso-interno" 
-                className="text-white text-sm font-medium py-2 hover:bg-white/10 rounded-lg px-3 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('nav.internal')}
               </a>
             </div>
           </div>

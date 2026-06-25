@@ -101,7 +101,6 @@
       "admin": "➣ Skills Training",
       "adminDesc": "Share your knowledge and help people develop new skills."
     },
-    
     "communications": "Stay informed",
     "communicationsDesc": "As a volunteer, you will periodically receive:",
     "communicationsList": {
@@ -340,6 +339,10 @@
         "q2": {
           "question": "How can I get tax deductions for my donations?",
           "answer": "Ametsgoien is a recently established association. According to current tax regulations, non-profit organizations can issue tax deduction certificates after three years from their foundation. Once this period is completed, we will automatically send you the annual certificate to include in your tax return."
+        },
+        "q3": {
+          "question": "What is the difference between sending the recurring request through the website and doing it manually?",
+          "answer": "The web form generates the signed PDF and sends it automatically to Ametsgoien, which is more convenient and helps register the collaborator request without duplicates. The trade-off is that the PDF containing personal and bank details travels as an email attachment, so it should not be used if you prefer to avoid that channel. The manual option lets you download the editable PDF, fill it in and send it through the channel you consider appropriate; it gives you more control over delivery, but requires more steps and the association will register it manually afterwards."
         }
       }
     },
@@ -349,9 +352,11 @@
     },
     "donation": {
       "title": "Make a donation",
-      "subtitle": "Complete the form to make your donation. All transactions are secure.",      "temporarilyDisabled": "Online Donations Currently Unavailable",
+      "subtitle": "Complete the form to make your donation. All transactions are secure.",
+      "temporarilyDisabled": "Online Donations Currently Unavailable",
       "disabledMessage": "The online donation system is currently being configured. Please use the Bizum or bank transfer options found below.",
-      "otherOptionsLink": "See alternative payment options",      "amount": "Amount (€)",
+      "otherOptionsLink": "See alternative payment options",
+      "amount": "Amount (€)",
       "amountPlaceholder": "Ex: 20",
       "destination": "Where would you like your donation to go?",
       "optional": "(Optional)",
@@ -499,7 +504,43 @@
         "otro": "Other destination"
       }
     },
-    "contact": "Contact"
+    "contact": "Contact",
+    "donationMode": {
+      "label": "Donation type",
+      "oneTime": "One-time donation",
+      "recurring": "Recurring donation"
+    },
+    "recurringDonation": {
+      "manualTitle": "Manual option",
+      "manualText": "If you prefer not to send bank details through the website, download the editable PDF and email it directly to the association yourself.",
+      "manualDownload": "Download editable PDF",
+      "help": "If you have any questions, you can contact us before sending it.",
+      "send": "Send signed request",
+      "clear": "Clear signature",
+      "success": "We have received your recurring donation request. We will review the PDF and contact you if we need to confirm anything.",
+      "error": "The form could not be sent. Please try again.",
+      "signature": "Signature",
+      "labels": {
+        "nombre": "First name",
+        "apellidos": "Last name",
+        "dni": "ID / NIE",
+        "direccion": "Address",
+        "cp": "Postal code",
+        "localidad": "City",
+        "telefono": "Phone",
+        "email": "Email address",
+        "titular": "Account holder",
+        "iban": "IBAN / Account number",
+        "cantidad": "Contribution amount (€)",
+        "periodicidad": "Frequency"
+      },
+      "periodicity": {
+        "mensual": "Monthly",
+        "trimestral": "Quarterly",
+        "semestral": "Semiannual",
+        "anual": "Yearly"
+      }
+    }
   },
   "privacy": {
     "backButton": "Back",
@@ -541,7 +582,8 @@
         "Phone (optional)",
         "Address (optional)",
         "Donation amount, status and technical metadata",
-        "Payment data processed by Redsys (card and Bizum), without storing full card numbers in AMETSGOIEN"
+        "Payment data processed by Redsys (card and Bizum), without storing full card numbers in AMETSGOIEN",
+        "For recurring donation requests: ID/NIE, postal address, city, postal code, account holder, IBAN, amount, frequency and digitized signature when the web form is used."
       ]
     },
     "section4": {
@@ -550,7 +592,8 @@
       "purposes": [
         "To respond to inquiries or requests for information.",
         "To manage requests for collaboration or contact with the entity.",
-        "To maintain communications related to AMETSGOIEN's activity, when the user has expressly authorized it."
+        "To maintain communications related to AMETSGOIEN's activity, when the user has expressly authorized it.",
+        "To process periodic contribution requests through a signed PDF and manage the associated collaborator relationship."
       ]
     },
     "section5": {
@@ -567,7 +610,7 @@
       "stripe": "(payment processing): Online payments are managed through Redsys (La Caixa), operating under its own security and compliance standards. AMETSGOIEN does not store full bank card details. More information at",
       "vercel": "(frontend hosting): For hosting the website at www.ametsgoien.org. More information at",
       "railway": "(backend and database hosting): For hosting the REST API server and PostgreSQL database. More information at",
-      "sendgrid": "(email service): For sending donation confirmations and responses to contact forms. More information at",
+      "sendgrid": "(transactional email service): Sending requests, confirmations and operational communications. For recurring requests sent from the website, a PDF containing identifying and bank details needed to process the contribution may be attached.",
       "guarantees": "With all providers, the guarantees required by current regulations have been adopted through confidentiality agreements and contractual clauses."
     },
     "section8": {
@@ -593,13 +636,14 @@
       "intro": "Donations made to AMETSGOIEN are voluntary contributions intended to finance reception and social support projects.",
       "oneTime": "One-time donations:",
       "oneTimeText": "Once the donation is processed, it is final. If you detect an error in your donation, contact us at ametsgoien@gmail.com within 48 hours and we will evaluate your case individually.",
-      "recurring": "Recurring donations (subscriptions):",
-      "recurringIntro": "You can cancel your subscription at any time at no additional cost. To do so:",
+      "recurring": "Recurring donation requests:",
+      "recurringIntro": "Recurring donations are not automatically charged through Redsys on the website. The user may choose to send the signed request through the web form or download the editable PDF and send it manually to AMETSGOIEN.",
       "recurringSteps": [
-        "Access the management link sent in the confirmation email",
-        "Or contact us at ametsgoien@gmail.com"
+        "If the web form is used, a signed PDF is generated with the entered data and emailed to the association for review and management.",
+        "If the manual download is used, the user sends the PDF through the channel they consider appropriate and AMETSGOIEN will register the request when it receives it.",
+        "AMETSGOIEN does not request card details, CVV or online banking passwords for these recurring requests."
       ],
-      "recurringNote": "The cancellation will be effective from the next billing period. Amounts already paid are non-refundable."
+      "recurringNote": "This processing is based on the consent given when sending or submitting the request and on the need to manage the requested collaboration. Users may request access, rectification, deletion or objection by writing to ametsgoien@gmail.com."
     },
     "section11": {
       "title": "11. Policy Modifications",

@@ -1,5 +1,6 @@
 import Colaborador from '../models/Colaborador.js';
 
+const normalizeEmail = (email) => String(email || '').trim().toLowerCase();
 
 // Get all colaboradores
 export const getColaboradores = async (req, res) => {
@@ -71,10 +72,11 @@ export const deleteColaborador = async (req, res) => {
 export const registerVoluntarioPublico = async (req, res) => {
   try {
     const { nombre, apellidos, email, telefono, direccion, mensaje } = req.body;
+    const normalizedEmail = normalizeEmail(email);
 
     // Comprobar si el email ya existe
     const colaboradores = await Colaborador.getAll();
-    const exists = colaboradores.find(c => c.email && c.email.toLowerCase() === email.toLowerCase());
+    const exists = colaboradores.find(c => normalizeEmail(c.email) === normalizedEmail);
     
     if (exists) {
       // Si ya es voluntario o ambos, ya está registrado
@@ -84,8 +86,8 @@ export const registerVoluntarioPublico = async (req, res) => {
         });
       }
       
-      // Si es solo donante, actualizarlo a 'ambos' y añadir datos de voluntario
-      if (exists.tipo_colaboracion === 'donante') {
+      // Si es solo donante monetario, actualizarlo a 'ambos' y añadir datos de voluntario
+      if (exists.tipo_colaboracion === 'monetario' || exists.tipo_colaboracion === 'donante') {
         const fechaActual = new Date().toISOString().split('T')[0];
         const nuevaAnotacion = exists.anotacion 
           ? `${exists.anotacion}\n[${fechaActual}] Se registró como voluntario: ${mensaje?.trim() || 'Sin mensaje adicional'}`
@@ -95,6 +97,7 @@ export const registerVoluntarioPublico = async (req, res) => {
           ...exists,
           nombre: nombre.trim(),
           apellidos: apellidos.trim(),
+          email: normalizedEmail,
           telefono: telefono?.trim() || exists.telefono || '',
           direccion: direccion?.trim() || exists.direccion || '',
           tipo_colaboracion: 'ambos',
@@ -119,7 +122,7 @@ export const registerVoluntarioPublico = async (req, res) => {
     const nuevoVoluntario = await Colaborador.create({
       nombre: nombre.trim(),
       apellidos: apellidos.trim(),
-      email: email.trim().toLowerCase(),
+      email: normalizedEmail,
       telefono: telefono?.trim() || '',
       direccion: direccion?.trim() || '',
       anotacion: mensaje?.trim() || 'Registro voluntario desde formulario público web',
