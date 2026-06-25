@@ -306,7 +306,7 @@ export default function RecurringDonationForm({ embedded = false }: { embedded?:
 
               <div className="rounded-lg border border-gray-200 bg-white p-4">
                 <p className="text-sm font-bold text-gray-900 mb-1">{content.manualTitle}</p>
-                <p className="text-xs text-gray-600 mb-3">{content.manualText}</p>
+                <p className="text-xs text-gray-600 mb-3">{content.manualText} <a href="mailto:ametsgoien@gmail.com" className="font-semibold hover:underline" style={{ color: '#8A4D76' }}>ametsgoien@gmail.com</a></p>
                 <a
                   href={PDF_DOWNLOAD_URL}
                   download
@@ -410,22 +410,26 @@ export default function RecurringDonationForm({ embedded = false }: { embedded?:
                 </div>
               </div>
 
-              <label className="flex items-start gap-3 cursor-pointer bg-white rounded-2xl p-4 border border-gray-200">
-                <input
-                  type="checkbox"
-                  checked={formData.acepta}
-                  onChange={(event) => setFormData({ ...formData, acepta: event.target.checked })}
-                  className="mt-1 w-4 h-4 rounded border-gray-300 text-[#8A4D76] focus:ring-[#8A4D76]"
-                  required
-                />
-                <span className="text-sm text-gray-700 leading-relaxed">
-                  {t('collaborate.donation.privacyConsent')}{' '}
-                  <a href="/privacidad" className="font-semibold hover:underline" style={{ color: '#8A4D76' }}>
-                    {t('collaborate.donation.privacyLink')}
-                  </a>
-                  {' '}{t('collaborate.donation.authorizeData')} *
-                </span>
-              </label>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <label htmlFor="recurrente-politica" className="flex items-start gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    id="recurrente-politica"
+                    checked={formData.acepta}
+                    onChange={(event) => setFormData({ ...formData, acepta: event.target.checked })}
+                    className="mt-1 w-4 h-4 rounded border-gray-300 text-[#8A4D76] focus:ring-[#8A4D76]"
+                    required
+                    aria-required="true"
+                  />
+                  <span className="text-gray-700 text-xs">
+                    {t('collaborate.donation.privacyConsent')}{" "}
+                    <a href="/privacidad" className="font-semibold hover:underline" style={{ color: '#8A4D76' }}>
+                      {t('collaborate.donation.privacyLink')}
+                    </a>
+                    {" "}{t('collaborate.donation.authorizeData')} *
+                  </span>
+                </label>
+              </div>
               
 
               {message && (
@@ -451,7 +455,7 @@ export default function RecurringDonationForm({ embedded = false }: { embedded?:
                 {content.manualTitle}
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                {content.manualText}
+                {content.manualText }
               </p>
             </div>
 
