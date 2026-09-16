@@ -64,10 +64,10 @@
       }
     },
     "news": {
-      "title": "Blog",
-      "loading": "Cargando blog...",
+      "title": "Noticias",
+      "loading": "Cargando noticias...",
       "noNews": "No hay publicaciones aún.",
-      "newsTitle": "Blog",
+      "newsTitle": "Noticias",
       "readMore": "Leer más",
       "close": "Cerrar",
       "subtitle": "Recopilamos menciones en prensa y artículos sobre Ametsgoien.",
@@ -83,6 +83,25 @@
       "volunteerBtn": "Hazte Voluntario/a",
       "donateBtn": "Hacer una Donación",
       "contactBtn": "Ir a la página de contacto"
+    },
+    "houseSection": {
+      "eyebrow": "La casa de Orduña",
+      "title": "Espacios pensados para volver a empezar",
+      "description1": "Habitaciones familiares, zonas de juego, rincones tranquilos y espacios para compartir. Cada parte de la casa está preparada para recuperar la vida cotidiana con seguridad, intimidad y respeto.",
+      "description2": "Todo está pensado para que las rutinas vuelvan a tener sitio: descansar, jugar, estudiar, compartir una mesa y tomar decisiones sobre el futuro. La acogida es temporal; el objetivo es que cada mujer recupere su autonomía a su ritmo y dé el siguiente paso acompañada.",
+      "caption": "Una casa cuidada al detalle para que quienes llegan puedan sentirla como propia.",
+      "openImage": "Ampliar imagen",
+      "galleryLabel": "Galería de la casa de Orduña",
+      "closeGallery": "Cerrar galería",
+      "previousImage": "Imagen anterior",
+      "nextImage": "Imagen siguiente",
+      "images": {
+        "patio": "Patio interior de la casa de Ametsgoien en Orduña",
+        "bedroom": "Habitación luminosa preparada para la acogida",
+        "childrenRoom": "Habitación familiar con espacio de juego infantil",
+        "restoration": "Personas voluntarias restaurando una cristalera de la casa",
+        "staircase": "Escalera de madera original durante los trabajos de restauración"
+      }
     }
   },
   "volunteer": {

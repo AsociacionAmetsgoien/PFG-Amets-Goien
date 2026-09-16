@@ -13,6 +13,7 @@ export function ImagesSliderDemo() {
     "/header3.png",
     "/header4.png",
     "/header6.png",
+    "/header7.png",
     
   ];
   return (

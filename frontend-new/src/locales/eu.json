@@ -64,10 +64,10 @@
       }
     },
     "news": {
-      "title": "Bloga",
-      "loading": "Bloga kargatzen...",
+      "title": "Albisteak",
+      "loading": "Albisteak kargatzen...",
       "noNews": "Oraindik ez dago argitalpenik.",
-      "newsTitle": "Bloga",
+      "newsTitle": "Albisteak",
       "readMore": "Irakurri gehiago",
       "close": "Itxi",
       "subtitle": "Ametsgoieni buruzko prentsako aipamenak eta artikuluak biltzen ditugu.",
@@ -83,6 +83,25 @@
       "volunteerBtn": "Bazkide Izan",
       "donateBtn": "Dohaintza Egin",
       "contactBtn": "Joan kontaktu orrira"
+    },
+    "houseSection": {
+      "eyebrow": "Urduñako etxea",
+      "title": "Berriz hasteko pentsatutako espazioak",
+      "description1": "Familientzako logelak, jolaserako guneak, txoko lasaiak eta elkarrekin egoteko espazioak. Etxeko gune bakoitza eguneroko bizitza segurtasunez, intimitatez eta errespetuz berreskuratzeko prestatu da.",
+      "description2": "Dena dago eguneroko ohiturek berriro tokia izan dezaten pentsatuta: atseden hartu, jolastu, ikasi, mahai baten inguruan elkartu eta etorkizunari buruzko erabakiak hartu. Harrera aldi baterakoa da; helburua emakume bakoitzak bere erritmoan autonomia berreskuratzea eta hurrengo urratsa lagunduta ematea da.",
+      "caption": "Xehetasun guztiak zainduta dituen etxea, iristen direnek beren etxea balitz bezala senti dezaten.",
+      "openImage": "Irudia handitu",
+      "galleryLabel": "Urduñako etxearen galeria",
+      "closeGallery": "Galeria itxi",
+      "previousImage": "Aurreko irudia",
+      "nextImage": "Hurrengo irudia",
+      "images": {
+        "patio": "Ametsgoien etxeko barruko patioa, Urduñan",
+        "bedroom": "Harrerarako prestatutako logela argitsua",
+        "childrenRoom": "Familientzako logela, haurrentzako jolasgunearekin",
+        "restoration": "Boluntarioak etxeko beiratea zaharberritzen",
+        "staircase": "Jatorrizko zurezko eskailera zaharberritze-lanetan"
+      }
     }
   },
   "volunteer": {

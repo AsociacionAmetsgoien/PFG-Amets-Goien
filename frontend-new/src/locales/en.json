@@ -64,10 +64,10 @@
       }
     },
     "news": {
-      "title": "Blog",
-      "loading": "Loading blog...",
+      "title": "News",
+      "loading": "Loading news...",
       "noNews": "No posts published yet.",
-      "newsTitle": "Blog",
+      "newsTitle": "News",
       "readMore": "Read more",
       "close": "Close",
       "subtitle": "We gather press mentions and articles about Ametsgoien.",
@@ -83,6 +83,25 @@
       "volunteerBtn": "Become a Volunteer",
       "donateBtn": "Make a Donation",
       "contactBtn": "Go to contact page"
+    },
+    "houseSection": {
+      "eyebrow": "The house in Orduña",
+      "title": "Spaces designed for a fresh start",
+      "description1": "Family bedrooms, play areas, quiet corners and spaces to come together. Every part of the house has been prepared to help restore everyday life with safety, privacy and respect.",
+      "description2": "Everything is designed to make room for daily routines again: resting, playing, studying, sharing a table and making decisions about the future. The stay is temporary; the aim is for each woman to regain her independence at her own pace and take the next step with support.",
+      "caption": "A house where every detail has been cared for, so that those who arrive can feel it is their own.",
+      "openImage": "Enlarge image",
+      "galleryLabel": "Gallery of the house in Orduña",
+      "closeGallery": "Close gallery",
+      "previousImage": "Previous image",
+      "nextImage": "Next image",
+      "images": {
+        "patio": "Inner courtyard of the Ametsgoien house in Orduña",
+        "bedroom": "Bright bedroom prepared to welcome residents",
+        "childrenRoom": "Family bedroom with a children's play area",
+        "restoration": "Volunteers restoring a glazed partition in the house",
+        "staircase": "Original wooden staircase during restoration work"
+      }
     }
   },
   "volunteer": {
