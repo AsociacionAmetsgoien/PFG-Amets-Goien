@@ -7,11 +7,12 @@ import { useLanguage } from '@/contexts/LanguageContext';
 export function ImagesSliderDemo() {
   const { t } = useLanguage();
   const images = [
-    "/header5.jpeg",
-    "/header1.jpg",
-    "/header2.jpeg",
-    "/header3.jpg",
-    "/header4.jpg",
+    "/header5.png",
+    "/header1.png",
+    "/header2.png",
+    "/header3.png",
+    "/header4.png",
+    "/header6.png",
     
   ];
   return (
