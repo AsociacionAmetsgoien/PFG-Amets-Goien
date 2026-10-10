@@ -54,7 +54,14 @@ type RecurringDonationContent = {
 
 export default function RecurringDonationForm({ embedded = false }: { embedded?: boolean }) {
   const { t } = useLanguage();
-  const content = t('collaborate.recurringDonation') as RecurringDonationContent;
+  const translatedContent = t('collaborate.recurringDonation');
+  const content = (
+    translatedContent
+    && typeof translatedContent === 'object'
+    && 'labels' in translatedContent
+    && 'periodicity' in translatedContent
+  ) ? translatedContent as RecurringDonationContent : null;
+  const contentReady = content !== null;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const drawingRef = useRef(false);
   const lastPointRef = useRef<{ x: number; y: number } | null>(null);
@@ -109,7 +116,7 @@ export default function RecurringDonationForm({ embedded = false }: { embedded?:
     return () => {
       window.removeEventListener('resize', resize);
     };
-  }, []);
+  }, [contentReady]);
 
   const getCanvasPoint = (event: React.PointerEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
@@ -211,6 +218,10 @@ export default function RecurringDonationForm({ embedded = false }: { embedded?:
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (!content) {
+      return;
+    }
+
     if (!formData.acepta || !hasSignature || isCanvasBlank()) {
       setMessage({ type: 'error', text: content.error });
       return;
@@ -297,6 +308,10 @@ export default function RecurringDonationForm({ embedded = false }: { embedded?:
       setLoading(false);
     }
   };
+
+  if (!content) {
+    return <div className="min-h-96 animate-pulse rounded-xl bg-gray-100" aria-busy="true" />;
+  }
 
   const formContent = (
     <>

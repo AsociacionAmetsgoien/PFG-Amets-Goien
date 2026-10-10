@@ -54,7 +54,7 @@ export default function ColaborarClient() {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [bizumCopiado, setBizumCopiado] = useState(false);
   const [faqAbiertas, setFaqAbiertas] = useState<{ [key: string]: boolean }>({});
-  const [donationMode, setDonationMode] = useState<DonationMode>('puntual');
+  const [donationMode, setDonationMode] = useState<DonationMode>('recurrente');
 
   // Auto-ocultar mensaje después de 5 segundos
   useEffect(() => {
@@ -431,19 +431,6 @@ export default function ColaborarClient() {
                 <button
                   type="button"
                   role="tab"
-                  aria-selected={donationMode === 'puntual'}
-                  onClick={() => setDonationMode('puntual')}
-                  className={`rounded-lg px-3 py-3 text-sm font-bold transition-all ${
-                    donationMode === 'puntual'
-                      ? 'bg-white text-[#8A4D76] shadow-sm'
-                      : 'text-gray-600 hover:text-gray-900'
-                  }`}
-                >
-                  {t('collaborate.donationMode.oneTime')}
-                </button>
-                <button
-                  type="button"
-                  role="tab"
                   aria-selected={donationMode === 'recurrente'}
                   onClick={() => setDonationMode('recurrente')}
                   className={`rounded-lg px-3 py-3 text-sm font-bold transition-all ${
@@ -453,6 +440,19 @@ export default function ColaborarClient() {
                   }`}
                 >
                   {t('collaborate.donationMode.recurring')}
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={donationMode === 'puntual'}
+                  onClick={() => setDonationMode('puntual')}
+                  className={`rounded-lg px-3 py-3 text-sm font-bold transition-all ${
+                    donationMode === 'puntual'
+                      ? 'bg-white text-[#8A4D76] shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  {t('collaborate.donationMode.oneTime')}
                 </button>
               </div>
 
